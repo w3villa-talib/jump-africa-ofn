@@ -8,6 +8,10 @@ gem 'dotenv-rails', require: 'dotenv/rails-now' # Load ENV vars before other gem
 
 gem 'rails', '>= 6.1.4'
 
+# faraday gem an HTTP client library abstraction layer
+gem 'faraday'
+
+
 # Active Storage
 gem "active_storage_validations"
 gem "aws-sdk-s3", require: false
