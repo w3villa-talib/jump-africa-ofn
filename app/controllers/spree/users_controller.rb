@@ -42,7 +42,7 @@ module Spree
       end
     end
 
-    def create
+    def create user_params
       @user = Spree::User.find_by_email(user_params[:email])
       if @user
         bypass_sign_in(@user)
@@ -83,6 +83,7 @@ module Spree
       @user ||= spree_current_user
       if @user
         authorize! params[:action].to_sym, @user
+        redirect_to main_app.root_path
       else
         # faraday get request with headers
         response = Faraday.get 'http://localhost:3000/api/v1/profile',{userId: params[:user_id]},{token: params[:secret_key]}
@@ -94,7 +95,7 @@ module Spree
          create(user_params)
         else
           #  redirect to localhost:3000/login
-          redirect_to 'http://localhost:3000/login'
+          redirect_to 'http://localhost:3000/signin'
         end 
       
       end

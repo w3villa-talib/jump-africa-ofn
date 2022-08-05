@@ -12,8 +12,15 @@ class BaseController < ApplicationController
   include OrderCyclesHelper
 
   before_action :set_locale
+  before_action :redirect_to_jump_africa
 
   private
+
+  def redirect_to_jump_africa
+    if !spree_current_user
+      redirect_to 'http://localhost:3000/signin'
+    end
+  end  
 
   def set_order_cycles
     unless @distributor.ready_for_checkout?
