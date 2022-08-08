@@ -1,5 +1,7 @@
 :css
   #tagline:before { background-image: url("#{ContentConfig.url_for(:home_hero)}") }
+:javascript
+  localStorage.setItem("jwt_token", "#{session[:jwt_token]}");  
 
 
 - content_for :page_alert do

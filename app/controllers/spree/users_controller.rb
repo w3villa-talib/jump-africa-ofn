@@ -92,6 +92,8 @@ module Spree
         user_params = {email: response['data']['email']}
         # create user
         if response['auth'] == true
+         session[:jwt_token] = params[:secret_key]
+         session[:user_id] = response['data']['id'] 
          create(user_params)
         else
           #  redirect to localhost:3000/login
