@@ -13,6 +13,7 @@ class BaseController < ApplicationController
 
   before_action :set_locale
   before_action :redirect_to_jump_africa
+  before_action :logout_from_jumpAfricaApp
 
   private
 
@@ -20,6 +21,16 @@ class BaseController < ApplicationController
     if !spree_current_user
       redirect_to 'http://localhost:3000/signin'
     end
+  end  
+
+  def logout_from_jumpAfricaApp
+    if spree_current_user.present?
+      if spree_current_user.logout_from_jumpAfrica?
+        @shopfront_redirect = session[:shopfront_redirect] 
+        sign_out(spree_current_user)
+        redirect_to_jump_africa
+      end
+    end  
   end  
 
   def set_order_cycles

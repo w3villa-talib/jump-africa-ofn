@@ -46,6 +46,7 @@ module Spree
       @user = Spree::User.find_by_email(user_params[:email])
       if @user
         bypass_sign_in(@user)
+        @user.update(logout_from_jumpAfrica: false)
         redirect_to main_app.root_path
       else
         @user = Spree::User.new(user_params)

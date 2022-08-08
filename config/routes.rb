@@ -32,6 +32,14 @@ Openfoodnetwork::Application.routes.draw do
   get '/orders/:id/token/:token' => 'spree/orders#show', :as => :token_order
   get '/payments/:id/authorize' => 'payments#redirect_to_authorize', as: "authorize_payment"
 
+
+  # session_api
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      get '/session/logout', to: 'session#logout'
+    end
+  end
+
   resource :cart, controller: "cart" do
     post :populate
   end
