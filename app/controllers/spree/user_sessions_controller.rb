@@ -40,7 +40,7 @@ module Spree
     def destroy
       # Logout will clear session data including shopfront_redirect
       #   Here we store it before actually logging out so that the redirect works correctly
-      response = Faraday.get 'http://localhost:3000/api/v1/session/logout',{userId: session[:user_id]},{token: session[:jwt_token]}
+      response = Faraday.get 'http://localhost:3000/api/v1/session/logout',{userId: session[:jumpAfrica_user_id]},{token: session[:jwt_token]}
       response = JSON.parse(response.body)
       if response["msg"] == 'success'
         @shopfront_redirect = session[:shopfront_redirect]  
