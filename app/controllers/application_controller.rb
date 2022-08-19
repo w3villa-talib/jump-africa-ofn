@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   include RequestTimeouts
 
   self.responder = ApplicationResponder
+  content_security_policy false
   respond_to :html
 
   helper 'spree/base'
