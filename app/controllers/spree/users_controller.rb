@@ -84,7 +84,7 @@ module Spree
       @user ||= spree_current_user
       if @user
         authorize! params[:action].to_sym, @user
-        redirect_to main_app.root_path
+        redirect_to main_app.root_path if params[:secret_key]
       else
         # faraday get request with headers
         response = Faraday.get 'http://localhost:3000/api/v1/profile',{userId: params[:user_id]},{token: params[:secret_key]}
@@ -94,7 +94,7 @@ module Spree
         # create user
         if response['auth'] == true
          session[:jwt_token] = params[:secret_key]
-         session[:user_id] = response['data']['id'] 
+         session[:jumpAfrica_user_id] = response['data']['id'] 
          create(user_params)
         else
           #  redirect to localhost:3000/login
