@@ -1,14 +1,24 @@
 
+// ************************************
+// ************************************
+// imported font family to get the theme as jump.africa
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+
+
 @mixin headingFont {
-  font-family: "Oswald", sans-serif;
+  font-family: 'Poppins', sans-serif;
+
 }
 
 @mixin bodyFont {
-  font-family: "Roboto", Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
+
 }
 
-$headingFont: "Oswald";
-$body-font: "Roboto", Arial, sans-serif;
+$headingFont: 'Poppins', sans-serif;
+$body-font: 'Poppins', sans-serif;
 
 body {
   @include bodyFont;
