@@ -33,10 +33,10 @@
 
     //Generic text link style
     a, a * {
-      color: $clr-brick;
+      color: $clr-blue;
 
       &:hover, &:active, &:focus {
-        color: $clr-brick-bright;
+        color: $clr-blue-bright;
       }
     }
 
@@ -74,7 +74,7 @@
         border: 1px solid transparent;
 
         &:hover, &:active, &:focus {
-          border-color: $clr-brick-light-bright;
+          border-color: $clr-blue-bright;
         }
 
         @include breakpoint(phablet) {
@@ -86,7 +86,7 @@
     //OPEN row
     &.open {
       .active_table_row, .active_table_row:first-child, .active_table_row:last-child {
-        border-color: $clr-brick-light-bright;
+        border-color: $clr-blue-bright;
       }
     }
 
