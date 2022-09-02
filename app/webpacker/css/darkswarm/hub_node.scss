@@ -78,7 +78,7 @@
         }
 
         @include breakpoint(phablet) {
-          border-color: $clr-brick-light-bright;
+          border-color: $clr-blue-bright;
         }
       }
     }
@@ -93,7 +93,7 @@
     &.open, &.closed {
       @include breakpoint(phablet) {
         .active_table_row:first-child .skinny-head {
-          background-color: $clr-brick-light;
+          background-color: transparent;
 
           @include border-radius-mixed(0.5em, 0.5em, 0, 0);
 
@@ -153,20 +153,20 @@
       //overwrites active_table
       &.closed, &.open {
         a, a * {
-          color: $clr-brick;
+          color: $clr-turquoise;
         }
 
         .active_table_row {
-          border-color: $clr-brick;
+          border-color: $clr-turquoise;
         }
 
         .active_table_row:first-child, .active_table_row:last-child {
-          background-color: $clr-brick-light-trans;
+          background-color: $clr-turquoise-light;
           opacity: 1;
 
           &:hover, &:focus, &:active {
             opacity: 0.9;
-            border-color: $clr-brick-bright;
+            border-color: $clr-turquoise-bright;
           }
         }
 

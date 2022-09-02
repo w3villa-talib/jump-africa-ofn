@@ -9,7 +9,7 @@
 
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid $input;
-  font-size: 2rem;
+  font-size: 1rem;
   box-shadow: 0;
   padding: 0.5rem 1rem;
   height: auto;
@@ -25,17 +25,17 @@
   &:hover {
     @include box-shadow(0 1px 1px 0 rgba(255, 255, 255, 0.25));
 
-    border: 2px solid $inputhvr;
-    color: $inputactv;
+    border: 2px solid $clr-blue;
+    color: $clr-blue;
   }
 
   &:active, &:focus, &.active {
-    border: 2px solid $inputactv;
-    color: $inputactv;
+    border: 2px solid $clr-blue;
+    color: $clr-blue;
     background: white;
     background: rgba(255, 255, 255, 0.5);
     text-shadow: 0 0 10px #ffffff;
-    padding: 1rem;
+    // padding: 1rem;
     letter-spacing: 0.02rem;
     outline: none;
   }
@@ -71,12 +71,12 @@
   &:hover {
     @include box-shadow(0 1px 1px 0 rgba(255, 255, 255, 0.25));
 
-    border: 2px solid $inputhvr;
+    border: 2px solid $clr-blue;
     color: $inputactv;
   }
 
   &:active, &:focus, &.active {
-    border: 2px solid $inputactv;
+    border: 2px solid $clr-blue;
     color: $inputactv;
     background: white;
     background: rgba(255, 255, 255, 0.5);
