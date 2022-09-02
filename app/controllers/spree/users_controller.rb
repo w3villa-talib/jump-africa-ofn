@@ -42,7 +42,7 @@ module Spree
       end
     end
 
-    def create user_params
+    def create user_params, is_admin
       @user = Spree::User.find_by_email(user_params[:email])
       if @user
         bypass_sign_in(@user)
@@ -52,6 +52,7 @@ module Spree
         @user = Spree::User.new(user_params)
         @user.skip_confirmation!
         if @user.save(validate: false)
+        @user.update(spree_role_ids: 1) if is_admin  
         @user.confirm
         bypass_sign_in(@user)
         redirect_to main_app.root_path
@@ -87,18 +88,19 @@ module Spree
         redirect_to main_app.root_path if params[:secret_key]
       else
         # faraday get request with headers
-        response = Faraday.get 'http://localhost:3000/api/v1/profile',{userId: params[:user_id]},{token: params[:secret_key]}
+        response = Faraday.get "#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/profile",{userId: params[:user_id]},{token: params[:secret_key]}
         response = JSON.parse(response.body)
         # create params for user email
         user_params = {email: response['data']['email']}
+        is_admin =  response['isAdmin']
         # create user
         if response['auth'] == true
          session[:jwt_token] = params[:secret_key]
          session[:jumpAfrica_user_id] = response['data']['id'] 
-         create(user_params)
+         create(user_params,is_admin)
         else
           #  redirect to localhost:3000/login
-          redirect_to 'http://localhost:3000/signin'
+          redirect_to "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"
         end 
       
       end
