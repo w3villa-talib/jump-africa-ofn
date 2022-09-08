@@ -11,7 +11,7 @@ Openfoodnetwork::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.public_file_server.enabled = false
+  config.public_file_server.enabled = true
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
@@ -30,7 +30,7 @@ Openfoodnetwork::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+#  config.force_ssl = true
 
   # Use https in email links
   config.action_mailer.default_url_options = { protocol: 'https' }
