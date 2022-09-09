@@ -101,17 +101,19 @@
     position: absolute;
     right: 0px;
     background-color: #333333;
-    min-width: 100px;
+    min-width: 120px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1000;
-    font-size: 12px;
-    line-height: 1.5;
+    padding: 10px;
+    font-size: 15px;
+    / font-size: 12px;
+    / line-height: 1.5;
   }
 
 
   .dropdown-content_summary a {
     color: white;
-    padding: 12px 16px;
+    / padding: 12px 16px;
     text-decoration: none;
     display: block;
   }
@@ -119,12 +121,12 @@
 
   .dropdown-content a {
     color: white;
-    padding: 12px 16px;
+    / padding: 12px 16px;
     text-decoration: none;
-    display: block;
+    / display: block;
   }
 
-  .dropdown-content a:hover {background-color: #ddd;}
+  / .dropdown-content a:hover {background-color: #ddd;}
 
   .dropdown:hover .dropdown-content {display: block;}
   .dropdown:hover .dropdown-content_summary {display: block;}
@@ -166,6 +168,7 @@
    
   });
 
+
 #account_summary
   .left_column
     .current_market
@@ -184,7 +187,7 @@
           Change
         %span.change
           %span.text-up +0.00%
-      %a.back{:href => "/"} Back to Home      
+      %a.back{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}"} Back to Home      
   .right_column
     %a.need-help{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/tickets/new"} Need help? Open a ticket
     .dropdown
@@ -195,15 +198,17 @@
           .block
             .account_summary_item
               .right_column
-                %img(src="icon-#{account["currency"]}.png")
-                %br/
-                .currency.cus
-                  = account["currency"]
+                %a{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/funds#/deposits/#{account["currency"]}", :target => "_blank"}
+                  %img(src="icon-#{account["currency"]}.png")
+                  %br/
+                  .currency.cus
+                    = account["currency"]
               .left_column
-                .balance
-                  Amount: #{balance}
-                .locked  
-                  Frozen: #{account["locked"]}
+                %a{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/funds#/deposits/#{account["currency"]}", :target => "_blank"}
+                  .balance
+                    Amount: #{balance}
+                  .locked  
+                    Frozen: #{account["locked"]}
         .load_more
           load_more     
         .hide_others
@@ -222,7 +227,7 @@
             %span Wallet
         %li
           %a{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/settings", :target => "_blank"}
-            %i.fa-solid.fa-house
+            %i.fa.fa-wrench
             %span Profile
         %li
           %a{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/history/orders", :target => "_blank"}
