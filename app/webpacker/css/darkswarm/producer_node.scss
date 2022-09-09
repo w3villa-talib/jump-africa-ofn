@@ -49,10 +49,10 @@
       }
 
       &.is_distributor, &.is_distributor i.ofn-i_059-producer, &.is_distributor i.ofn-i_060-producer-reversed {
-        color: $clr-brick;
+        color: $clr-blue;
 
         &:hover, &:active, &:focus {
-          color: $clr-brick-bright;
+          color: $clr-blue-bright;
         }
       }
     }
@@ -101,8 +101,8 @@
     //Open row
     &.open {
       .active_table_row {
-        border-left: 1px solid $clr-turquoise-bright;
-        border-right: 1px solid $clr-turquoise-bright;
+        border-left: 1px solid $clr-blue-light;
+        border-right: 1px solid $clr-blue-light;
         background-color: rgba(206, 239, 228, 0.4);
 
         .cta-container {
@@ -125,11 +125,11 @@
       }
 
       .active_table_row:first-child {
-        border-top: 1px solid $clr-turquoise-bright;
+        border-top: 1px solid $clr-blue-light;
       }
 
       .active_table_row:last-child {
-        border-bottom: 1px solid $clr-turquoise-bright;
+        border-bottom: 1px solid $clr-blue-light;
         cursor: auto;
       }
     }
@@ -144,7 +144,7 @@
         }
 
         &:hover, &:active, &:focus {
-          border-color: $clr-turquoise;
+          border-color: $clr-blue;
         }
       }
     }

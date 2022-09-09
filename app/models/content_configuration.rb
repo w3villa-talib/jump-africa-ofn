@@ -4,13 +4,13 @@ class ContentConfiguration < Spree::Preferences::Configuration
   include FilePreferences
 
   # Header
-  file_preference :logo, default_url: "/default_images/ofn-logo.png"
+  file_preference :logo, default_url: "/default_images/jump-africa-logo.png"
   file_preference :logo_mobile
-  file_preference :logo_mobile_svg, default_url: "/default_images/ofn-logo-mobile.svg"
+  file_preference :logo_mobile_svg, default_url: "/default_images/jump-africa-logo.png"
 
   # Home page
   preference :home_page_alert_html, :text
-  file_preference :home_hero, default_url: "/default_images/home.jpg"
+  # file_preference :home_hero, default_url: "/default_images/home-random-images/1.jpg"
   preference :home_show_stats, :boolean, default: true
 
   # Map
@@ -60,7 +60,7 @@ class ContentConfiguration < Spree::Preferences::Configuration
   preference :menu_7_icon_name, :string, default: "ofn-i_013-help"
 
   # Footer
-  file_preference :footer_logo, default_url: "/default_images/ofn-logo-footer.png"
+  file_preference :footer_logo, default_url: "/default_images/jump-africa-logo.png"
 
   # Other
   preference :footer_facebook_url, :string, default: "https://www.facebook.com/OpenFoodNet"

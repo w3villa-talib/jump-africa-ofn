@@ -7,10 +7,10 @@ footer {
     a, a * {
       @include csstrans;
 
-      color: white;
+      color: #364450;
 
       &:hover, &:active, &:focus {
-        color: rgba(white, 1);
+        color: rgba($black, 1);
         text-decoration: underline;
       }
     }
@@ -81,7 +81,7 @@ footer {
   }
 
   .footer-local {
-    background: lighten($dark-grey, 3%);
+    background: lighten($dark-grey, 100%);
 
     @include panepadding;
 
@@ -91,16 +91,16 @@ footer {
 
     .row {
       &, p, h1, h2, h3, h4, h5, h6 {
-        color: $disabled-med;
+        color: $black;
       }
 
       p.secure-icon i {
         font-size: 10rem;
-        color: rgba(white, 0.1);
+        color: rgba(#364450, 1);
       }
 
       p.secure-text {
-        color: rgba($disabled-med, 0.35);
+        color: rgba(#364450, 1);
       }
 
       p.text-big {
@@ -115,7 +115,7 @@ footer {
         a {
           i {
             font-size: 1.5rem;
-            color: white;
+            color: black;
           }
 
           &:hover, &:active, &:focus {
