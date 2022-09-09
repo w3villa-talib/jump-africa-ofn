@@ -23,7 +23,7 @@
 button.add-variant, button.variant-quantity {
   height: 2.5rem;
   border-radius: 0;
-  background-color: $orange-500;
+  background-color: $clr-blue;
   color: white;
   // Override foundation button styles:
   font-size: 1rem;
@@ -32,7 +32,7 @@ button.add-variant, button.variant-quantity {
   transition: none;
 
   &:hover {
-    background-color: $orange-600;
+    background-color: $clr-blue-bright;
   }
 
   &[disabled] {
@@ -67,7 +67,7 @@ button.variant-quantity {
   width: 2.25rem;
 
   &:nth-of-type(1):not(.bulk-buy):not(.bulk-buy-add) {
-    border-right: .1em solid $orange-400;
+    border-right: .1em solid $clr-blue-bright;
   }
 }
 

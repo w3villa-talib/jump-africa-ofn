@@ -10,16 +10,18 @@ class BaseController < ApplicationController
 
   include I18nHelper
   include OrderCyclesHelper
+  require 'faraday'
 
   before_action :set_locale
   before_action :redirect_to_jump_africa
   before_action :logout_from_jumpAfricaApp
+  before_action :set_account_summary
 
   private
 
   def redirect_to_jump_africa
     if !spree_current_user
-      redirect_to 'http://localhost:3000/signin'
+      redirect_to '#{ENV["JUMP_AFRICA_APP_URL"]}/signin'
     end
   end  
 
@@ -43,6 +45,16 @@ class BaseController < ApplicationController
 
     set_order_cycle
   end
+
+  def set_account_summary
+    if spree_current_user
+     response = Faraday.get "#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/account",{userId: session[:jumpAfrica_user_id]},{token: session[:jwt_token]}
+     response = JSON.parse(response.body)
+     @account_summary = response['account_summary']
+     @user_account = response["user"]
+     @current_market = response['current_market']
+    end 
+  end  
 
   # Default to the only order cycle if there's only one
   #
