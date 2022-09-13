@@ -21,7 +21,7 @@ class BaseController < ApplicationController
 
   def redirect_to_jump_africa
     if !spree_current_user
-      redirect_to '#{ENV["JUMP_AFRICA_APP_URL"]}/signin'
+      redirect_to "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"
     end
   end  
 
