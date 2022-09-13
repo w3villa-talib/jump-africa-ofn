@@ -24,6 +24,7 @@ module Spree
         .where(id: @orders.pluck(:distributor_id).uniq | customers.pluck(:enterprise_id))
 
       @unconfirmed_email = spree_current_user.unconfirmed_email
+      redirect_to main_app.root_path
     end
 
     # Endpoint for queries to check if a user is already registered
@@ -45,17 +46,15 @@ module Spree
     def create user_params, is_admin
       @user = Spree::User.find_by_email(user_params[:email])
       if @user
-        bypass_sign_in(@user)
+        sign_in(@user, event: :authentication)
         @user.update(logout_from_jumpAfrica: false)
-        redirect_to main_app.root_path
       else
         @user = Spree::User.new(user_params)
         @user.skip_confirmation!
         if @user.save(validate: false)
         @user.update(spree_role_ids: 1) if is_admin  
         @user.confirm
-        bypass_sign_in(@user)
-        redirect_to main_app.root_path
+        sign_in(@user, event: :authentication)
         else
           render :new
         end
