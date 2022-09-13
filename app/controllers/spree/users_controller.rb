@@ -24,7 +24,7 @@ module Spree
         .where(id: @orders.pluck(:distributor_id).uniq | customers.pluck(:enterprise_id))
 
       @unconfirmed_email = spree_current_user.unconfirmed_email
-      redirect_to main_app.root_path
+      redirect_to main_app.root_path if params[:secret_key]
     end
 
     # Endpoint for queries to check if a user is already registered
