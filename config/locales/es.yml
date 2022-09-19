@@ -284,7 +284,7 @@ es:
         title: Otros fallos (%{count} pedidos)
         explainer: El procesamiento automático de estas órdenes falló por un motivo desconocido. Esto no debería ocurrir, contáctanos si estás viendo esto.
   home: "OFN"
-  title: "Open Food Network"
+  title: "Jump Africa - The Free Online Store for Your Business in Africa"
   welcome_to: "Bienvenido a"
   site_meta_description: "Nosotros empezamos desde abajo. Con granjeros y productoras listas para contar sus historias con orgullo y autenticidad. Con distribuidoras listas para conectar gente con productos de forma justa y honesta. Con compradores que creen que mejores decisiones de compras semanales pueden..."
   search_by_name: Buscar por nombre o municipio...
@@ -1460,8 +1460,8 @@ es:
   menu_3_url: "/producers"
   menu_4_title: "Redes"
   menu_4_url: "/groups"
-  menu_5_title: "Acerca de"
-  menu_5_url: "http://katuma.org/"
+  menu_5_title: "encontrar servicios"
+  menu_5_url: "http://localhost:3000/professional/services/"
   menu_6_title: "Conectar"
   menu_6_url: " "
   menu_7_title: "Aprender"

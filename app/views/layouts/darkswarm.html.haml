@@ -41,7 +41,7 @@
 
     .off-canvas-wrap{ offcanvas: true }
       .fixed.off-canvas-fixed
-        = render "shared/menu/account_summary" unless @hide_menu
+        -# = render "shared/menu/account_summary" unless @hide_menu
         = render "shared/menu/menu" unless @hide_menu
         = yield :page_alert
 

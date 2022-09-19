@@ -217,7 +217,7 @@ pt:
         title: Outra Falha (%{count} encomendas)
         explainer: 'O processamento automático destas encomendas falhou devido a uma razão desconhecida. Isto não deveria estar a acontecer, por favor contacte-nos se estiver a ver esta mensagem. '
   home: "OFN"
-  title: "Open Food Network"
+  title: "Jump Africa - The Free Online Store for Your Business in Africa"
   welcome_to: "Bem-vindo a"
   site_meta_description: "Começamos a partir da terra. Com agricultores e produtores prontos a contarem as suas histórias com um brilho nos olhos. Com distribuidores prontos a estabelecerem ligações entre pessoas e produtos de forma justa e honesta. Com consumidores que acreditam que melhores decisões no momento da compra..."
   search_by_name: Procurar por nome ou localidade...

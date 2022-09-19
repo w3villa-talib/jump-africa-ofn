@@ -74,7 +74,7 @@ class ContentConfiguration < Spree::Preferences::Configuration
   preference :footer_links_md, :text, default: <<-EOS.strip_heredoc
     [Newsletter sign-up](/)
 
-    [News](/)
+    [News](http://localhost:3000/)
 
     [Calendar](/)
   EOS
