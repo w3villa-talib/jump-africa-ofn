@@ -15,7 +15,7 @@ class BaseController < ApplicationController
   before_action :set_locale
   before_action :redirect_to_jump_africa
   before_action :logout_from_jumpAfricaApp
-  # before_action :set_account_summary
+  before_action :set_account_summary
 
   private
 
