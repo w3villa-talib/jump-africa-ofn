@@ -1461,7 +1461,7 @@ es:
   menu_4_title: "Redes"
   menu_4_url: "/groups"
   menu_5_title: "encontrar servicios"
-  menu_5_url: "http://localhost:3000/professional/services/"
+  menu_5_url: "http://192.34.60.159:81/professional/services/"
   menu_6_title: "Conectar"
   menu_6_url: " "
   menu_7_title: "Aprender"

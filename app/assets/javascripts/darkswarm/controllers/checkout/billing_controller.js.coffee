@@ -7,7 +7,7 @@ angular.module('Darkswarm').controller "BillingCtrl", ($scope, $timeout, $contro
   if !$scope.order.bill_address.address1 
     $http.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
     $http.defaults.headers.common['token'] = localStorage.getItem("jwt_token")
-    $http.get('http://localhost:3000/api/v1/profile/user_address_info?userId='+localStorage.getItem("jumpAfrica_user_id")).then (response) ->
+    $http.get('http://192.34.60.159:81/api/v1/profile/user_address_info?userId='+localStorage.getItem("jumpAfrica_user_id")).then (response) ->
       console.log $scope.order.bill_address
       $scope.order.bill_address.address1 = response.data.data.address 
       $scope.order.bill_address.city = response.data.data.city
