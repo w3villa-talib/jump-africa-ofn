@@ -47,7 +47,7 @@ module Spree
       @user = Spree::User.find_by_email(user_params[:email])
       if @user
         sign_in(@user, event: :authentication)
-        @user.update(logout_from_jumpAfrica: false)
+        # @user.update(logout_from_jumpAfrica: false)
       else
         @user = Spree::User.new(user_params)
         @user.skip_confirmation!
