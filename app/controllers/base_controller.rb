@@ -13,7 +13,7 @@ class BaseController < ApplicationController
   require 'faraday'
 
   before_action :set_locale
-  before_action :redirect_to_jump_africa
+  # before_action :redirect_to_jump_africa
   before_action :logout_from_jumpAfricaApp
   before_action :set_account_summary
 
@@ -30,7 +30,8 @@ class BaseController < ApplicationController
       if spree_current_user.logout_from_jumpAfrica?
         @shopfront_redirect = session[:shopfront_redirect] 
         sign_out(spree_current_user)
-        redirect_to_jump_africa
+        session.clear
+        # redirect_to_jump_africa
       end
     end  
   end  
