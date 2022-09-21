@@ -7,7 +7,7 @@
     padding: $topbar-height 0 0;
     background-color: $white;
     z-index: 160;
-
+    margin-top: 25px;
     @include breakpoint(desktop) {
       padding: $mobile-nav-height 0 0;
     }
@@ -19,7 +19,6 @@
     min-height: 3.5em;
     padding: 1em;
     position: sticky;
-    top: 0;
 
     .title {
       color: $grey-800;
