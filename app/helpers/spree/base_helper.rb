@@ -8,7 +8,7 @@ module Spree
       countries = if checkout_zone && checkout_zone.kind == 'country'
                     checkout_zone.countries
                   else
-                    Country.includes(:states).all
+                    Country.includes(:states).where(status: true)
                   end
 
       countries.collect do |country|
