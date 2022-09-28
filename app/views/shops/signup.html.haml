@@ -12,7 +12,7 @@
         %p.text-big
           = t :shops_signup_motivation
         %br
-        %a.button.transparent{href: "/register"}
+        %a.button.transparent{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"}
           = t :shops_signup_action
   .pane
     .row
@@ -38,7 +38,7 @@
         %p.text-big
           = t :shops_signup_help_text
         %br
-        %a.button.transparent{href: "/register"}
+        %a.button.transparent{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"}
           = t :shops_signup_action
 
   #hub-details.pane.footer-pad

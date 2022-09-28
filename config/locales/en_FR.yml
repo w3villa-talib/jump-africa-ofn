@@ -302,9 +302,9 @@ en_FR:
         title: Other Failure (%{count} orders)
         explainer: Automatic processing of these orders failed for an unknown reason. This should not occur, please contact us if you are seeing this.
   home: "OFN"
-  title: "Jump Africa - The Free Online Store for Your Business in Africa"
+  title: "Africa's #1 eCommerce Platform | Jump Africa"
   welcome_to: "Welcome to"
-  site_meta_description: " Jump Africa provides free online stores for businesses in Africa. With no setup fees or monthly charges, you can start selling online quickly and easily."
+  site_meta_description: "Looking to start selling online in Africa? Look no further than Jump Africa. We are the leading eCommerce platform in the region, and we can help you get your business up and running in no time. Visit our website today to learn more!"
   search_by_name: Search by name or suburb...
   producers_join: Producers are now welcome to join the Open Food Network.
   charges_sales_tax: Charges GST?
@@ -1446,16 +1446,16 @@ en_FR:
       mobile_menu:
         cart: "Cart"
     register_call:
-      selling_on_ofn: "Interested in getting on Jump Africa?"
+      selling_on_ofn: "Interested in opening a store on Jump Africa?"
       register: "Register here"
     footer:
       footer_secure: "Secure and trusted."
-      footer_secure_text: "Open Food Network uses SSL encryption (2048 bit RSA) everywhere to keep your shopping and payment information private. Our servers do not store your credit card details and payments are processed by PCI-compliant services."
+      footer_secure_text: "Jump Africa uses SSL encryption (2048 bit RSA) everywhere to keep your shopping and payment information private. Our servers do not store your credit card details and payments are processed by PCI-compliant services."
       footer_contact_headline: "Keep in touch"
       footer_contact_email: "Email us"
       footer_nav_headline: "Navigate"
       footer_join_headline: "Join us"
-      footer_join_body: "Create a listing, shop or group directory on the Open Food Network."
+      footer_join_body: "Create a listing, shop or group directory on the Jump Africa."
       footer_join_cta: "Tell me more!"
       footer_legal_call: "Read our"
       footer_legal_visit: "Find us on"
@@ -2006,7 +2006,7 @@ en_FR:
   groups_signup_pricing: Group Account
   groups_signup_studies: Case Studies
   groups_signup_contact: Ready to discuss?
-  groups_signup_contact_text: "Get in touch to discover what OFN can do for you:"
+  groups_signup_contact_text: "Get in touch to discover what Jump Africa can do for you:"
   groups_signup_detail: "Here's the detail."
   login_invalid: "Invalid email or password"
   producers_about: About us
@@ -2039,7 +2039,7 @@ en_FR:
   name_or_sku: "NAME OR SKU"
   register_title: Register
   sell_title: "Register"
-  sell_headline: "Get on the Open Food Network!"
+  sell_headline: "Get on the Jump Africa!"
   sell_motivation: "Showcase your beautiful food."
   sell_producers: "Producers"
   sell_hubs: "Hubs"

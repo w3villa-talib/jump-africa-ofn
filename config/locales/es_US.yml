@@ -280,7 +280,7 @@ es_US:
         title: Otros fallos (%{count} pedidos)
         explainer: El procesamiento automático de estas órdenes falló por un motivo desconocido. Esto no debería ocurrir, contáctanos si estás viendo esto.
   home: "OFN"
-  title: "Jump Africa - The Free Online Store for Your Business in Africa"
+  title: "Africa's #1 eCommerce Platform | Jump Africa"
   welcome_to: "Bienvenido a"
   site_meta_description: "Nosotros empezamos desde abajo. Con granjeros y productoras listas para contar sus historias con orgullo y autenticidad. Con distribuidoras listas para conectar gente con productos de forma justa y honesta. Con compradores que creen que mejores decisiones de compras semanales pueden..."
   search_by_name: Buscar por nombre o municipio...

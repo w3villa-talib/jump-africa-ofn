@@ -182,7 +182,7 @@ en_ZA:
         title: Other Failure (%{count} orders)
         explainer: Automatic processing of these orders failed for an unknown reason. This should not occur, please contact us if you are seeing this.
   home: "OFN"
-  title: "Jump Africa - The Free Online Store for Your Business in Africa"
+  title: "Africa's #1 eCommerce Platform | Jump Africa"
   site_meta_description: "We begin with healthy soil. With organic farmers and growers proudly rising to tell their stories. With distributors ready to connect people with green, nutritious, fair and affordable products. With buyers who believe that better, more local shopping decisions can seriously change the world."
   search_by_name: Search by name, town, province or postcode...
   producers_join: South African producers are now welcome to join Open Food Network SA.
@@ -1200,12 +1200,12 @@ en_ZA:
       register: "Register here"
     footer:
       footer_secure: "Secure and trusted."
-      footer_secure_text: "Open Food Network uses SSL encryption (2048 bit RSA) everywhere to keep your shopping and payment information private. Our servers do not store your credit card details and payments are processed by PCI-compliant services."
+      footer_secure_text: "Jump Africa uses SSL encryption (2048 bit RSA) everywhere to keep your shopping and payment information private. Our servers do not store your credit card details and payments are processed by PCI-compliant services."
       footer_contact_headline: "Keep in touch"
       footer_contact_email: "Email us"
       footer_nav_headline: "Navigate"
       footer_join_headline: "Join us"
-      footer_join_body: "Create a listing, shop or group directory on the Open Food Network."
+      footer_join_body: "Create a listing, shop or group directory on the Jump Africa."
       footer_join_cta: "Tell me more!"
       footer_legal_call: "Read our"
       footer_legal_visit: "Find us on"
@@ -1679,7 +1679,7 @@ en_ZA:
   groups_signup_pricing: Group Account
   groups_signup_studies: Case Studies
   groups_signup_contact: Ready to discuss?
-  groups_signup_contact_text: "Get in touch to discover what OFN can do for you:"
+  groups_signup_contact_text: "Get in touch to discover what Jump Africa can do for you:"
   groups_signup_detail: "Here's the detail."
   login_invalid: "Invalid email or password"
   producers_about: About us
@@ -1712,7 +1712,7 @@ en_ZA:
   name_or_sku: "NAME OR SKU"
   register_title: Find out more
   sell_title: "Register"
-  sell_headline: "Get on the Open Food Network!"
+  sell_headline: "Get on the Jump Africa!"
   sell_motivation: "Showcase your beautiful food."
   sell_producers: "Producers"
   sell_hubs: "Hubs"
