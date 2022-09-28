@@ -1,5 +1,9 @@
 - content_for(:title) do
-  = t :map_title
+  Africa Farms, Map of Farms in Africa
+- content_for(:description) do
+  This is a map of every farm in Africa. It includes the location, size and type of each farm. The purpose of this website is to help farmers find other farmers that are located near them so they can share resources or start new businesses together.
+- content_for(:meta_description) do
+  This is a map of every farm in Africa. It includes the location, size and type of each farm. The purpose of this website is to help farmers find other farmers that are located near them so they can share resources or start new businesses together.
 
 - content_for :scripts do
   = render partial: "shared/google_maps_js"

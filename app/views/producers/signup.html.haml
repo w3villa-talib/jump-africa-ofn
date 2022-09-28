@@ -12,7 +12,7 @@
         %p.text-big
           = t :producers_signup_motivation
         %br
-        %a.button.transparent{href: "/register"}
+        %a.button.transparent{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"}
           = t :producers_signup_send
   .pane
     .row
@@ -39,7 +39,7 @@
         %h2
           = t :producers_signup_cta_headline
         %p.text-big= t('.start_free_profile')
-        %a.button.transparent{href: "/register"}
+        %a.button.transparent{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"}
           = t :producers_signup_cta_action
 
   #producer-details.pane.footer-pad
