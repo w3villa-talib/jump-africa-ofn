@@ -7,7 +7,7 @@ module Spree
 
       def permitted_resource_params
         params.require(:country).
-          permit(:name, :iso_name, :states_required)
+          permit(:name, :iso_name, :states_required, :status)
       end
 
       def collection
