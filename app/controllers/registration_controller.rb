@@ -19,7 +19,8 @@ class RegistrationController < BaseController
 
   def check_user
     if spree_current_user.nil?
-      redirect_to registration_auth_path(anchor: "/signup", after_login: request.original_fullpath)
+      # redirect_to registration_auth_path(anchor: "/signup", after_login: request.original_fullpath)
+      redirect_to "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"
     elsif !spree_current_user.can_own_more_enterprises?
       render :limit_reached
     end
