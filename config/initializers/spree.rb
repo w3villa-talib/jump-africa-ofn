@@ -14,7 +14,7 @@ Rails.application.reloader.to_prepare do
     config.site_name = ENV['SITE_NAME'] if ENV['SITE_NAME']
     config.shipping_instructions = true
     config.address_requires_state = true
-    config.admin_interface_logo = '/default_images/ofn-logo.png'
+    config.admin_interface_logo = '/default_images/jump-africa-logo.png'
 
     # S3 settings
     config.s3_bucket = ENV['S3_BUCKET'] if ENV['S3_BUCKET']
