@@ -1,7 +1,8 @@
 - content_for(:title) do
-  = current_distributor.name
-- content_for(:description) do
-  = current_distributor.description
+  = "Buy from #{current_distributor.name} in #{current_distributor.address.country} on Jump Africa"
+
+%meta{:name => "description", :content => "Buy #{current_distributor.supplied_products.pluck(:name).join(', ')} from #{current_distributor.name} locally in #{current_distributor.address.country} or to export globally. #{current_distributor.name} is a registered seller and supplier on Jump Africa." }
+
 - content_for(:image) do
   = url_for(current_distributor.logo) if current_distributor.logo.attached?
 

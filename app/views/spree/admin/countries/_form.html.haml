@@ -7,12 +7,13 @@
     .field
       = f.label :iso_name, t("spree.iso_name")
       = f.text_field :iso_name, class: 'fullwidth'
-  .omega.four.columns
+  .omega.three.columns
     .field.checkbox
       %label
         = f.check_box :states_required
         = t("spree.states_required")
+  .omega.two.columns
     .field.checkbox
       %label
         = f.check_box :status
-        = t("spree.status")
+        = t("spree.visible")
