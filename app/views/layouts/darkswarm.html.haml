@@ -5,6 +5,7 @@
     %meta{property: "og:title", content: content_for?(:title) ? yield(:title) : t(:title)}
     %meta{property: "og:description", content: content_for?(:description) ? yield(:description) : t(:site_meta_description)}
     %meta{:name => "description", :content => content_for?(:description) ? yield(:description) : t(:site_meta_description)}
+    %meta{:content => content_for?(:meta_description) ? yield(:meta_description) : t(:description), :name => "description"}
     %meta{property: "og:image", content: content_for?(:image) ? yield(:image) : ContentConfig.url_for(:logo)}
     - if !Rails.env.production? || @noindex_meta_tag
       %meta{name: "robots", content: "noindex"}

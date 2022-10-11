@@ -63,10 +63,10 @@ class ContentConfiguration < Spree::Preferences::Configuration
   file_preference :footer_logo, default_url: "/default_images/jump-africa-logo.png"
 
   # Other
-  preference :footer_facebook_url, :string, default: "https://www.facebook.com/OpenFoodNet"
-  preference :footer_twitter_url, :string, default: "https://twitter.com/OpenFoodNet"
-  preference :footer_instagram_url, :string, default: "https://www.instagram.com/openfoodnetworkuk/"
-  preference :footer_linkedin_url, :string, default: "https://www.linkedin.com/company/openfoodnetwork/"
+  preference :footer_facebook_url, :string, default: "https://www.facebook.com/jumpafricatech"
+  preference :footer_twitter_url, :string, default: "https://mobile.twitter.com/jumpafrica_"
+  preference :footer_instagram_url, :string, default: "https://www.instagram.com/p/BeJpSlhA9DL/"
+  preference :footer_linkedin_url, :string, default: "https://www.linkedin.com/company/jump-africa/"
   preference :footer_googleplus_url, :string, default: ""
   preference :footer_pinterest_url, :string, default: ""
   preference :footer_email, :string, default: "hello@openfoodnetwork.org"

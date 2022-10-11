@@ -302,7 +302,7 @@ en_NZ:
         title: Other Failure (%{count} orders)
         explainer: Automatic processing of these orders failed for an unknown reason. This should not occur, please contact us if you are seeing this.
   home: "OFN"
-  title: "Jump Africa - The Free Online Store for Your Business in Africa"
+  title: "Africa's #1 eCommerce Platform | Jump Africa"
   welcome_to: "Welcome to"
   site_meta_description: "We begin from the ground up. With farmers, growers, and producers ready to tell their stories proudly and truly. With distributors ready to connect people with products fairly and honestly. With buyers who believe that better weekly shopping decisions can…"
   search_by_name: Search by name or suburb...
@@ -1450,7 +1450,7 @@ en_NZ:
       register: "Register here"
     footer:
       footer_secure: "Secure and trusted."
-      footer_secure_text: "Open Food Network uses SSL encryption (2048 bit RSA) everywhere to keep your shopping and payment information private. Our servers do not store your credit card details and payments are processed by PCI-compliant services."
+      footer_secure_text: "Jump Africa uses SSL encryption (2048 bit RSA) everywhere to keep your shopping and payment information private. Our servers do not store your credit card details and payments are processed by PCI-compliant services."
       footer_contact_headline: "Keep in touch"
       footer_contact_email: "Email us"
       footer_nav_headline: "Navigate"
@@ -2006,7 +2006,7 @@ en_NZ:
   groups_signup_pricing: Group Account
   groups_signup_studies: Case Studies
   groups_signup_contact: Ready to discuss?
-  groups_signup_contact_text: "Get in touch to discover what OFN can do for you:"
+  groups_signup_contact_text: "Get in touch to discover what Jump Africa can do for you:"
   groups_signup_detail: "Here's the detail."
   login_invalid: "Invalid email or password"
   producers_about: About us
@@ -2039,7 +2039,7 @@ en_NZ:
   name_or_sku: "NAME OR SKU"
   register_title: Register
   sell_title: "Register"
-  sell_headline: "Get on the Open Food Network!"
+  sell_headline: "Get on the Jump Africa!"
   sell_motivation: "Showcase your beautiful food."
   sell_producers: "Producers"
   sell_hubs: "Hubs"
