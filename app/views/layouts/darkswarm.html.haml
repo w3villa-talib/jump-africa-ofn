@@ -8,7 +8,7 @@
     %meta{:content => content_for?(:meta_description) ? yield(:meta_description) : t(:description), :name => "description"}
     %meta{property: "og:image", content: content_for?(:image) ? yield(:image) : ContentConfig.url_for(:logo)}
     - if !Rails.env.production? || @noindex_meta_tag
-      %meta{name: "robots", content: "noindex"}
+      %meta{name: "robots", content: "index,follow"}
     %title= content_for?(:title) ? "#{yield(:title)}".html_safe : "#{t(:welcome_to)} #{t(:title)}"
     - if Rails.env.production?
       = favicon_link_tag "/favicon.ico"
