@@ -1,9 +1,10 @@
-%html{ "ng-csp": "no-unsafe-eval" }
+%html{ "ng-csp": "no-unsafe-eval", "lang": "en" }
   %head
     %meta{charset: 'utf-8'}/
     %meta{name: 'viewport', content: "width=device-width,initial-scale=1.0"}/
     %meta{property: "og:title", content: content_for?(:title) ? yield(:title) : t(:title)}
     %meta{property: "og:description", content: content_for?(:description) ? yield(:description) : t(:site_meta_description)}
+    %meta{:name => "description", :content => content_for?(:description) ? yield(:description) : t(:site_meta_description)}
     %meta{property: "og:image", content: content_for?(:image) ? yield(:image) : ContentConfig.url_for(:logo)}
     - if !Rails.env.production? || @noindex_meta_tag
       %meta{name: "robots", content: "noindex"}

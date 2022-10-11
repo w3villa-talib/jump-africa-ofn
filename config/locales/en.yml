@@ -2111,7 +2111,8 @@ See the %{link} to find out more about %{sitename}'s features and to start using
   groups_contact_email: Email us
   groups_contact_website: Visit our website
   groups_contact_facebook: Follow us on Facebook
-  groups_signup_title: Sign up as a group
+  groups_signup_title: Sell Your Stuff Online in Nigeria with Jump Africa
+  groups_signup_description: Are you looking to sell your stuff online in Nigeria? Look no further than Jump Africa! We make it easy for you to sell your products and services online. Visit our website today to learn more!
   groups_signup_headline: Groups sign up
   groups_signup_intro: "We're an amazing platform for collaborative marketing, the easiest way for your members and stakeholders to reach new markets. We're non-profit, affordable, and simple."
   groups_signup_email: Email us
@@ -2143,7 +2144,8 @@ See the %{link} to find out more about %{sitename}'s features and to start using
   producers_filter_property: Property
   producers_title: Producers
   producers_headline: Find local producers
-  producers_signup_title: Sign up as a producer
+  producers_signup_title: Nigeria's Largest Online Food Marketplace | Jump Africa
+  producers_signup_description: Jump Africa is Nigeria's largest online food marketplace, connecting buyers and sellers of food products and services. With a wide range of options for buyers and sellers, we are the perfect platform for doing business in Nigeria's vibrant food industry. Visit our website today to learn more!
   producers_signup_headline: Food producers, empowered.
   producers_signup_motivation: Sell your food and tell your stories to diverse new markets. Save time and money on every overhead. We support innovation without the risk. We've levelled the playing field.
   producers_signup_send: Join now
@@ -2165,7 +2167,8 @@ See the %{link} to find out more about %{sitename}'s features and to start using
 
   register_title: Register
 
-  sell_title: "Register"
+  sell_title: "Sell Products Online in Nigeria for Free | Jump Africa"
+  sell_description: "Looking to start selling products online in Nigeria? Look no further than Jump Africa! We provide free ecommerce solutions that make it easy to get your business up and running. Visit our website today to learn more!"
   sell_headline: "Get on the Open Food Network!"
   sell_motivation: "Showcase your beautiful food."
   sell_producers: "Producers"
@@ -2182,7 +2185,8 @@ See the %{link} to find out more about %{sitename}'s features and to start using
   shops_title: Shops
   shops_headline: Shopping, transformed.
   shops_text: Food grows in cycles, farmers harvest in cycles, and we order food in cycles. If you find an order cycle closed, check back soon.
-  shops_signup_title: Sign up as a hub
+  shops_signup_title: Free Online Agricultural Products Marketplace | Jump Africa
+  shops_signup_description: Jump Africa is a platform that helps farmers sell their products online. We provide free services to farmers and help them get the best price for their goods
   shops_signup_headline: Food hubs, unlimited.
   shops_signup_motivation: Whatever your model, we support you. However you change, we're with you. We're non-profit, independent, and open-sourced. We're the software partners you've dreamed of.
   shops_signup_action: Join now
