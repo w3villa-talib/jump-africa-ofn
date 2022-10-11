@@ -1,5 +1,8 @@
 - content_for(:title) do
-  = t :groups_signup_title
+  = t(:groups_signup_title)
+
+- content_for(:description) do
+  = t(:groups_signup_description)
 
 #panes
   #shops-signup.pane
@@ -47,7 +50,7 @@
         -#   / If there is a time-sensitive offer you can write it here, e.g.
         -#   Time-sensitive offer goes here!
         %br
-        = ContentConfig.group_signup_pricing_table_html.html_safe
+        = t :content_configuration_pricing_table
 
   #shops-case-studies
     .row
@@ -55,7 +58,7 @@
         %h2.text-center
           = t :groups_signup_studies
         %br
-        = ContentConfig.group_signup_case_studies_html.html_safe
+        = t :content_configuration_case_studies
 
   .pane#cta
     .row
@@ -72,6 +75,6 @@
       .small-12.medium-10.medium-offset-1.columns
         %h2.text-center
           = t :groups_signup_detail
-        = ContentConfig.group_signup_detail_html.html_safe
+        = t :content_configuration_detail
 
 = render partial: "shared/footer"
