@@ -23,7 +23,7 @@
         %h2
           = t :shops_signup_pricing
         %br
-        = ContentConfig.hub_signup_pricing_table_html.html_safe
+        = t :shops_signup_enterprise_accounts
 
   #shops-case-studies
     .row
@@ -31,7 +31,7 @@
         %h2.text-center
           = t :shops_signup_stories
         %br
-        = ContentConfig.hub_signup_case_studies_html.html_safe
+          = t :shops_signup_stories_details
 
   .pane#cta
     .row
@@ -49,7 +49,7 @@
       .small-12.medium-10.medium-offset-1.columns
         %h2.text-center
           = t :shops_signup_detail
-        = ContentConfig.hub_signup_detail_html.html_safe
+        = t :content_configuration_detail
 
 
 = render partial: "shared/footer"

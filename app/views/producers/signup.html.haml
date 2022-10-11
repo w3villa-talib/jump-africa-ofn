@@ -25,8 +25,8 @@
         -# %p.text-big
         -#   If there is a time-sensitive offer you can write it here, e.g.
         -#   Sign up before 30th June for an extra month free!
-        %br
-        = ContentConfig.producer_signup_pricing_table_html.html_safe
+            %br
+        = t :content_configuration_pricing_table
 
   #producer-case-studies
     .row
@@ -34,7 +34,7 @@
         %h2.text-center
           = t :producers_signup_studies
         %br
-        = ContentConfig.producer_signup_case_studies_html.html_safe
+        = t :content_configuration_case_studies
 
   .pane#cta
     .row
@@ -50,6 +50,6 @@
       .small-12.medium-10.medium-offset-1.columns
         %h2.text-center
           = t :producers_signup_detail
-        = ContentConfig.producer_signup_detail_html.html_safe
+        = t :content_configuration_detail
 
 = render partial: "shared/footer"
