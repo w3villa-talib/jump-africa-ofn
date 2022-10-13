@@ -112,7 +112,7 @@ module Spree
     private
 
     def require_zipcode?
-      true
+      false #if required then change false to true
     end
 
     def state_validate

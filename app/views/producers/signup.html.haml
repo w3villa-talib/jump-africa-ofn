@@ -15,8 +15,13 @@
         %p.text-big
           = t :producers_signup_motivation
         %br
-        %a.button.transparent{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"}
-          = t :producers_signup_send
+        - if spree_current_user.present?
+          %a.button.transparent{href: "/register"}
+            = t :producers_signup_send
+        - else
+          %a.button.transparent{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"}
+            = t :producers_signup_send
+
   .pane
     .row
       .small-12.medium-10.medium-offset-1.columns.text-center
@@ -42,8 +47,13 @@
         %h2
           = t :producers_signup_cta_headline
         %p.text-big= t('.start_free_profile')
-        %a.button.transparent{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"}
-          = t :producers_signup_cta_action
+        - if spree_current_user.present?
+          %a.button.transparent{href: "/register"}
+            = t :producers_signup_cta_action
+        - else
+          %a.button.transparent{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"}
+            = t :producers_signup_cta_action
+
 
   #producer-details.pane.footer-pad
     .row
