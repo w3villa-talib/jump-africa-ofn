@@ -1,5 +1,12 @@
 %li#login-link{ "data-controller": "login-modal" }
-  %a{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/signin", :target => "_blank"}
+  %a{:onclick => "login_fun()", :target => "_blank"}
     %img{ src: image_pack_path("menu/icn-login.svg") }
     %span
       = t 'label_login'
+
+
+  :javascript
+    function login_fun() {
+      window.location.href = "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"
+    };
+
