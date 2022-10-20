@@ -15,6 +15,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    min-height: calc(100vh - 90px);
 }
 
 .supported-country-list {
