@@ -49,12 +49,18 @@
         = render "shared/menu/account_summary" unless @hide_menu rescue ''
         = render "shared/menu/menu" unless @hide_menu
         = yield :page_alert
+      - if spree_current_user.present?
+        .inner-wrap.mt-res-25
+          %section{ role: "main" }
+            = yield
 
-      .inner-wrap
-        %section{ role: "main" }
-          = yield
+            #footer
+      - else
+        .inner-wrap
+          %section{ role: "main" }
+            = yield
 
-          #footer
+            #footer
     %loading
 
     = yield :scripts
