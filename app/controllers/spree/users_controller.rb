@@ -43,11 +43,11 @@ module Spree
       end
     end
 
-    def create user_params, is_admin
+    def create user_params, is_admin, userId
       @user = Spree::User.find_by_email(user_params[:email])
       if @user
         sign_in(@user, event: :authentication)
-        @user.update(logout_from_jumpAfrica: false)
+        @user.update(logout_from_jumpAfrica: false, parent_id: userId)
       else
         @user = Spree::User.new(user_params)
         @user.skip_confirmation!
@@ -91,12 +91,13 @@ module Spree
         response = JSON.parse(response.body)
         # create params for user email
         user_params = {email: response['data']['email']}
+        userId = params[:user_id]
         is_admin =  response['isAdmin']
         # create user
         if response['auth'] == true
          session[:jwt_token] = params[:secret_key]
          session[:jumpAfrica_user_id] = response['data']['id'] 
-         create(user_params,is_admin)
+         create(user_params,is_admin,userId)
         else
           #  redirect to localhost:3000/login
           redirect_to "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"
