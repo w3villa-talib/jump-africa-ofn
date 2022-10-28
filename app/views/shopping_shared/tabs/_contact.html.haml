@@ -36,9 +36,11 @@
                   = current_distributor.website
                   %br
               - if current_distributor.email_address.present?
-                %a{id:"start-new-chat", data: current_distributor}
-                  %span.obfuscatedEmail.email
-                    = current_distributor.email_address.reverse
+                - if current_spree_user.present?
+                  %a{id:"start-new-chat", current_user_id: current_spree_user.parent_id, recept_user_id: current_distributor.users.first.parent_id }
+                    %span
+                      send message
+
 
       .small-12.large-4.columns
         - if current_distributor.twitter.present? || current_distributor.facebook.present? || current_distributor.linkedin.present? || current_distributor.instagram.present?
@@ -66,18 +68,117 @@
                   %a{href: "http://instagram.com/#{current_distributor.instagram}", target: "_blank" }
                     %i.instagram.ofn-i_043-instagram
 
+- if !current_spree_user.nil?
+  .message-sidebar
+    .message-top
+      %div
+        - if current_spree_user.present?
+          %a{href: "/social/user_profile/#{current_spree_user.parent_id}"}
+            = image_tag "#{ENV["JUMP_AFRICA_APP_URL"]}/assets/social/68.png"
+        - else
+          %a{href: "/social/user_profile/#{current_spree_user.parent_id}"}
+            = image_tag "#{ENV["JUMP_AFRICA_APP_URL"]}/assets/social/68.png"
+        %span#unredMessages
+          Unread Messages
+        %p.c_user_info
+          %span
+            \!
+            %span
+              Please be reminded that any transactions or conversations outside the Jump.AFRICA platform are not recorded and therefore not protected by our Escrow policy.
+              %br/
+              = succeed "All" do
+                %br/
+              %br/
+              = succeed "We" do
+                %br/
+      %i.fa.fa-chevron-up
+.bottom-chat
+
+%link{:rel => :stylesheet, :type => :"text/css", :href => "https://jump.africa/assets/emoji_css/emoji.css"}
 %link{:rel => :stylesheet, :type => :"text/css", :href => "/assets/darkswarm/application.css"}
 
+%script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js", :type => "text/javascript"}
+%script{:src => "/assets/emoji_js/config.js", :type => "text/javascript"}
+%script{:src => "/assets/emoji_js/util.js", :type => "text/javascript"}
+%script{:src => "/assets/emoji_js/jquery.emojiarea.js", :type => "text/javascript"}
+%script{:src => "/assets/emoji_js/emoji-picker.js", :type => "text/javascript"}
 
 :javascript
-  $(document).ready(function(){
+
+  function getData(current_user_id){
+    return new Promise((resolve, reject) => {
+
+     $.post("#{ENV["JUMP_AFRICA_APP_URL"]}/social/chat_services/current_user_record", {current_user_id: current_user_id}, function(data, status){
+          if (status == "success") {
+            resolve(data);
+          }
+        });
+    });
+  }
+
+
+  $(document).ready(async function(){
+    var chatBoxes = {};
+    var message_id = 0;
+    var current_user_id = $("#start-new-chat").attr('current_user_id');
+    var user_data;
+    var unread_msg_count;
+    var user_details  = await getData(current_user_id)
+    unread_msg_count = user_details.unread_msg_count;
+
+    $("#unredMessages").html(unread_msg_count + " Unread Messages");
+    
+    var user_chats_details = user_details?.info
+    
+    console.log(user_chats_details);
+    $.each(user_chats_details, function(key,val) {             
+      data_slug = val.slug
+      data_sn = val.sn
+      data_verified = val.is_verified
+      id = val.id
+      image_url = val.image_url
+      removeChatMessage = val.remove_chatmsg
+      unread = val.unreads;
+
+      var new_list = jQuery('<ul/>').appendTo('.message-sidebar');
+      var append_to_box = '<div>';
+        append_to_box += '<li class="get_message ">';
+          append_to_box += '<div class="img">';
+            append_to_box += '<span class="is_online_dot">';
+            append_to_box += '<span class="pop_online">';
+            append_to_box += '</span>';
+            append_to_box += '</span>';
+            append_to_box += '<img src="#{ENV["JUMP_AFRICA_APP_URL"]}'+image_url+'"/>'
+            append_to_box += '</div>';
+            append_to_box += '<div>';
+            append_to_box += '<span class="name">'+data_slug+'';
+            append_to_box += '</span>';
+            if (data_verified){
+              append_to_box += '<span class="verified">';
+              append_to_box += '<i class="fa fa-check">';
+              append_to_box += '</i>'
+              append_to_box += '<span class="pop_up"> Fully Verified'
+              append_to_box += '</span>'
+            }
+            append_to_box += '</span>'
+            append_to_box += '<span class="is_online"> online'
+            append_to_box += '</span>'
+          append_to_box += '</div>'
+        append_to_box += '</li>';
+      append_to_box += '</div>'
+      new_list.append(append_to_box);
+    });
+
+
     $("#start-new-chat").on('click', function() {
-      $.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/profile_info", {email: "deepesh.yadav@w3villa.com"}, function(data, status){
+      var recept_user_id = $("#start-new-chat").attr('recept_user_id');
+
+      $.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/profile_info", {id: recept_user_id}, function(data, status){
         if (status == "success") {
 
-          var user_name = data?.data.name;
+          var user_name = data?.data.slug;
           var user_verified = data?.verified_user;
-          var user_img = data?.data.img;
+          var user_img = data?.image_url;
           var user_slug = data?.data.slug;
           var user_id = data?.data.id;
           var user_sn = data?.data.sn;
@@ -90,11 +191,11 @@
           var new_box = jQuery('<div/>', {"class": 'chat-box active', "id": 'chat_'+user_id}).appendTo('.bottom-chat');
           chatBoxes['"'+user_id+'"'] = 'active';
           localStorage.chatBoxesList = JSON.stringify(chatBoxes);
-          var current_user_is_verified = true
+          var current_user_is_verified = true;
           $.ajax({
             url: "#{ENV["JUMP_AFRICA_APP_URL"]}/social/chat_services/get_msg",
             type: "POST",
-            data: { id: 25947, current_user_id: user_id},
+            data: { id: recept_user_id, current_user_id: current_user_id},
             success: function(resp){
               if(resp.success){
                 if (user_online) {
@@ -102,8 +203,8 @@
                 } else {
                   var append_to_box = '<div class="chat-head">';
                 }
-                append_to_box += '<div class="img"><span class="is_online_dot"><span class="pop_online"></span></span><img src="'+user_img+'" /></div>';
-                append_to_box += '<a href="/social/user_profile/'+user_slug+'">'+user_name+'</a>';
+                append_to_box += '<div class="img"><span class="is_online_dot"><span class="pop_online"></span></span><img src="#{ENV["JUMP_AFRICA_APP_URL"]}'+user_img+'" /></div>';
+                append_to_box += '<a href="#{ENV["JUMP_AFRICA_APP_URL"]}/social/user_profile/'+user_slug+'">'+user_name+'</a>';
                 if(user_verified) {
                   append_to_box += '<span class="verified"><i class="fa fa-check"></i><span class="pop_up">Fully Verified</span></span>';
                 }
@@ -115,7 +216,7 @@
                 append_to_box += '<div class="chatbody-top" id="message_body_div'+user_id+'" ondrop="dropFile(event)" ondragover="dragFile(event)" ondragleave="dragLeave(event)" ondragenter="dragFile(event)" data-id="'+user_id+'">';
                 append_to_box += '<div class="drop-box"><div class="drop-area"><i class="fa fa-upload"></i><h3>Drop to Upload</h3></div></div>';
                 $.each(resp.msgs, function(index, value) {
-                  if (value.sender_id ==  current_user.id ) {
+                  if (value.sender_id ==  current_user_id ) {
                     if (value.sender_deleted == false){
                        append_to_box += '<p class="message sent">';
                        append_to_box += '<span class="message_inner">';
@@ -189,7 +290,7 @@
                 $(function() {
                   window.emojiPicker = new EmojiPicker({
                     emojiable_selector: '[data-emojiable=true]',
-                    assetsPath: '/assets/emoji_img/',
+                    assetsPath: '/emoji_img/',
                     popupButtonClasses: 'fa fa-smile-o'
                   });
                   window.emojiPicker.discover();
@@ -205,7 +306,112 @@
         }
       });
     });
+
+  // close button codes here
+  $(document).on("click", ".close-chat" , function() {
+    var user_id = $(this).data('id');
+    console.log(user_id, "hii")
+    delete chatBoxes['"'+user_id+'"'];
+    console.log(chatBoxes, "this is chatbox")
+    localStorage.chatBoxesList = JSON.stringify(chatBoxes);
+    $(this).parent().parent().remove();
+  });
+
+  // send message codes here
+    $(document).on("click", ".send_message" , function() {
+      message_id += 1;
+      console.log(current_user_id, "this is id")
+      var user_id = $(this).parent().find('.attach').find('.message_body').data('recipient');
+      var message = $(this).parent().find('.attach').find('.emoji-wysiwyg-editor').html();
+
+      var base_64 = document.getElementById('file_base_'+user_id).value;
+      var type_64 = document.getElementById('file_type_'+user_id).value;
+      var name_64 = document.getElementById('file_name_'+user_id).value;  
+      var msg_print = '<p class="message sent" data-msgid="'+message_id+'">';
+      msg_print += '<span class="message_inner">';
+      if(base_64 && type_64 && name_64) {
+        let is_image = ['image/jpeg', 'image/jpg', 'image/png', 'image/bmp'];
+        if (is_image.includes(type_64)) {
+          msg_print += '<a href="'+base_64+'" download><img src="'+base_64+'" /></a>';
+        } else {
+          msg_print += '<a href="'+base_64+'" download><span class="message-attachment"><span>'+name_64+'</span><i class="fa fa-download"></i></span></a>';
+        }
+      }
+      msg_print += '<span>'+message+'</span>';
+      msg_print += '</span>';
+      msg_print += '<i class="fa fa-history"></i>';
+      msg_print += '</p>';
+      var new_message = $(this).parent().prev('.user_attachment_ui').prev('.chatbody-top').append(msg_print);
+      var message_body_div_send = document.getElementById('message_body_div'+user_id);
+      message_body_div_send.scrollTop = message_body_div_send.scrollHeight;
+      $(this).parent().find('.attach').find('.message_body').val('');
+      $(this).parent().find('.attach').find('.emoji-wysiwyg-editor').html('');
+      $(this).parent().prev('.user_attachment_ui').html('');
+      $('#file_base_'+user_id).removeAttr('value');
+      $('#file_name_'+user_id).removeAttr('value');
+      $('#file_type_'+user_id).removeAttr('value');
+      $.ajax({
+        url: "#{ENV["JUMP_AFRICA_APP_URL"]}/social/chat_services/send_msg",
+        type: "post",
+        data: {  current_user_id: current_user_id, id: user_id, msg: message, msg_id: message_id, file_base: base_64, file_name: name_64,file_type: type_64 },
+        success: function(resp){
+          if(resp.success){
+            $('[data-msgid="'+resp.msgsid+'"]').find('i').removeClass('fa-history');
+            $('[data-msgid="'+resp.msgsid+'"]').find('i').addClass('fa-check');
+          } else if(resp.custom_error_code == 101) {
+            var cannot_send_message = jQuery('<div/>', {"class": 'user_unverified'}).appendTo(document.body);
+            cannot_send_message.append('<div class="inner"><div class="content"><p>You need to be a verified member to send messages. <a href="/settings">Click here to get verified.</a></p></div><span class="close_user_unverified">Okay</span></div>');
+            $('[data-msgid="'+resp.msgsid+'"]').remove();
+          } else {
+            $('[data-msgid="'+resp.msgsid+'"]').remove();
+          }
+        },
+        dataType: "json",
+        error: function(){
+        }
+      });
+    });
+
+    //expand chat ui
+    $(document).on("click", ".expand-chat" , function() {
+      var user_id = $(this).data('id');
+      if (chatBoxes['"'+user_id+'"'] == 'active') {
+        chatBoxes['"'+user_id+'"']= 'active_expanded';
+      } else if (chatBoxes['"'+user_id+'"'] == 'minimized') {
+        chatBoxes['"'+user_id+'"']= 'minimized_expanded';
+      } else if (chatBoxes['"'+user_id+'"'] == 'minimized_expanded') {
+        chatBoxes['"'+user_id+'"']= 'minimized';
+      } else if (chatBoxes['"'+user_id+'"'] == 'active_expanded') {
+        chatBoxes['"'+user_id+'"']= 'active';
+      }
+      localStorage.chatBoxesList = JSON.stringify(chatBoxes);
+      $(this).parent().parent().toggleClass('expanded');
+      $(this).toggleClass('fa-expand');
+      $(this).toggleClass('fa-compress');
+    });
+
+    //open chat
+    $(document).on("click", ".open-chat" , function() {
+      var user_id = $(this).data('id');
+      if (chatBoxes['"'+user_id+'"'] == 'active') {
+        chatBoxes['"'+user_id+'"']= 'minimized';
+      } else if (chatBoxes['"'+user_id+'"'] == 'minimized') {
+        chatBoxes['"'+user_id+'"']= 'active';
+      } else if (chatBoxes['"'+user_id+'"'] == 'minimized_expanded') {
+        chatBoxes['"'+user_id+'"']= 'active_expanded';
+      } else if (chatBoxes['"'+user_id+'"'] == 'active_expanded') {
+        chatBoxes['"'+user_id+'"']= 'minimized_expanded';
+      }
+      localStorage.chatBoxesList = JSON.stringify(chatBoxes);
+      $(this).parent().parent().toggleClass('active');
+    });
+
+    $('#open_msg_sidebar').on('click', function() {
+      $('.message-sidebar').toggleClass('active');
+    });
+    $('.message-top').on('click', function() {
+      $('.message-sidebar').toggleClass('active');
+    });
+
   });
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-
-.bottom-chat
