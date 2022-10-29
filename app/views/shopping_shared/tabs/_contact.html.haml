@@ -18,7 +18,7 @@
               = current_distributor.address.zipcode
 
       .small-12.large-4.columns
-        - if current_distributor.website || current_distributor.email_address || current_distributor.phone || current_distributor.whatsapp_phone
+        - if current_distributor.website || current_distributor.email_address || current_distributor.phone || current_distributor.whatsapp_phone     
           %div.center
             .header
               = t :shopping_contact_web
@@ -131,24 +131,25 @@
     var user_chats_details = user_details?.info
     
     console.log(user_chats_details);
+    var new_list = jQuery('<ul/>').appendTo('.message-sidebar');
     $.each(user_chats_details, function(key,val) {             
       data_slug = val.slug
       data_sn = val.sn
       data_verified = val.is_verified
       id = val.id
       image_url = val.image_url
+      default_image = val.default_image
       removeChatMessage = val.remove_chatmsg
       unread = val.unreads;
 
-      var new_list = jQuery('<ul/>').appendTo('.message-sidebar');
       var append_to_box = '<div>';
-        append_to_box += '<li class="get_message ">';
+        append_to_box += '<li class="get_message" data-slug="'+data_slug+'" data-sn="'+data_sn+'" data-verified="'+data_verified+'" id="'+id+'">';
           append_to_box += '<div class="img">';
             append_to_box += '<span class="is_online_dot">';
             append_to_box += '<span class="pop_online">';
             append_to_box += '</span>';
             append_to_box += '</span>';
-            append_to_box += '<img src="#{ENV["JUMP_AFRICA_APP_URL"]}'+image_url+'"/>'
+            append_to_box += '<img src="#{ENV["JUMP_AFRICA_APP_URL"]}/'+default_image+'"/>'
             append_to_box += '</div>';
             append_to_box += '<div>';
             append_to_box += '<span class="name">'+data_slug+'';
