@@ -1,9 +1,13 @@
 %nav.top-bar.show-for-large-up
   %section.top-bar-section
     %ul.nav-logo
-      %li.ofn-logo
+      %li.ofn-logo.logo-div
         %a{href: main_app.root_path}
           %img{src: ContentConfig.url_for(:logo)}
+        %div.expand_quick_links
+          %img{:src => "/quick_links/expand.png"}
+          %span Expand
+        = render 'shared/menu/quick_links'
       %li.powered-by
         %img{src: '/favicon.ico'}
         %span
@@ -35,3 +39,8 @@
           %span{ class: "top-bar--current-hub-name" } {{ CurrentHub.hub.name | truncate:25 }}
       %li.cart{"ng-cloak" => true}
         = render partial: "shared/menu/cart"
+
+:javascript
+  $('.expand_quick_links').on('click', function() {
+    $(this).toggleClass('active');
+  });

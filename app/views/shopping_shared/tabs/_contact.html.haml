@@ -204,8 +204,8 @@
                 } else {
                   var append_to_box = '<div class="chat-head">';
                 }
-                append_to_box += '<div class="img"><span class="is_online_dot"><span class="pop_online"></span></span><img src="#{ENV["JUMP_AFRICA_APP_URL"]}'+user_img+'" /></div>';
-                append_to_box += '<a href="#{ENV["JUMP_AFRICA_APP_URL"]}/social/user_profile/'+user_slug+'">'+user_name+'</a>';
+                append_to_box += '<div class="img"><span class="is_online_dot"><span class="pop_online"></span></span><img src="#{ENV["JUMP_AFRICA_APP_URL"]}/assets/'+user_img+'" /></div>';
+                append_to_box += '<a href="#{ENV["JUMP_AFRICA_APP_URL"]}/social/user_profile/'+user_slug+'">'+user_name.toUpperCase()+'</a>';
                 if(user_verified) {
                   append_to_box += '<span class="verified"><i class="fa fa-check"></i><span class="pop_up">Fully Verified</span></span>';
                 }

@@ -3,19 +3,25 @@
 // *********************
 // common classes
 .bd-filter-1 {
-    backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px);
 }
 .pb_20 {
-    padding-bottom: 20px;
+  padding-bottom: 20px;
+}
+.mt-res-25 {
+  margin-top: 25px;
+}
+.pr_0 {
+  padding-right: 0 !important;
 }
 // ********************************************
 // homepage 
 
 #tagline {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    min-height: calc(100vh - 90px);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: calc(100vh - 90px);
 }
 
 .supported-country-list {
@@ -76,4 +82,26 @@
         }
       }
     }
+}
+
+.banner_text {
+  font-size: 45px;
+  line-height: 1;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+// ***********************************
+
+@media screen and (max-width: 1024px) {
+  .mt-res-25 {
+    margin-top: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  
+  .banner_text {
+    font-size: 32px;
+  }
 }

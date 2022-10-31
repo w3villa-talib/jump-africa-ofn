@@ -2,6 +2,9 @@
 
 #tagline {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:before {
     content: "";
@@ -22,23 +25,21 @@
   }
 
   h1 {
-    margin-top: 2rem;
+    
 
-    @media all and (min-width: 768px) {
-      margin-top: 10rem;
-    }
+    
 
     img {
-      max-width: 45%;
-
-      @media all and (min-height: 500px) {
-        max-width: 200px;
-      }
-
-      margin-bottom: 2rem;
+      max-width: 140px;
 
       @media all and (min-width: 768px) {
-        margin-bottom: 5rem;
+        max-width: 175px;
+      }
+
+      margin-bottom: 1rem;
+
+      @media all and (min-width: 768px) {
+        margin-bottom: 1rem;
       }
     }
   }
