@@ -66,16 +66,16 @@
         z-index: 9999;
         background-color: #fff;
         padding: 5px;
-        border: 2px solid #0085cf;
-        &::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            transform: translateY(-100%) translateX(-50%);
-            border: 10px solid transparent;
-            border-bottom-color: #0085cf;
-          }
+        border: 1px solid #0085cf;
+        // &::before {
+        //     content: '';
+        //     position: absolute;
+        //     left: 50%;
+        //     top: 0;
+        //     transform: translateY(-100%) translateX(-50%);
+        //     border: 10px solid transparent;
+        //     border-bottom-color: #0085cf;
+        //   }
         .quick_link_title {
           margin-top: 0;
           margin-bottom: 0;
@@ -141,10 +141,12 @@
               }
             }
             &.coming-soon {
+              cursor: not-allowed;
               &:hover {
                 img {
                   -webkit-filter: contrast(0.5);
                   filter: contrast(0.5);
+
                 }
               }
               span {
