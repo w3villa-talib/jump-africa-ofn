@@ -35,8 +35,8 @@
                 %a{href: "http://#{current_distributor.website}", target: "_blank" }
                   = current_distributor.website
                   %br
-              - if current_distributor.email_address.present?
-                - if current_spree_user.present?
+              - if current_spree_user.present?
+                - if current_distributor.email_address.present?
                   %a{id:"start-new-chat", current_user_id: current_spree_user.parent_id, recept_user_id: current_distributor.users.first.parent_id }
                     %span
                       send message
@@ -117,12 +117,15 @@
   }
 
 
-  $(document).ready(async function(){
+  $(window).on('load',async function(){
+    
     var chatBoxes = {};
     var message_id = 0;
-    var current_user_id = $("#start-new-chat").attr('current_user_id');
+    var current_user_id = localStorage.getItem("jumpAfrica_user_id");
+    var recept_user_id =  localStorage.getItem("recept_user_id");
     var user_data;
     var unread_msg_count;
+    
     var user_details  = await getData(current_user_id)
     unread_msg_count = user_details.unread_msg_count;
 
@@ -130,7 +133,7 @@
     
     var user_chats_details = user_details?.info
     
-    console.log(user_chats_details);
+    console.log(user_chats_details, "user_chats_details");
     var new_list = jQuery('<ul/>').appendTo('.message-sidebar');
     $.each(user_chats_details, function(key,val) {             
       data_slug = val.slug
@@ -164,6 +167,7 @@
             append_to_box += '</span>'
             append_to_box += '<span class="is_online"> online'
             append_to_box += '</span>'
+            append_to_box += '<i class="fa fa-times delete_user_chat" data-delete="'+id+'"></i>'
           append_to_box += '</div>'
         append_to_box += '</li>';
       append_to_box += '</div>'
@@ -172,8 +176,7 @@
 
 
     $("#start-new-chat").on('click', function() {
-      var recept_user_id = $("#start-new-chat").attr('recept_user_id');
-
+      
       $.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/profile_info", {id: recept_user_id}, function(data, status){
         if (status == "success") {
 
@@ -311,7 +314,7 @@
   // close button codes here
   $(document).on("click", ".close-chat" , function() {
     var user_id = $(this).data('id');
-    console.log(user_id, "hii")
+    console.log(user_id, "user_id")
     delete chatBoxes['"'+user_id+'"'];
     console.log(chatBoxes, "this is chatbox")
     localStorage.chatBoxesList = JSON.stringify(chatBoxes);
@@ -414,5 +417,26 @@
       $('.message-sidebar').toggleClass('active');
     });
 
+    //delete user chat
+    $('.delete_user_chat').on('click', function() {
+      var delete_user = $(this).data('delete');
+      console.log(current_user_id);
+      $.ajax({
+        url: "#{ENV["JUMP_AFRICA_APP_URL"]}/social/chat_services/remove_chat",
+        type: "post",
+        data: { block_user: delete_user, current_user_id: current_user_id },
+        success: function(resp){
+          if(resp.success){
+            $('#'+delete_user).parent().remove();
+          } else {
+            alert('something went wrong in ');
+          }
+        },
+        dataType: "json",
+        error: function(){
+          alert('something went wrong');
+        }
+      });
+    });
   });
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
