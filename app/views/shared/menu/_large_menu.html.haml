@@ -15,9 +15,14 @@
         - menu_name = "menu_#{menu_number}"
         - if ContentConfig[menu_name].present?
           %li
-            %a{href: t("#{menu_name}_url") }
-              %span.nav-primary
-                = t "#{menu_name}_title"
+            - if "menu_5_url" == "#{menu_name}_url"
+              %a{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/professional/services/" }
+                %span.nav-primary
+                  = t "#{menu_name}_title"
+            - else
+              %a{href: t("#{menu_name}_url") }
+                %span.nav-primary
+                  = t "#{menu_name}_title"
     %ul.nav-icons-menu
       - if OpenFoodNetwork::I18nConfig.selectable_locales.count > 1
         = render 'shared/menu/language_selector'
