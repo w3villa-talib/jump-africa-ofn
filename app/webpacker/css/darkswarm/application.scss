@@ -21,7 +21,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  min-height: calc(100vh - 90px);
+  min-height: calc(100vh - 105px);
 }
 
 .supported-country-list {
@@ -2325,6 +2325,241 @@ $green-color: #68c54f;
 
 // chat ui ends here
 // *****************************
+
+// ***************************************************************
+// **************************************************************
+// liveprices style starts here
+
+.text-up {
+  color: #4dd710;
+}
+.text-down {
+  color: #d00017;
+}
+
+.trading-section-main{
+
+  background-color: #fafafa;
+  margin-top: -7px !important;
+  // padding: 12px 0px 7px 0px !important;
+  font-family: 'Helvetica 55 Roman', sans-serif;
+  .trading-section {
+    
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    .trading-bar {
+      display: flex;
+      justify-content: space-around;
+      font-size: 13px;
+      flex-grow: 1;
+      // align-self: center;
+      flex-wrap:wrap;
+      // margin-right:40px;
+      .trading-currency {
+        border-left: 2px solid #59919c;
+        padding: 1px 10px;
+        flex-grow: 1;
+        line-height: 1;
+        position: relative;
+        &::before {
+          content: '';
+          position: absolute;
+          display: none;
+          z-index: 1;
+          bottom: -11px;
+          left: 50%;
+          transform: translateX(-50%);
+          border: 5px solid transparent;
+          border-bottom-color: #0192d3;
+        }
+        &:hover::before {
+          display: inline-block;
+        }
+        &::after {
+          // content: attr(data-currency);
+          content: "USD to Naira Today";
+          position: absolute;
+          display: none;
+          z-index: 1;
+          bottom: -10px;
+          left: 50%;
+          transform: translate(-50%, 100%);
+          text-align: center;
+          background: #0192d3;
+          color: white;
+          padding: 2px 10px;
+          line-height: 1.5;
+          white-space: nowrap;
+          border-radius: 4px;
+          font-size: 14px;
+        }
+        &:hover::after {
+          display: inline-block;
+        }
+        .currency-head {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          .currency-name {
+            font-weight: 700;
+          }
+          .per-sign {
+            color: red;
+          }
+        }
+        .currency-num {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          .currency-type {
+            .symbol {
+              font-size:14px;
+              // font-weight:700;
+            }
+          }
+          .currency-value {
+            color: red;
+            padding-left: 10px;
+            
+          }
+          .currency-value::before {
+            content: " \2B07 ";
+          }
+        }
+      }  
+      .container {
+        max-width: unset !important;
+        padding: unset;
+      }
+      ul {
+        li {
+          a {
+            margin-top: 5px;
+            padding: 1px 5px;
+          }
+        }
+      }
+    }
+    .round-btn {
+      border: 1px solid #3495d3;
+      padding: 9px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #3495d3;
+      font-weight: 700;
+      align-self: center;
+      margin: 0px auto;
+      background-color:#ffffff;
+      a {
+        color: #3495d3;
+        font-weight: 700;
+        padding: 8px;
+      }
+    }
+  }
+}
+
+.jump-liveprices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style-type: none;
+  margin: 5px auto;
+  font-size: 13px;
+  font-family: 'Helvetica 55 Roman', sans-serif;
+  li {
+      display: flex;
+      flex-grow: 0;
+      a {
+          text-decoration: none;
+          color: #000000;
+          cursor: pointer;
+          display: flex;
+          flex: 1;
+          padding: 1px 10px;
+          border-left: 2px solid $blue-color;
+          margin: 0px 0px 5px 0px;
+          position: relative;
+          line-height: 1; 
+          .rate-popup {
+              position: absolute;
+              display: none;
+              bottom: -10px;
+              left: 50%;
+              transform: translate(-50%, 100%);
+              text-align: center;
+              color: white;
+              line-height: 1.5;
+              background: $blue-color;
+              padding: 2px 10px;
+              border-radius: 4px;
+              width: 200px;
+              z-index: 1;
+              &::before {
+                  content: '';
+                  position: absolute;
+                  top: 0;
+                  left: 50%;
+                  transform: translateX(-50%) translateY(calc(-100% + 1px));
+                  border-width: 5px;
+                  border-style: solid;
+                  border-color: transparent transparent $blue-color;
+              }
+          }
+      }
+      &:hover {
+          a {
+              background-color: #f2fcff;
+              .rate-popup {
+                  display: block;
+              }
+          }
+      }
+      .pair {
+          display: flex;
+          margin-right: 5px;
+          flex-direction: column;
+          .pair-name {
+            font-weight: 700;
+            color: #333333;
+          }
+      }
+      .last-price {
+          display: inline-block;
+          color: #333333;
+      }
+      .percent-change {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          .change {
+            display: flex;
+            .fa-arrow-up {
+              &::before {
+                content: "\2B06" !important;
+              }
+            }
+            .fa-arrow-down {
+              &::before {
+                content: "\2B07" !important;
+              }
+            }
+          }
+      }
+      // &:last-of-type {
+      //     a {
+      //         border-right: 1px solid $blue-color;
+      //     }
+      // }
+  }
+}
+
+
+
+// liveprices style ends here
+// *************************
 
 // ***********************************
 
