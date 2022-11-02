@@ -4,7 +4,7 @@
       .product-thumb {
         // Desktop: the product summary is nine columns wide. Use two
         // for the image. 100% / 9 * 2 = 22.222% <= 192px
-        width: calc(22.222%);
+        width: calc(18.222%);
         float: left;
 
         // Mobile: the summary has full twelve columns and the image
