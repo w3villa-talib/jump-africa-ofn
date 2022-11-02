@@ -11,16 +11,6 @@
             %span.nav-primary
               %i{class: ContentConfig["#{menu_name}_icon_name"]}
               = t "#{menu_name}_title"
-    - if OpenFoodNetwork::I18nConfig.selectable_locales.count > 1
-      %li.language-switcher.li-menu
-        %a
-          %i.ofn-i_071-globe
-          = t('language_name')
-        %ul
-          - OpenFoodNetwork::I18nConfig.selectable_locales.each do |l|
-            - if I18n.locale != l
-              %li
-                %a{href: "?locale=#{l.to_s}" }= t('language_name', locale: l)
     %li
     - if spree_current_user.nil?
       = render 'shared/menu/signed_out'
