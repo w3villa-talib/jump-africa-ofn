@@ -8,6 +8,10 @@
 
 %div{"ng-controller" => "HomeCtrl"}
   = render "home/tagline"
+  .trading-section-main
+    .trading-section
+      .trading-bar
+        = render "home/liveprices"
 
   #panes
     = render "home/brandstory"
