@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_08_064004) do
+ActiveRecord::Schema.define(version: 2022_10_25_094822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -468,6 +468,7 @@ ActiveRecord::Schema.define(version: 2022_08_08_064004) do
     t.string "name", limit: 255
     t.integer "numcode"
     t.boolean "states_required", default: true
+    t.boolean "status", default: false
   end
 
   create_table "spree_credit_cards", force: :cascade do |t|
@@ -1059,6 +1060,7 @@ ActiveRecord::Schema.define(version: 2022_08_08_064004) do
     t.string "unconfirmed_email", limit: 255
     t.datetime "disabled_at"
     t.boolean "logout_from_jumpAfrica", default: false
+    t.integer "parent_id"
     t.index ["confirmation_token"], name: "index_spree_users_on_confirmation_token", unique: true
     t.index ["email"], name: "email_idx_unique", unique: true
     t.index ["persistence_token"], name: "index_users_on_persistence_token"

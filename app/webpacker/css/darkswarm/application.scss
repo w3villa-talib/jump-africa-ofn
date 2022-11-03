@@ -2486,13 +2486,13 @@ $green-color: #68c54f;
           .rate-popup {
               position: absolute;
               display: none;
-              bottom: -10px;
+              bottom: -12px;
               left: 50%;
               transform: translate(-50%, 100%);
               text-align: center;
-              color: white;
+              background-color: white;
               line-height: 1.5;
-              background: $blue-color;
+              color : $blue-color;
               padding: 2px 10px;
               border-radius: 4px;
               width: 200px;
