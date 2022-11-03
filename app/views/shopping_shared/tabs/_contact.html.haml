@@ -36,7 +36,7 @@
                   = current_distributor.website
                   %br
               - if current_spree_user.present?
-                - if current_distributor.email_address.present?
+                - if current_distributor.email_address.present? && current_distributor.users.first.parent_id.present?
                   %a{id:"start-new-chat", current_user_id: current_spree_user.parent_id, recept_user_id: current_distributor.users.first.parent_id }
                     %span
                       send message
@@ -175,7 +175,6 @@
 
 
       $("#start-new-chat").on('click', function() {
-        alert('hello');
         var recept_user_id = $("#start-new-chat").attr('recept_user_id');
 
         $.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/profile_info", {id: recept_user_id}, function(data, status){
