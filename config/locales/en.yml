@@ -2122,11 +2122,15 @@ See the %{link} to find out more about %{sitename}'s features and to start using
   groups_signup_motivation3: We know you have big ideas, and we want to help. We'll share our knowledge, networks and resources. We know that isolation doesn't create change, so we'll partner with you.
   groups_signup_motivation4: We meet you where you are.
   groups_signup_motivation5: You might be an alliance of food hubs, producers, or distributors, and an industry body, or a local government.
-  groups_signup_motivation6: Whatever your role in your local food movement, we're ready to help. However you come to wonder what Open Food Network would look like or is doing in your part of the world, let's start the conversation.
+  groups_signup_motivation6: Whatever your role in your local food movement, we're ready to help. However you come to wonder what Jump Africa would look like or is doing in your part of the world, let's start the conversation.
   groups_signup_motivation7: We make food movements make more sense.
   groups_signup_motivation8: You need to activate and enable your networks, we offer a platform for conversation and action. You need real engagement. We’ll help reach all the players, all the stakeholders, all the sectors.
   groups_signup_motivation9: You need resourcing. We’ll bring all our experience to bear. You need cooperation. We’ll better connect you to a global network of peers.
   groups_signup_pricing: Group Account
+  about_account_heading_1: You can now sell your products to Africa and its 1.2 billion people!
+  about_account_heading_2: Africa is a continent of opportunity, with a rapidly growing middle class and an increasing demand for quality products. Jump Africa offers the perfect solution for companies looking to expand into this exciting market. 
+  about_account_heading_3: With our help, you can easily start selling your products in some of the most vibrant and dynamic cities in Africa. We provide everything you need to get started, from listing your products on our online marketplace to shipping them directly to your customers’ doorsteps. 
+  about_account_heading_4: Sign up today and start selling your products in Africa!
   groups_signup_studies: Case Studies
   groups_signup_contact: Ready to discuss?
   groups_signup_contact_text: "Get in touch to discover what Jump Africa can do for you:"
@@ -2200,6 +2204,14 @@ See the %{link} to find out more about %{sitename}'s features and to start using
   shops_signup_detail: Here's the detail.
   shops_signup_enterprise_accounts: (TODO Enterprise Accounts)
   shops_signup_stories_details: (TODO Stories from our hubs)
+  why_should_start_selling_heading: Why you should start selling on Jump Africa?
+  why_should_start_selling_about_1: You will help to create jobs and improve the economy in Africa. 
+  why_should_start_selling_about_2: You will be helping to provide a sustainable source of income for producers in Africa. 
+  why_should_start_selling_about_3: Get a fair price for your products.
+  why_should_start_selling_about_4: Connect with buyers all over the world.
+  why_should_start_selling_about_5: You will be giving hope to people who have faced difficult challenges. 
+  why_should_start_selling_about_6: Your purchase will help build a brighter future for African families.
+
 
   orders: "Orders"
   orders_fees: "Fees..."
