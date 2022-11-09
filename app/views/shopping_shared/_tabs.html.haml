@@ -16,4 +16,5 @@
     .page-view{ ng: {include: "'shop/' + selectedPage() + '.html'" } }
 
 :javascript
-  localStorage.setItem("recept_user_id", "#{current_distributor.users.first.parent_id}"); 
+  localStorage.setItem("recept_user_id", "#{current_distributor.users.first.parent_id}");
+  localStorage.setItem("enterprise_id", "#{current_distributor.id}");

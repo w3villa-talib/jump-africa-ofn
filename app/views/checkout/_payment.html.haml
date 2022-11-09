@@ -24,7 +24,7 @@
                     name: "order.payment_method_id",
                     "ng-model" => "order.payment_method_id"
                   = method.name
-                  = "(#{payment_method_price(method, @order)})"
+                  / = "(#{payment_method_price(method, @order)})"
 
                 %small.error.medium.input-text{"ng-show" => "!fieldValid('order.payment_method_id')"}
                   = "{{ fieldErrors('order.payment_method_id') }}"
@@ -33,5 +33,11 @@
               .small-12.columns
                 = render partial: "spree/checkout/payment/#{method.method_type}", :locals => { :payment_method => method }
         .small-12.medium-12.large-6.columns
-          #distributor_address.panel{"ng-show" => "Checkout.paymentMethod().description"}
-            %span.pre-wrap {{ Checkout.paymentMethod().description }}
+          #distributor_address.panel{ng: {controller: 'CartCtrl', class: "{'shown': showCartSidebar}"}}
+            .row
+              .small-8.columns
+                = t :checkout_select_currency
+              .small-4.columns.text-center
+                %select{"ng-change" => "currency()", "ng-model" => "selected", "ng-options" => "item as ( item.label | uppercase ) for item in items track by item.id"}
+            %td.text-right {{ symbol + ' ' + (Checkout.cartTotal() * rate).toFixed(2) }}
+            %span.pre-wrap {{ Checkout.paymentMethod().description || "amount will be deducted from your wallet."}}

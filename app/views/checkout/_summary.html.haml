@@ -1,4 +1,4 @@
-%orderdetails
+%orderdetails{ng: {controller: 'CartCtrl', class: "{'shown': showCartSidebar}"}}
   = form_for current_order, url: "#", html: {"ng-submit" => "purchase($event, checkout)"} do |f|
     %fieldset
       %legend
@@ -7,7 +7,7 @@
         %tr.subtotal
           %th
             = t :checkout_cart_total
-          %td.cart-total.text-right= display_checkout_subtotal(@order)
+          %td.cart-total.text-right  {{ symbol + ' ' + (("#{(display_checkout_subtotal(@order))}").slice(1) * rate).toFixed(2) }}
 
         - checkout_adjustments_for(current_order, exclude: [:shipping, :payment, :line_item]).reject{ |a| a.amount == 0 }.each do |adjustment|
           %tr.adjustment
@@ -17,18 +17,24 @@
         %tr.shipping
           %th
             = t :checkout_shipping_price
-          %td.text-right {{ Checkout.shippingPrice() | localizeCurrency }}
+          %td.text-right {{ symbol + ' ' + (Checkout.shippingPrice() * rate).toFixed(2) }}
 
         %tr.transaction-fee
           %th
             = t :payment_method_fee
-          %td.text-right {{ Checkout.paymentPrice() | localizeCurrency }}
-
-        %tr.total
-          %th
-            = t :checkout_total_price
-          %td.text-right {{ Checkout.cartTotal() | localizeCurrency }}
+          %td.text-right {{ symbol + ' ' + (Checkout.paymentPrice() * rate).toFixed(2) }}
 
       //= f.submit "Purchase", class: "button", "ofn-focus" => "accordion['payment']"
-      %a.button.secondary{href: main_app.cart_url}
-        = t :checkout_back_to_cart
+
+      .expanding-sidebar.cart-sidebar
+        .row
+          .small-6.columns.text-center
+            %select{"ng-change" => "currency()", "ng-model" => "selected", "ng-options" => "item as ( item.label | uppercase ) for item in items track by item.id"}
+          .small-6.columns.text-center
+            %strong
+              = t :checkout_total_price
+              %td.text-right {{ symbol + ' ' + (Checkout.cartTotal() * rate).toFixed(2) }}
+              
+
+        %a.button.secondary{href: main_app.cart_url}
+          = t :checkout_back_to_cart

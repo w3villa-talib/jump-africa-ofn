@@ -1792,6 +1792,7 @@ en:
   checkout_cart_total: Cart total
   checkout_shipping_price: Shipping
   checkout_total_price: Total
+  checkout_select_currency: Select Checkout Currency 
   checkout_back_to_cart: "Back to Cart"
   cost_currency: "Cost Currency"
 
