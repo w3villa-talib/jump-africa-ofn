@@ -20,7 +20,7 @@
   .right_column
     %a.need-help{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/tickets/new"} Need help? Open a ticket
     .dropdown
-      summary:
+      View Wallet Balance:
       .dropdown-content_summary
         - @account_summary.each do |account|
           - balance = account["balance"].to_i.round(2)
@@ -39,12 +39,12 @@
                   .locked  
                     Frozen: #{account["locked"]}
         .load_more
-          load_more     
+          View All     
         .hide_others
-          hide_others    
+          Hide Others    
 
     .dropdown
-      %img{ src: image_pack_path("menu/icn-profile.svg") }
+      -# %img{ src: image_pack_path("menu/icn-profile.svg") }
       = @user_account["sn"]
       %ul.dropdown-content
         %li
