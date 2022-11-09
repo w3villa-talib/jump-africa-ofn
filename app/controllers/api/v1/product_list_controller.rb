@@ -12,7 +12,7 @@ class Api::V1::ProductListController < ApplicationController
           end
           unit_to_display = supplied_products.variants.first.unit_to_display
           price = supplied_products.variants.first.price.to_f
-          data = supplied_products.attributes.merge(image_url: image, price: price, unit: unit_to_display, enterprise_name: enterprise.name)
+          data = supplied_products.attributes.merge(image_url: image, price: price, unit: unit_to_display, enterprise_info: enterprise)
           info.push(data)
         end
       end

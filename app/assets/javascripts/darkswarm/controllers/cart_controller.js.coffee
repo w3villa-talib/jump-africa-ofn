@@ -39,16 +39,23 @@ angular.module('Darkswarm').controller "CartCtrl", ($scope, Cart, CurrentHub, $h
 
   $scope.currency = () ->
     $scope.total = Cart.total()
-    $http.get("http://147.182.140.137:81/api/v1/currency_conversion?b_cur=usd&&t_cur=#{$scope.selected.label}").then (response) ->
-      console.log(response.data)
-      console.log($scope.selected)
-      localStorage.setItem("currency",$scope.selected.index);
-      localStorage.setItem("rate",response.data.rate);
-      localStorage.setItem("symbol",response.data.symbol);
-      console.log(localStorage.getItem("currency"))
-      $scope.rate = response.data.rate
-      $scope.symbol = response.data.symbol
-      $scope.total = Math.round($scope.total * response.data.rate)
+
+    $http.get("/api/v1/custom/env_info").then (response) ->
+      $scope.env_hostname = response.data.env_hostname
+
+      $http.get("#{$scope.env_hostname}/api/v1/currency_conversion?b_cur=usd&&t_cur=#{$scope.selected.label}").then (response) ->
+        console.log(response.data)
+        console.log($scope.selected)
+        localStorage.setItem("currency",$scope.selected.index);
+        localStorage.setItem("rate",response.data.rate);
+        localStorage.setItem("symbol",response.data.symbol);
+        console.log(localStorage.getItem("currency"))
+        $scope.rate = response.data.rate
+        $scope.symbol = response.data.symbol
+        $scope.total = Math.round($scope.total * response.data.rate)
+
+      .catch (response)=>
+        Messages.flash({error: response.data.error}) 
 
     .catch (response)=>
-      Messages.flash({error: response.data.error})  
+      Messages.flash({error: response.data.error}) 
