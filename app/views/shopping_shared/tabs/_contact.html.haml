@@ -74,10 +74,10 @@
       %div
         - if current_spree_user.present?
           - if current_spree_user.parent_member_image?
-            %a{href: "/social/user_profile/#{current_spree_user.parent_id}"}
+            %a{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/social/user_profile/#{current_spree_user.parent_id}"}
               = image_tag "#{ENV["JUMP_AFRICA_APP_URL"]}/#{current_spree_user.parent_member_image}"
           - else
-            %a{href: "/social/user_profile/#{current_spree_user.parent_id}"}
+            %a{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/social/user_profile/#{current_spree_user.parent_id}"}
               = image_tag "#{ENV["JUMP_AFRICA_APP_URL"]}/assets/#{current_spree_user.parent_default_image}"
         %span#unredMessages
           Unread Messages
