@@ -567,20 +567,6 @@
         $(this).toggleClass('fa-compress');
       });
 
-      $(document).on("click", ".open-chat" , function() {
-        var user_id = $(this).data('id');
-        if (chatBoxes['"'+user_id+'"'] == 'active') {
-          chatBoxes['"'+user_id+'"']= 'minimized';
-        } else if (chatBoxes['"'+user_id+'"'] == 'minimized') {
-          chatBoxes['"'+user_id+'"']= 'active';
-        } else if (chatBoxes['"'+user_id+'"'] == 'minimized_expanded') {
-          chatBoxes['"'+user_id+'"']= 'active_expanded';
-        } else if (chatBoxes['"'+user_id+'"'] == 'active_expanded') {
-          chatBoxes['"'+user_id+'"']= 'minimized_expanded';
-        }
-        localStorage.chatBoxesList = JSON.stringify(chatBoxes);
-        $(this).parent().parent().toggleClass('active');
-      });
       //open chat
       $(document).on("click", ".open-chat" , function() {
         var user_id = $(this).data('id');
