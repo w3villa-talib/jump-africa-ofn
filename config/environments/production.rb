@@ -22,6 +22,9 @@ Openfoodnetwork::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+  # for active storage service
+  config.active_storage.service = :digitalocean
+
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH
 

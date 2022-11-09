@@ -6,10 +6,190 @@
     %p{"ng-if" => "::enterprise.whatsapp_phone"}
       %img{ src: image_path("/map_icons/social-logos/whatsapp.svg") }
       %a{"ng-href" => "{{::enterprise.whatsapp_url}}", target: "_blank", "ng-bind" => "::enterprise.whatsapp_phone"}
-
+    
     %p{"ng-if" => "::enterprise.email_address"}
-      %a{"ng-href" => "{{::enterprise.email_address | stripUrl}}", target: "_blank", mailto: true}
-        %span.obfuscatedEmail.email{"ng-bind" => "::enterprise.email_address | stripUrl"}
+      %a{id:"start-new-chat", enterprise_id: "{{::enterprise.id}}"}
+        %span
+          send message
 
     %p{"ng-if" => "enterprise.website"}
       %a{"ng-href" => "http://{{::enterprise.website | stripUrl}}", target: "_blank", "ng-bind" => "::enterprise.website | stripUrl"}
+
+
+
+%link{:rel => :stylesheet, :type => :"text/css", :href => "https://jump.africa/assets/emoji_css/emoji.css"}
+%link{:rel => :stylesheet, :type => :"text/css", :href => "/assets/darkswarm/application.css"}
+
+%script{:src => "/assets/emoji_js/config.js", :type => "text/javascript"}
+%script{:src => "/assets/emoji_js/util.js", :type => "text/javascript"}
+%script{:src => "/assets/emoji_js/jquery.emojiarea.js", :type => "text/javascript"}
+%script{:src => "/assets/emoji_js/emoji-picker.js", :type => "text/javascript"}
+
+:javascript
+
+  function getData(enterprise_id){
+    return new Promise((resolve, reject) => {
+
+      $.post("http://localhost:3001/api/v1/custom/enterprise_info", {enterprise_id: enterprise_id}, function(data, status){
+        if (status == "success") {
+          resolve(data);
+        }
+      });
+    });
+  }
+
+  $(document).ready(async function(){
+    var current_user_id = localStorage.getItem("jumpAfrica_user_id");
+    var enterprise_id = localStorage.getItem("enterprise_id");
+
+    if (current_user_id !== null && enterprise_id !== null){
+      var enterprise_info  = await getData(enterprise_id)
+      var recept_user_id = enterprise_info?.user_info?.user?.parent_id
+      $("#start-new-chat").on('click', function() {
+        if (recept_user_id !== null ) {
+          var chatBoxes = {};
+          var message_id = 0;
+          var user_data;
+          var unread_msg_count;
+
+          $.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/profile_info", {id: recept_user_id}, function(data, status){
+            if (status == "success") {
+
+              var user_name = data?.data.slug;
+              var user_verified = data?.verified_user;
+              var user_img = data?.image_url;
+              var user_slug = data?.data.slug;
+              var user_id = data?.data.id;
+              var user_sn = data?.data.sn;
+              var user_online = true;
+              var current_user_is_verified = true;
+              var chatBoxes = {}; 
+              if($('#chat_'+user_id).length > 0) {
+                 // $('#chat_'+user_id).length > 0
+              } else {
+                var new_box = jQuery('<div/>', {"class": 'chat-box active', "id": 'chat_'+user_id}).appendTo('.bottom-chat');
+                chatBoxes['"'+user_id+'"'] = 'active';
+                localStorage.chatBoxesList = JSON.stringify(chatBoxes);
+              
+                $.ajax({
+                  url: "#{ENV["JUMP_AFRICA_APP_URL"]}/social/chat_services/get_msg",
+                  type: "POST",
+                  data: { id: recept_user_id, current_user_id: current_user_id},
+                  success: function(resp){
+                    if(resp.success){
+                      if (user_online) {
+                        var append_to_box = '<div class="chat-head online">';
+                      } else {
+                        var append_to_box = '<div class="chat-head">';
+                      }
+                      append_to_box += '<div class="img"><span class="is_online_dot"><span class="pop_online"></span></span><img src="#{ENV["JUMP_AFRICA_APP_URL"]}/assets/'+user_img+'" /></div>';
+                      append_to_box += '<a href="#{ENV["JUMP_AFRICA_APP_URL"]}/social/user_profile/'+user_slug+'">'+user_name.toUpperCase()+'</a>';
+                      if(user_verified) {
+                        append_to_box += '<span class="verified"><i class="fa fa-check"></i><span class="pop_up">Fully Verified</span></span>';
+                      }
+                      append_to_box += '<i class="expand-chat fa fa-expand" data-id="'+user_id+'"></i>';
+                      append_to_box += '<span class="open-chat" data-id="'+user_id+'">&nearr;</span>';
+                      append_to_box += '<span class="close-chat" data-id="'+user_id+'">&times;</span>';
+                      append_to_box += '</div>';
+                      append_to_box += '<div class="chat-body">';
+                      append_to_box += '<div class="chatbody-top" id="message_body_div'+user_id+'" ondrop="dropFile(event)" ondragover="dragFile(event)" ondragleave="dragLeave(event)" ondragenter="dragFile(event)" data-id="'+user_id+'">';
+                      append_to_box += '<div class="drop-box"><div class="drop-area"><i class="fa fa-upload"></i><h3>Drop to Upload</h3></div></div>';
+                      $.each(resp.msgs, function(index, value) {
+                        if (value.sender_id ==  current_user_id ) {
+                          if (value.sender_deleted == false){
+                             append_to_box += '<p class="message sent">';
+                             append_to_box += '<span class="message_inner">';
+                             if(value.id in resp.message_attachments) {
+                                $.each(resp.message_attachments[value.id], function(key, val) {
+                                  let is_image = ['image/jpeg', 'image/jpg', 'image/png', 'image/bmp'];
+                                  if (is_image.includes(val.file_type)) {
+                                    append_to_box += '<a href="/uploads/asset/message_attachments/files/'+value.id+'/'+val.file_name+'" download><img src="/uploads/asset/message_attachments/files/'+value.id+'/'+val.file_name+'" /></a>';
+                                  } else {
+                                    append_to_box += '<a href="/uploads/asset/message_attachments/files/'+value.id+'/'+val.file_name+'" download><span class="message-attachment"><span>'+val.file_name+'</span><i class="fa fa-download"></i></span></a>';
+                                  }
+                                });
+                             }
+                             if (value.body) {
+                               append_to_box += '<span>'+value.body+'</span>';
+                             }
+                             append_to_box += '</span>';
+                             if (!value.read_at) { 
+                               append_to_box += '<i class="fa fa-check"></i>';
+                             } else {
+                               append_to_box += '<i class="fa fa-check"></i><i class="fa fa-check"></i>';
+                             }
+                             append_to_box += '</p>';
+                          }
+                        } else {
+                          if (value.sender_deleted == true){
+                            append_to_box += '<p class="message received is-yellow">';
+                          }else {
+                            append_to_box += '<p class="message received">';
+                          }
+                          append_to_box += '<span class="message_inner">';
+                          if(value.id in resp.message_attachments) {
+                            $.each(resp.message_attachments[value.id], function(key, val) {
+                              let is_image = ['image/jpeg', 'image/jpg', 'image/png', 'image/bmp'];
+                              if (is_image.includes(val.file_type)) {
+                                append_to_box += '<a href="/uploads/asset/message_attachments/files/'+value.id+'/'+val.file_name+'" download><img src="/uploads/asset/message_attachments/files/'+value.id+'/'+val.file_name+'" /></a>';
+                              } else {
+                                append_to_box += '<a href="/uploads/asset/message_attachments/files/'+value.id+'/'+val.file_name+'" download><span class="message-attachment"><span>'+val.file_name+'</span><i class="fa fa-download"></i></span></a>';
+                              }
+                            });
+                          }
+                          if (value.body) {
+                            append_to_box += '<span>'+value.body+'</span>';
+                          }
+                          append_to_box += '</span>';
+                          append_to_box += '</p>';
+                        }
+                      });
+
+                      append_to_box += '</div>';
+                      append_to_box += '<div id="attachment_'+user_id+'" data-id="'+user_id+'" class="user_attachment_ui"></div>';
+                      append_to_box += '<div class="chatbody-bottom">';
+                      append_to_box += '<input type="hidden" id="file_base_'+ user_id +'">';
+                      append_to_box += '<input type="hidden" id="file_type_'+ user_id +'">';
+                      append_to_box += '<input type="hidden" id="file_name_'+ user_id +'">';
+                      append_to_box += '<div class="attach"><input type="text" data-emojiable="true" data-emoji-input="unicode" name="message" placeholder="Type a message..." class="message_body" data-recipient="'+user_id+'" /></div>';
+                      // append_to_box += '<i class="fa fa-plus-circle chat_box_quick_links"></i>';
+                      append_to_box += '<button class="send_message">Send</button>';
+                      append_to_box += '</div>';
+                      append_to_box += '<div class="chatbox_links">';
+                      append_to_box += '<input id="upload-file_'+user_id+'" name="file" type="file" data-id="'+user_id+'" />';
+                      append_to_box += '<label for="upload-file_'+user_id+'"><img src="/assets/icons/attach.png" /></label>';
+                      // if (current_user_is_verified) {
+                      //    append_to_box += '<a target="_blank" href="/money/send?usn='+user_sn+'"><img src="/assets/icons/wallet.png" /></a>';
+                      //    append_to_box += '<a target="_blank" href="/money/req?usn='+user_sn+'"><img src="/assets/icons/check.png" /></a>';
+                      // }
+                      append_to_box += '<a target="_blank" href="/social/user_profile/'+user_slug+'#services"><img src="/assets/icons/technical-support.png" /></a>';
+                      append_to_box += '</div>';
+                      append_to_box += '</div>';
+                      new_box.append(append_to_box);
+                      $(function() {
+                        window.emojiPicker = new EmojiPicker({
+                          emojiable_selector: '[data-emojiable=true]',
+                          assetsPath: '/emoji_img/',
+                          popupButtonClasses: 'fa fa-smile-o'
+                        });
+                        window.emojiPicker.discover();
+                      });
+                      var message_body_div = document.getElementById('message_body_div'+user_id);
+                      message_body_div.scrollTop = message_body_div.scrollHeight;
+                    }
+                  },
+                  dataType: "json",
+                  error: function(){
+                  }
+                });
+              }
+            }
+          });
+        }else{
+          alert("Shop owner have to relogin then you can send message to shop owner..");
+        }
+      });
+    }else{
+      alert("You need to login then you can send message to shop owner..");
+    }
+  });
