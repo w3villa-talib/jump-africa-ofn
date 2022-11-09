@@ -7,7 +7,7 @@
     padding: $topbar-height 0 0;
     background-color: $white;
     z-index: 160;
-    margin-top: 25px;
+    margin-top: 55px;
     @include breakpoint(desktop) {
       padding: $mobile-nav-height 0 0;
     }

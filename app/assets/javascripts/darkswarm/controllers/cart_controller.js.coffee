@@ -39,7 +39,7 @@ angular.module('Darkswarm').controller "CartCtrl", ($scope, Cart, CurrentHub, $h
 
   $scope.currency = () ->
     $scope.total = Cart.total()
-    $http.get("http://localhost:3000/api/v1/currency_conversion?b_cur=usd&&t_cur=#{$scope.selected.label}").then (response) ->
+    $http.get("http://147.182.140.137:81/api/v1/currency_conversion?b_cur=usd&&t_cur=#{$scope.selected.label}").then (response) ->
       console.log(response.data)
       console.log($scope.selected)
       localStorage.setItem("currency",$scope.selected.index);
