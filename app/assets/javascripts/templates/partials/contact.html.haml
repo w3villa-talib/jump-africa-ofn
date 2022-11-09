@@ -30,7 +30,7 @@
   function getData(enterprise_id){
     return new Promise((resolve, reject) => {
 
-      $.post("http://localhost:3001/api/v1/custom/enterprise_info", {enterprise_id: enterprise_id}, function(data, status){
+      $.post("/api/v1/custom/enterprise_info", {enterprise_id: enterprise_id}, function(data, status){
         if (status == "success") {
           resolve(data);
         }
