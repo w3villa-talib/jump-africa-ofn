@@ -38,6 +38,7 @@ Openfoodnetwork::Application.routes.draw do
     namespace :v1 do
       get '/session/logout', to: 'session#logout'
       post '/custom/enterprise_info', to: 'custom#enterprise_info'
+      get '/custom/env_info', to: 'custom#env_info'
       get '/products_list/product_info', to: 'product_list#product_info'
     end
   end
