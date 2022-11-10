@@ -85,6 +85,7 @@ module Spree
       @user ||= spree_current_user
       if @user
         request = Faraday.get "#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/profile",{userId: params[:user_id]},{token: params[:secret_key]}
+        puts request.status
         if request.status == 200
           response = JSON.parse(request.body)
           @user.update(parent_is_verifiy: response['data']['user_verfication'], parent_default_image: response['data']['default_image'], parent_member_image: response['data']['member_image_url'])
@@ -125,5 +126,6 @@ module Spree
     def user_params
       ::PermittedAttributes::User.new(params).call
     end
+
   end
 end
