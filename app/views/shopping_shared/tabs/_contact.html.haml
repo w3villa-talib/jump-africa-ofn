@@ -23,15 +23,15 @@
             .header
               = t :shopping_contact_web
             %p
-              - if current_distributor.phone.present?
+              - if current_distributor.phone.present? && current_spree_user.present?
                 = current_distributor.phone
                 %br
-              - if current_distributor.whatsapp_phone.present?
+              - if current_distributor.whatsapp_phone.present? && current_spree_user.present?
                 %a{href: current_distributor.whatsapp_url, target: "_blank" }
                   %img{ src: image_pack_path("social-logos/whatsapp.svg") }
                   = current_distributor.whatsapp_phone
                   %br
-              - if current_distributor.website.present?
+              - if current_distributor.website.present? && current_spree_user.present?
                 %a{href: "http://#{current_distributor.website}", target: "_blank" }
                   = current_distributor.website
                   %br
@@ -40,6 +40,8 @@
                   %a{id:"start-new-chat", current_user_id: current_spree_user.parent_id, recept_user_id: current_distributor.users.first.parent_id }
                     %span
                       send message
+              - else
+                %span You must be logged in to contact seller
 
 
       .small-12.large-4.columns

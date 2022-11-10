@@ -262,5 +262,10 @@
         
     });
    
+    $(window).on('load', function() {
+      $('input[name="notification-checkbox"]').bootstrapSwitch('labelText', 'Notify');
+      $('input[name="sound-checkbox"]').bootstrapSwitch('labelText', 'Sound');
+    });
+
   });
 
