@@ -10,9 +10,10 @@ class Api::V1::ProductListController < ApplicationController
               image = supplied_products.images.first.url(:small)
             end
           end
-          unit_to_display = supplied_products.variants.first.unit_to_display
-          price = supplied_products.variants.first.price.to_f
-          data = supplied_products.attributes.merge(image_url: image, price: price, unit: unit_to_display, enterprise_info: enterprise)
+          country = enterprise&.address&.country&.name
+          unit_to_display = supplied_products&.variants&.first.unit_to_display
+          price = supplied_products&.variants&.first&.price.to_f
+          data = supplied_products.attributes.merge(image_url: image, price: price, unit: unit_to_display, enterprise_info: enterprise.attributes.merge(country: country))
           info.push(data)
         end
       end
