@@ -37,9 +37,10 @@ class CheckoutController < ::BaseController
     source_attributes = params[:order][:payments_attributes].first[:source_attributes]
     if source_attributes
       @rate = source_attributes[:rate]
-      @order.update!(payment_by: "wallet", payment_currency: source_attributes[:symbol], wallet_balance: source_attributes[:balance], currency_id: source_attributes[:currency_id])
+      @symbol = source_attributes[:symbol]
+      @balance = source_attributes[:balance]
+      @currency_id = source_attributes[:currency_id]
     end
-    # return action_failed unless check_balance(@order) # to check_balance valid balance in wallet
 
     params[:order][:payments_attributes].first.delete("source_attributes") if source_attributes
     params_adapter = Checkout::FormDataAdapter.new(permitted_params, @order, spree_current_user)
@@ -58,14 +59,6 @@ class CheckoutController < ::BaseController
   end
 
   private
-
-  def check_balance(order)
-    rate = localStorage.getItem("rate")
-    if ($scope.balance < (order.total * rate))
-      return false
-    end
-    return true
-  end
 
   def check_authorization
     authorize!(:edit, current_order, session[:access_token])
@@ -116,10 +109,9 @@ class CheckoutController < ::BaseController
     while @order.state != "complete"
       if @order.state == "payment"
         update_payment_total
-        return if redirect_to_payment_gateway
 
         return action_failed if @order.errors.any?
-        unless @order.payment_by == "wallet"
+        unless @order&.payments&.first.payment_method.type == "Spree::Gateway::BogusSimple"
           return action_failed unless @order.process_payments! #this is hide for pay by wallet only.
         end
       end
@@ -153,9 +145,13 @@ class CheckoutController < ::BaseController
 
   def update_response
     if order_complete?
-      if @order.payment_by == "wallet"
-        check_debit = debit_wallet_balance(@order) #check_debit value false then we will retrun error
-        return action_failed(RuntimeError.new("Order not complete due to failed debit balance from wallet...")) unless check_debit
+      if @order&.payments&.first.payment_method.type == "Spree::Gateway::BogusSimple"
+        @order&.payments&.first.update!(payment_currency: @symbol, wallet_balance: @balance, currency_id: @currency_id, rate: @rate)  # update the order related info in payment table
+        check_debit = debit_wallet_balance #check_debit value false then we will retrun error
+        unless check_debit
+          flash[:error] = I18n.t("checkout.balance_low")
+          return action_failed(RuntimeError.new("Order not complete due to failed debit balance from wallet"))
+        end
       end
       processing_succeeded
       update_succeeded_response
@@ -207,16 +203,16 @@ class CheckoutController < ::BaseController
     flash.discard(:error)
   end
 
-  def debit_wallet_balance(order)
+  def debit_wallet_balance
     total_balance = (@rate.to_f * @order.total.to_f)
-    request = Faraday.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/order/wallet_debit?currency_id=#{@order.currency_id}&account_id=#{spree_current_user.parent_id}&order_amount=#{total_balance}")
+    request = Faraday.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/order/wallet_debit?currency_id=#{@order&.payments&.first.currency_id}&account_id=#{spree_current_user.parent_id}&order_amount=#{total_balance}")
     
     if request.status == 200
       is_success = JSON.parse(request.body)["success"]
       return false unless is_success #if wallet balance is not debit due to low amount then return false...
-      order_state = order.payment_state      
+      order_state = @order.payment_state
       if order_state == "balance_due"
-        result = order.payments&.first.update!(state: "completed")
+        result = @order.payments&.first.update!(state: "completed")
         return true
       end
     else
