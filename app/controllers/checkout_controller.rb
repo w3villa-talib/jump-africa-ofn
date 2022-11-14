@@ -7,6 +7,7 @@ class CheckoutController < ::BaseController
   include OrderCompletion
 
   layout 'darkswarm'
+  require 'faraday'
 
   helper 'terms_and_conditions'
   helper 'checkout'
@@ -32,7 +33,17 @@ class CheckoutController < ::BaseController
   def edit; end
 
   def update
+    # when user select pay be wallet method then param source_attributes have some data 
+    source_attributes = params[:order][:payments_attributes].first[:source_attributes]
+    if source_attributes
+      @rate = source_attributes[:rate]
+      @order.update!(payment_by: "wallet", payment_currency: source_attributes[:symbol], wallet_balance: source_attributes[:balance], currency_id: source_attributes[:currency_id])
+    end
+    # return action_failed unless check_balance(@order) # to check_balance valid balance in wallet
+
+    params[:order][:payments_attributes].first.delete("source_attributes") if source_attributes
     params_adapter = Checkout::FormDataAdapter.new(permitted_params, @order, spree_current_user)
+
     return action_failed unless @order.update!(params_adapter.params[:order] || {})
 
     checkout_workflow(params_adapter.shipping_method_id)
@@ -47,6 +58,14 @@ class CheckoutController < ::BaseController
   end
 
   private
+
+  def check_balance(order)
+    rate = localStorage.getItem("rate")
+    if ($scope.balance < (order.total * rate))
+      return false
+    end
+    return true
+  end
 
   def check_authorization
     authorize!(:edit, current_order, session[:access_token])
@@ -100,7 +119,9 @@ class CheckoutController < ::BaseController
         return if redirect_to_payment_gateway
 
         return action_failed if @order.errors.any?
-        return action_failed unless @order.process_payments!
+        unless @order.payment_by == "wallet"
+          return action_failed unless @order.process_payments! #this is hide for pay by wallet only.
+        end
       end
 
       next if OrderWorkflow.new(@order).next({ "shipping_method_id" => shipping_method_id })
@@ -132,6 +153,10 @@ class CheckoutController < ::BaseController
 
   def update_response
     if order_complete?
+      if @order.payment_by == "wallet"
+        check_debit = debit_wallet_balance(@order) #check_debit value false then we will retrun error
+        return action_failed(RuntimeError.new("Order not complete due to failed debit balance from wallet...")) unless check_debit
+      end
       processing_succeeded
       update_succeeded_response
     else
@@ -180,5 +205,22 @@ class CheckoutController < ::BaseController
     # This ensures flash errors generated during XHR requests are not persisted in the
     # session for longer than expected.
     flash.discard(:error)
+  end
+
+  def debit_wallet_balance(order)
+    total_balance = (@rate.to_f * @order.total.to_f)
+    request = Faraday.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/order/wallet_debit?currency_id=#{@order.currency_id}&account_id=#{spree_current_user.parent_id}&order_amount=#{total_balance}")
+    
+    if request.status == 200
+      is_success = JSON.parse(request.body)["success"]
+      return false unless is_success #if wallet balance is not debit due to low amount then return false...
+      order_state = order.payment_state      
+      if order_state == "balance_due"
+        result = order.payments&.first.update!(state: "completed")
+        return true
+      end
+    else
+      return false
+    end
   end
 end

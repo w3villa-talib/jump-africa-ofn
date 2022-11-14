@@ -1493,6 +1493,7 @@ en:
     failed: "The checkout failed. Please let us know so that we can process your order."
     payment_cancelled_due_to_stock: "Payment cancelled: the checkout could not be completed due to stock issues."
     order_not_loaded: "No valid order found for checkout processing"
+    insufficient_balance: "Insufficient wallet balance"
   shops:
     hubs:
       show_closed_shops: "Show closed shops"

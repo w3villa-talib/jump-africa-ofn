@@ -19,7 +19,7 @@
           %br/
 
     %td.text-right.cart-item-price{"data-hook" => "cart_item_price"}
-      = line_item.single_display_amount_with_adjustments.to_html
+      {{ symbol + ' ' + (("#{(line_item.single_display_amount_with_adjustments)}").slice(1) * rate).toFixed(2) }}
       %br
       %span.unit-price
         = line_item.unit_price_price_and_unit
@@ -31,7 +31,8 @@
         "ng-model" => "line_item_#{line_item.id}",
         "validate-stock-quantity" => true
     %td.cart-item-total.text-right{"data-hook" => "cart_item_total"}
-      = line_item.display_amount_with_adjustments.to_html unless line_item.quantity.nil?
+      - if !line_item.quantity.nil?
+        {{ symbol + ' ' + (("#{(line_item.display_amount_with_adjustments)}").slice(1) * rate).toFixed(2) }} 
 
     %td.cart-item-delete.text-center{"data-hook" => "cart_item_delete"}
       %a.delete{href: "#", id: "delete_#{dom_id(line_item)}"}

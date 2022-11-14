@@ -165,7 +165,7 @@
       var current_user_info = user_details?.current_user_info
       var user_chats_details = user_details?.info
       
-      console.log(user_chats_details, "user_chats_details");
+      // console.log(user_chats_details, "user_chats_details");
       if (current_user_id != null) {
         var new_list = jQuery('<ul/>').appendTo('.message-sidebar');
         $.each(user_chats_details, function(key,val) {             
@@ -489,9 +489,9 @@
     // close button codes here
     $(document).on("click", ".close-chat" , function() {
       var user_id = $(this).data('id');
-      console.log(user_id, "user_id")
+      // console.log(user_id, "user_id");
       delete chatBoxes['"'+user_id+'"'];
-      console.log(chatBoxes, "this is chatbox")
+      // console.log(chatBoxes, "this is chatbox");
       localStorage.chatBoxesList = JSON.stringify(chatBoxes);
       $(this).parent().parent().remove();
     });
@@ -593,8 +593,8 @@
       //delete user chat
       $('.delete_user_chat').on('click', function() {
         var delete_user = $(this).data('delete');
-        console.log(delete_user);
-        console.log(current_user_id);
+        // console.log(delete_user);
+        // console.log(current_user_id);
         $.ajax({
           url: "#{ENV["JUMP_AFRICA_APP_URL"]}/social/chat_services/remove_chat",
           type: "post",
