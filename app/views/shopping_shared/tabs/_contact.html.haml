@@ -489,9 +489,7 @@
     // close button codes here
     $(document).on("click", ".close-chat" , function() {
       var user_id = $(this).data('id');
-      // console.log(user_id, "user_id");
       delete chatBoxes['"'+user_id+'"'];
-      // console.log(chatBoxes, "this is chatbox");
       localStorage.chatBoxesList = JSON.stringify(chatBoxes);
       $(this).parent().parent().remove();
     });
