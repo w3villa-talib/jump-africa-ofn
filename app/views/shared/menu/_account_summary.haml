@@ -87,6 +87,7 @@
 
   #account_summary  a, a:hover, a:focus, a:active {
       text-decoration: none;
+      color: unset;
   }
 
   .navbar-brand{
@@ -227,7 +228,7 @@
     display: block;
   }
 
-  / .dropdown-content a:hover {background-color: #ddd;}
+  // .dropdown-content a:hover {background-color: #ddd;}
 
   .dropdown:hover .dropdown-content {display: block;}
   .dropdown:hover .dropdown-content_summary {display: block;}
@@ -238,6 +239,10 @@
   }
 
 :javascript
+
+  console.log("#{@account_summary[0]["balance"].to_i.round(2)}");
+  localStorage.setItem("balance_first", "#{@account_summary[0]["balance"].to_i.round(2)}");
+
   $(document).ready(function () {
     size_li = $(".block").size();
     x=2;
