@@ -19,10 +19,9 @@
           %br/
 
     %td.text-right.cart-item-price{"data-hook" => "cart_item_price"}
-      {{ symbol + ' ' + (("#{(line_item.single_display_amount_with_adjustments)}").slice(1) * rate).toFixed(2) }}
-      %br
-      %span.unit-price
-        = line_item.unit_price_price_and_unit
+      - cart_item_price = ("#{(line_item.single_display_amount_with_adjustments)}").slice(1)
+      {{ symbol + ' ' + ("#{cart_item_price}" * rate).toLocaleString() }}
+
     %td.text-center.cart-item-quantity{"data-hook" => "cart_item_quantity"}
       - finalized_quantity = @order.completed? ? line_item.quantity : 0
       = item_form.number_field :quantity,
@@ -32,7 +31,8 @@
         "validate-stock-quantity" => true
     %td.cart-item-total.text-right{"data-hook" => "cart_item_total"}
       - if !line_item.quantity.nil?
-        {{ symbol + ' ' + (("#{(line_item.display_amount_with_adjustments)}").slice(1) * rate).toFixed(2) }} 
+        - cart_item_total_value = "#{(ActiveSupport::NumberHelper.number_to_currency(line_item.display_amount_with_adjustments, precision: 3))[2..-1].to_f}"
+        {{ symbol + ' ' + ("#{cart_item_total_value.to_f}" * rate).toLocaleString() }}
 
     %td.cart-item-delete.text-center{"data-hook" => "cart_item_delete"}
       %a.delete{href: "#", id: "delete_#{dom_id(line_item)}"}

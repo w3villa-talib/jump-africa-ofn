@@ -2517,6 +2517,7 @@ See the %{link} to find out more about %{sitename}'s features and to start using
   permalink: "Permalink"
   shipping_categories: "Shipping Categories"
   units: "Unit Size"
+  select_currency: "Select Currency"
   coordinator: "Coordinator"
   distributor: "Distributor"
   enterprise_fees: "Enterprise Fees"

@@ -29,7 +29,7 @@
 
                   - elsif "#{method.type}" == "Spree::Gateway::BogusSimple" 
                     = method.name
-                    {{ '(' + 'balance: ' + symbol + ' ' + balance + ')'}}
+                    {{ '(' + 'balance: ' + symbol + ' ' + balance.toLocaleString() + ')'}}
 
 
             .row{"ng-if" => "order.payment_method_id == #{method.id}"}
@@ -43,7 +43,7 @@
                 = t :checkout_select_currency
               .small-4.columns.text-center
                 %select{"ng-change" => "currency()", "ng-model" => "selected", "ng-options" => "item as ( item.label | uppercase ) for item in items track by item.id"}
-            %td.text-right {{ symbol + ' ' + (Checkout.cartTotal() * rate).toFixed(2) }}
+            %td.text-right {{ symbol + ' ' + (Checkout.cartTotal() * rate).toLocaleString() }}
             %span.pre-wrap {{ Checkout.paymentMethod().description || "amount will be debit from your wallet."}}
 
 :javascript

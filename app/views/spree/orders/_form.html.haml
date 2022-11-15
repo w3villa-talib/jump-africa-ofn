@@ -28,7 +28,8 @@
           %td.text-right{colspan:"3"}
             = t :orders_form_subtotal
           %td.text-right
-            %span.order-total.item-total {{ symbol + ' ' + (("#{(display_checkout_subtotal(@order))}").slice(1) * rate).toFixed(2) }}
+            - order_subtotal = ("#{(display_checkout_subtotal(@order))}").slice(1)
+            %span.order-total.item-total {{ symbol + ' ' + ("#{order_subtotal}" * rate).toLocaleString() }}
           %td
         -if display_line_item_fees_total_for(@order) != Spree::Money.new(0 , currency: @order.currency)
           %tr
@@ -51,7 +52,7 @@
             %h5
               = t :orders_form_total
           %td.text-right
-            %h5.order-total.grand-total {{ symbol + ' ' + (("#{(@order.display_total)}").slice(1) * rate).toFixed(2) }}
+            %h5.order-total.grand-total {{ symbol + ' ' + (("#{(@order.display_total)}").slice(1) * rate).toLocaleString() }}
             
           %td
 

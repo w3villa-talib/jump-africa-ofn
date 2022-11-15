@@ -33,7 +33,7 @@
           .small-6.columns.text-center
             %strong
               = t :checkout_total_price
-              %td.text-right {{ symbol + ' ' + (Checkout.cartTotal() * rate).toFixed(2) }}
+              %td.text-right {{ symbol + ' ' + (Checkout.cartTotal() * rate).toLocaleString() }}
               
 
         %a.button.secondary{href: main_app.cart_url}
