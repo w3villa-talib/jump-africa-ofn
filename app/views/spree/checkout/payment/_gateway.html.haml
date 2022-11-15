@@ -1,27 +1,30 @@
 .row
-  .small-6.columns
+  .small-10.columns
     %label
-      = t :first_name
+      / = t :first_name
       -# Changing name not permitted by default (in checkout) - can be enabled by setting an allow_name_change variable in $scope
-    %input{type: :text, "ng-disabled" => "!allow_name_change", "ng-value" => "order.bill_address.firstname"}
+    %div{class: "text_red d_none"}
+      = t :insufficient_balance
 
-  .small-6.columns
-    %label
-      = t :last_name
-    %input{type: :text, "ng-disabled" => "!allow_name_change", "ng-value" => "order.bill_address.lastname"}
+  / .small-6.columns
+  /   %label
+  /     / = t :last_name
+  /   %input{type: :hidden, "ng-disabled" => "!allow_name_change", "ng-value" => "order.bill_address.lastname"}
 
-  .small-6.columns
-    = validated_input t(:card_number), "secrets.card_number", maxlength: 19, autocomplete: "off"
-  .small-6.columns
-    = validated_input t(:card_securitycode), "secrets.card_verification_value"
+  / .small-6.columns
+  /   %input.medium.input-text.ng-pristine.ng-empty.ng-invalid.ng-invalid-required.ng-valid-maxlength.ng-touched{:autocomplete => "off", :id => "secrets.card_number", :maxlength => "19", :name => "secrets.card_number", "ng-class" => "{error: !fieldValid('secrets.card_number')}", "ng-model" => "secrets.card_number", :style => "", type: :hidden, :input_html => { :value => "wallet" } }
 
-.row
-  .small-12.columns
-    %label{for: "secrets.card_month"}
-      = t :card_expiry_date
+  / .small-6.columns
+  /   = validated_input t(:card_securitycode), "secrets.card_verification_value"
 
-.row
-  .small-6.columns
-    %select{"ng-model" => "secrets.card_month", "ng-options" => "currMonth.value as currMonth.key for currMonth in months", name: "secrets.card_month"}
-  .small-6.columns
-    %select{"ng-model" => "secrets.card_year", "ng-options" => "year for year in years", name: "secrets.card_year"}
+/ .row
+/   .small-12.columns
+/     %label{for: "secrets.card_month"}
+/       = t :card_expiry_date
+
+/ .row
+/   .small-6.columns
+/     %select{"ng-model" => "secrets.card_month", "ng-options" => "currMonth.value as currMonth.key for currMonth in months", name: "secrets.card_month"}
+/   .small-6.columns
+/     %select{"ng-model" => "secrets.card_year", "ng-options" => "year for year in years", name: "secrets.card_year"}
+

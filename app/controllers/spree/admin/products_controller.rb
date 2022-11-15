@@ -29,6 +29,7 @@ module Spree
 
           @object.attributes = permitted_resource_params
           if @object.save
+            rev_conversion_api(@object)
             flash[:success] = flash_message_for(@object, :successfully_created)
             redirect_after_save
           else
@@ -244,6 +245,16 @@ module Spree
 
       def set_product_master_variant_price_to_zero
         @product.price = 0 if @product.price.nil?
+      end
+
+      def rev_conversion_api(object)
+        label = object.selected_currency
+        request = Faraday.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/rev_currency_conversion?b_cur=usd&&t_cur=#{label}&currency_id=&user_id=")
+        if request.status == 200
+          data = JSON.parse(request.body)
+          final_price = (object.price.to_f * data['rate'])
+          object.prices.first.update!(amount: final_price)
+        end
       end
     end
   end
