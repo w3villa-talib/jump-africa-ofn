@@ -23,7 +23,8 @@
       View Wallet Balance:
       .dropdown-content_summary
         - @account_summary.each do |account|
-          - balance = account["balance"].to_i.round(2)
+          - balance = account["balance"].to_i.round(3)
+          - frozen = account["locked"].to_i.round(3)
           .block
             .account_summary_item
               .right_column
@@ -37,7 +38,7 @@
                   .balance
                     Amount: #{balance}
                   .locked  
-                    Frozen: #{account["locked"]}
+                    Frozen: #{frozen}
         .load_more
           View All     
         .hide_others
