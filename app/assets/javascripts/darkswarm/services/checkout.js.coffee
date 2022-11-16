@@ -70,24 +70,18 @@ angular.module('Darkswarm').factory 'Checkout', ($injector, CurrentOrder, Shippi
       if @paymentMethod()?.method_type == 'gateway'
         angular.extend munged_order.payments_attributes[0], {
           source_attributes:
-            # number: @secrets.card_number
-            # month: @secrets.card_month
-            # year: @secrets.card_year
-            # verification_value: @secrets.card_verification_value
-            # first_name: @order.bill_address.firstname
-            # last_name: @order.bill_address.lastname
-            transaction_type: "wallet",
-            balance: localStorage.getItem("balance")
-            symbol: localStorage.getItem("symbol")
-            currency_id: localStorage.getItem("currency_id")
-            rate: localStorage.getItem("rate")
+            number: @secrets.card_number
+            month: @secrets.card_month
+            year: @secrets.card_year
+            verification_value: @secrets.card_verification_value
+            first_name: @order.bill_address.firstname
+            last_name: @order.bill_address.lastname
         }
 
       if @paymentMethod()?.method_type == 'stripe' || @paymentMethod()?.method_type == 'stripe_sca'
         if @secrets.selected_card
           angular.extend munged_order, {
             existing_card_id: @secrets.selected_card
-            transaction_type: "stripe"
           }
         else
           angular.extend munged_order.payments_attributes[0], {
@@ -100,7 +94,6 @@ angular.module('Darkswarm').factory 'Checkout', ($injector, CurrentOrder, Shippi
               first_name: @order.bill_address.firstname
               last_name: @order.bill_address.lastname
               save_requested_by_customer: @secrets.save_requested_by_customer
-              transaction_type: "bogus"
           }
 
       if @terms_and_conditions_accepted()
@@ -124,9 +117,7 @@ angular.module('Darkswarm').factory 'Checkout', ($injector, CurrentOrder, Shippi
       PaymentMethods.payment_methods_by_id[@order.payment_method_id]
 
     cartTotal: ->
-      localStorage.setItem("cart_total_amount", @order.display_total + @shippingPrice() + @paymentPrice());
       @order.display_total + @shippingPrice() + @paymentPrice()
-
 
     terms_and_conditions_accepted: ->
       terms_and_conditions_checkbox = angular.element("#accept_terms")[0]
