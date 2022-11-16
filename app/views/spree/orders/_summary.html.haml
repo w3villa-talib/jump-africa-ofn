@@ -1,8 +1,8 @@
-%table#line-items{"data-hook" => "order_details"}
+%table#line-items{"data-hook" => "order_details", ng: {controller: 'CartCtrl', class: "{'shown': showCartSidebar}" }}
   %col{valign: "middle"}/
-  %col{halign: "center", valign: "middle", width: "5%"}/
-  %col{halign: "center", valign: "middle", width: "5%"}/
-  %col{halign: "center", valign: "middle", width: "5%"}/
+  %col{halign: "center", valign: "middle", width: "10%"}/
+  %col{halign: "center", valign: "middle", width: "4%"}/
+  %col{halign: "center", valign: "middle", width: "10%"}/
   %thead{"data-hook" => ""}
     %tr{"data-hook" => "order_details_line_items_headers"}
       %th= t(:item)
@@ -21,10 +21,10 @@
           = render 'spree/shared/line_item_name', line_item: item
 
         %td.text-right.price{"data-hook" => "order_item_price"}
-          %span= item.single_display_amount_with_adjustments.to_html
+          %span {{ symbol + ' ' + (("#{(item.single_display_amount_with_adjustments)}").slice(1) * rate).toFixed(2) }}
         %td.text-center{"data-hook" => "order_item_qty"}= item.quantity
         %td.text-right.total{"data-hook" => "order_item_total"}
-          %span= item.display_amount_with_adjustments.to_html
+          %span {{ symbol + ' ' + (("#{(item.display_amount_with_adjustments)}").slice(1) * rate).toFixed(2) }}
 
   %tfoot
     #subtotal{"data-hook" => "order_details_subtotal"}
@@ -33,7 +33,7 @@
           %strong
             = t :order_produce
         %td.text-right.total
-          %span= display_checkout_subtotal(order)
+          %span {{ symbol + ' ' + (("#{(display_checkout_subtotal(order))}").slice(1) * rate).toFixed(2) }}
 
     #order-charges{"data-hook" => "order_details_adjustments"}
       - checkout_adjustments_for(order, exclude: [:line_item]).reject{ |a| a.amount == 0 }.reverse_each do |adjustment|
@@ -42,7 +42,7 @@
             %strong
               = adjustment.label
           %td.text-right.total
-            %span= adjustment.display_amount.to_html
+            %span {{ symbol + ' ' + (("#{(adjustment.display_amount)}").slice(1) * rate).toFixed(2) }}
 
     #order-total{"data-hook" => "order_details_total"}
       %tr.total
@@ -50,7 +50,7 @@
           %h5
             = t :order_total_price
         %td.text-right.total
-          %h5#order_total= order.display_total.to_html
+          %h5#order_total {{ symbol + ' ' + (("#{(order.display_total)}").slice(1) * rate).toFixed(2) }}
 
     - if order.total_tax > 0
       #tax{"data-hook" => "order_details_tax"}
