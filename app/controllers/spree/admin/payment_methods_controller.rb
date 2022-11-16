@@ -125,7 +125,7 @@ module Spree
         providers = Gateway.providers.sort_by(&:name)
 
         unless Rails.env.development? || Rails.env.test?
-          providers.reject! { |provider| provider.name.include? "Bogus" }
+          #providers.reject! { |provider| provider.name.include? "Bogus" }
         end
 
         unless show_stripe?
