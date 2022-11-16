@@ -9,11 +9,11 @@
           %i.ofn-i_051-check-big
       = t :checkout_payment
 
-    %accordion-group{"id" => "check-balance", "is-open" => "accordion.payment",
+    %accordion-group{"is-open" => "accordion.payment",
       "ng-class" => "{valid: payment.$valid, open: accordion.payment}"}
       = render 'checkout/accordion_heading'
 
-      .row{ng: {controller: 'CartCtrl', class: "{'shown': showCartSidebar}"}}
+      .row
         .small-12.medium-12.large-6.columns
           - available_payment_methods.each do |method|
             .row
@@ -23,48 +23,21 @@
                     required: true,
                     name: "order.payment_method_id",
                     "ng-model" => "order.payment_method_id"
+                  = method.name
+                  / = "(#{payment_method_price(method, @order)})"
 
-                  - if "#{method.type}" == "Spree::PaymentMethod::Check"
-                    = method.name
-
-                  - elsif "#{method.type}" == "Spree::Gateway::BogusSimple" 
-                    = method.name
-                    {{ '(' + 'balance: ' + symbol + ' ' + balance.toLocaleString() + ')'}}
-
+                %small.error.medium.input-text{"ng-show" => "!fieldValid('order.payment_method_id')"}
+                  = "{{ fieldErrors('order.payment_method_id') }}"
 
             .row{"ng-if" => "order.payment_method_id == #{method.id}"}
               .small-12.columns
                 = render partial: "spree/checkout/payment/#{method.method_type}", :locals => { :payment_method => method }
-
         .small-12.medium-12.large-6.columns
-          #distributor_address.panel
+          #distributor_address.panel{ng: {controller: 'CartCtrl', class: "{'shown': showCartSidebar}"}}
             .row
               .small-8.columns
                 = t :checkout_select_currency
               .small-4.columns.text-center
                 %select{"ng-change" => "currency()", "ng-model" => "selected", "ng-options" => "item as ( item.label | uppercase ) for item in items track by item.id"}
-            %td.text-right {{ symbol + ' ' + (Checkout.cartTotal() * rate).toLocaleString() }}
-            %span.pre-wrap {{ Checkout.paymentMethod().description || "amount will be debit from your wallet."}}
-
-:javascript
-
-  $(document).ready(function(){
-
-    function check_balance_on_load() {
-      var balance = localStorage.getItem("balance");
-      var cart_total = localStorage.getItem("cart_total_amount");
-      var rate = localStorage.getItem("rate");
-
-      if (balance < (cart_total * rate)){
-        $('#checkout_form .button').prop('disabled', true);
-        $('#checkout_form .text_red').addClass("d_block");
-        $('#checkout_form .text_red').removeClass("d_none");
-      }else{
-        $('#checkout_form .button').prop('disabled', false);
-        $('#checkout_form .text_red').removeClass("d_block");
-        $('#checkout_form .text_red').addClass("d_none");
-      }
-    }
-
-    check_balance_on_load();
-  });
+            %td.text-right {{ symbol + ' ' + (Checkout.cartTotal() * rate).toFixed(2) }}
+            %span.pre-wrap {{ Checkout.paymentMethod().description || "amount will be deducted from your wallet."}}

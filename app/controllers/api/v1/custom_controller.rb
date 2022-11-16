@@ -11,11 +11,10 @@ class Api::V1::CustomController < ApplicationController
 
   def env_info
     env_site_url = "#{ENV["JUMP_AFRICA_APP_URL"]}"
-    current_user_id = current_spree_user&.parent_id if current_spree_user&.parent_id.present?
     if env_site_url
-      render json: {msg: "success", env_hostname: env_site_url, user_id: current_user_id, success: true }, status: 200
+      render json: {msg: "success", env_hostname: env_site_url, success: true }, status: 200
     else
-      render json: { msg: "success", env_hostname: "https://jump.africa", user_id: current_user_id, success: true }, status: 200
+      render json: { msg: "success", env_hostname: "https://jump.africa", success: true }, status: 200
     end
   end
 end

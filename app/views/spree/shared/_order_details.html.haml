@@ -1,4 +1,4 @@
-.row{ng: {controller: 'CartCtrl', class: "{'shown': showCartSidebar}"}}
+.row
   .columns.large-6
     .order-summary.text-small
       .right
@@ -9,14 +9,11 @@
       %span
         = t :order_total
         %strong
-          {{ symbol + ' ' + (("#{(order.display_total)}").slice(1) * rate).toFixed(2) }}
+          = order.display_total.to_html
     .pad
       .text-big
         = t :order_payment
-        - if last_payment_method(order)&.type == "Spree::Gateway::BogusSimple"
-          %strong Wallet in {{ symbol +' ' + selected.label | uppercase  }} currency
-        - else
-          %strong=  last_payment_method(order)&.name
+        %strong=  last_payment_method(order)&.name
       %p.text-small.text-skinny.pre-line.word-wrap
         %em= last_payment_method(order)&.description
 

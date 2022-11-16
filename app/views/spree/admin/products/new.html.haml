@@ -21,19 +21,12 @@
             = f.text_field :name, :class => 'fullwidth title'
             = f.error_message_on :name
       .sixteen.columns.alpha
-        .four.columns.alpha
-          = f.field_container :selected_currency do
-            = f.label :selected_currency, t(".select_currency")
-            %select{"ng-change" => "currency()", "ng-model" => "selected", "ng-options" => "item as ( item.label | uppercase ) for item in items track by item.id", "data-controller": "tom-select", class: "primary"}
-            %option{'value' => '', 'ng-hide' => "hasUnit(product)"}
-            %input{ type: 'hidden', 'ng-value': 'selected.label', name: 'product[selected_currency]' }
-
-        .four.columns
+        .eight.columns.alpha
           = f.field_container :units do
             = f.label :variant_unit_with_scale, t(".units")
             %span.required *
             %select{id: 'product_variant_unit_with_scale', 'ng-model' => 'product.variant_unit_with_scale', 'ng-options' => 'unit[1] as unit[0] for unit in variant_unit_options',"data-controller": "tom-select", class: "primary"}
-            %option{'value' => '', 'ng-hide' => "hasUnit(product)"}
+              %option{'value' => '', 'ng-hide' => "hasUnit(product)"}
             %input{ type: 'hidden', 'ng-value': 'product.variant_unit', "ng-init": "product.variant_unit='#{@product.variant_unit}'", name: 'product[variant_unit]' }
             %input{ type: 'hidden', 'ng-value': 'product.variant_unit_scale', "ng-init": "product.variant_unit_scale='#{@product.variant_unit_scale}'", name: 'product[variant_unit_scale]' }
         .two.columns

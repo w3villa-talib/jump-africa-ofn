@@ -1491,10 +1491,8 @@ en:
       message_html: "I agree to the seller's %{terms_and_conditions_link} and the platform %{tos_link}."
       terms_and_conditions: "Terms and Conditions"
     failed: "The checkout failed. Please let us know so that we can process your order."
-    balance_low: "The checkout failed. Due to low wallet balance."
     payment_cancelled_due_to_stock: "Payment cancelled: the checkout could not be completed due to stock issues."
     order_not_loaded: "No valid order found for checkout processing"
-    insufficient_balance: "Insufficient wallet balance"
   shops:
     hubs:
       show_closed_shops: "Show closed shops"
@@ -2529,7 +2527,6 @@ See the %{link} to find out more about %{sitename}'s features and to start using
   permalink: "Permalink"
   shipping_categories: "Shipping Categories"
   units: "Unit Size"
-  select_currency: "Select Currency"
   coordinator: "Coordinator"
   distributor: "Distributor"
   enterprise_fees: "Enterprise Fees"

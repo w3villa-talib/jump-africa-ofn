@@ -1,12 +1,11 @@
 angular.module("admin.products").factory "UnitPrices", (VariantUnitManager, localizeCurrencyFilter, PriceParser) ->
   class UnitPrices
-    @displayableUnitPrice: (price, scale, unit_type, unit_value, variant_unit_name, symbol, rate) ->
+    @displayableUnitPrice: (price, scale, unit_type, unit_value, variant_unit_name) ->
       price = PriceParser.parse(price)
       if price && !isNaN(price) && unit_type && unit_value
         value = localizeCurrencyFilter(UnitPrices.price(price, scale, unit_type, unit_value, variant_unit_name))
-        value_2 = UnitPrices.price(price, scale, unit_type, unit_value, variant_unit_name)
         unit = UnitPrices.unit(scale, unit_type, variant_unit_name)
-        return (symbol + ' ' + (value_2 * rate).toLocaleString() + " / " + unit)
+        return value + " / " + unit
       return null
 
     @price: (price, scale, unit_type, unit_value) ->
