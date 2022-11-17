@@ -10,19 +10,19 @@
             %p.social-icons
               - if ContentConfig.footer_facebook_url.present?
                 %a.soc-btn.fb{href: ContentConfig.footer_facebook_url}
-                  Facebook
+                  %i.fa.fa-facebook-square{"aria-hidden" => "true"}
               - if ContentConfig.footer_twitter_url.present?
                 %a.soc-btn.tw{href: ContentConfig.footer_twitter_url}
-                  Twitter
+                  %i.fa.fa-twitter-square{"aria-hidden" => "true"}
               - if ContentConfig.footer_linkedin_url.present?
                 %a.soc-btn.li{href: ContentConfig.footer_linkedin_url}
-                  LinkedIn
+                  %i.fa.fa-linkedin-square{"aria-hidden" => "true"}
               -if ContentConfig.footer_instagram_url.present?
                 %a.soc-btn.ig{href: ContentConfig.footer_instagram_url}
-                  Instagram
+                  %i.fa.fa-instagram{"aria-hidden" => "true"}
       %table.column{:align => "left"}
         %tr
-          %td
+          %td.email-link
             - if ContentConfig.footer_email.present?
               %h5
                 = t :email_contact

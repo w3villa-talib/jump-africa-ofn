@@ -69,8 +69,8 @@ class ContentConfiguration < Spree::Preferences::Configuration
   preference :footer_linkedin_url, :string, default: "https://www.linkedin.com/company/jump-africa/"
   preference :footer_googleplus_url, :string, default: ""
   preference :footer_pinterest_url, :string, default: ""
-  preference :footer_email, :string, default: "hello@openfoodnetwork.org"
-  preference :community_forum_url, :string, default: "http://community.openfoodnetwork.org"
+  preference :footer_email, :string, default: "mailto:support@jump.africa"
+  preference :community_forum_url, :string, default: "https://jump.africa"
   preference :footer_links_md, :text, default: <<-EOS.strip_heredoc
     [Newsletter sign-up](/)
 
