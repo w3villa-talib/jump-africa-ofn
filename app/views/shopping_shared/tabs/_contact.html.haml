@@ -106,9 +106,13 @@
 %script{:src => "/assets/emoji_js/util.js", :type => "text/javascript"}
 %script{:src => "/assets/emoji_js/jquery.emojiarea.js", :type => "text/javascript"}
 %script{:src => "/assets/emoji_js/emoji-picker.js", :type => "text/javascript"}
+%script{:src =>  "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.2/js/bootstrap-switch.min.js", "integrity": "sha512-xPq8xH86kwbZiyeOPiSj44lc1p61CGUHv8YKr+i1dOgGenqIpsSFWpqJeLZyKzbJU9HKuppsq6eXvAISM00T3Q==", "crossorigin": "anonymous", "referrerpolicy": "no-referrer" }
 
 :javascript
-
+  $(window).on('load', function() {
+    $('input[name="notification-checkbox"]').bootstrapSwitch('labelText', 'Notify');
+    $('input[name="sound-checkbox"]').bootstrapSwitch('labelText', 'Sound');
+  });
   $(window).on('load', function() {
     if (localStorage.chatBoxesList) {
       var storedBoxesList = JSON.parse(localStorage.chatBoxesList);
@@ -153,6 +157,37 @@
 
 
   $(document).ready(async function(){
+
+    size_li = $(".block").size();
+    x=2;
+    var flag = true;
+    $('.block:lt('+x+')').show();
+    $('.load_more').click(function () {
+      if (flag) {
+        $('.block:lt('+size_li+')').show();
+        $('.block:lt('+x+')').show();
+        flag = false;
+        $('.hide_others').show();
+        $('.load_more').hide();
+      } else {
+        $('.block:lt('+size_li+')').hide();
+        $('.block:lt('+x+')').show();
+        flag = true;
+      }
+    });
+    $('.hide_others').click(function () {
+      if (flag) {
+        $('.block:lt('+size_li+')').show();
+        $('.block:lt('+x+')').show();
+        flag = false;
+      } else {
+        $('.block:lt('+size_li+')').hide();
+        $('.block:lt('+x+')').show();
+          $('.load_more').show();
+          $('.hide_others').hide();
+        flag = true;
+      } 
+    });
     
       var chatBoxes = {};
       var message_id = 0;
@@ -608,8 +643,8 @@
             alert('something went wrong');
           }
         });
-      });
-
-    
+      }); 
   });
+
+  
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
