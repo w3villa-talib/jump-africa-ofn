@@ -17,9 +17,18 @@ class HomeController < BaseController
   end
 
   def users_count
-    response = Faraday.get ("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/portal_info")
-    response = JSON.parse(response.body)
-    @all_users_count = response["data"]
+    begin
+      request = Faraday.get ("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/portal_info")
+      if request.status == 200
+        response = JSON.parse(request.body)
+        @all_users_count = response["data"]
+      else
+        @all_users_count = 0
+      end
+    rescue Faraday::ConnectionFailed => e
+      puts e.to_s
+      @all_users_count = 0
+    end
   end  
 
   def sell; end

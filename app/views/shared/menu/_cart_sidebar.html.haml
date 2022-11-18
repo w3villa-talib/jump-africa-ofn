@@ -31,7 +31,7 @@
                 key: "'js.shopfront.unit_price_tooltip'",
                 context: "'cart-sidebar'"}
               .options-text
-                {{ symbol + (line_item.variant.unit_price_price * rate).toFixed(2) }}&nbsp;/&nbsp;{{ line_item.variant.unit_price_unit }}
+                {{ symbol + (line_item.variant.unit_price_price * rate).toLocaleString() }}&nbsp;/&nbsp;{{ line_item.variant.unit_price_unit }}
 
       .cart-empty{"ng-show" => "Cart.line_items.length == 0"}
         %p
@@ -47,7 +47,7 @@
         %p.cart-total
           %strong
             = t 'total'
-            {{ symbol + (Cart.total() * rate).toFixed(2) }}
+            {{ symbol + ' ' + (Cart.total() * rate).toLocaleString() }}
        
 
     %div.fullwidth
