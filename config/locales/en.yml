@@ -1504,7 +1504,7 @@ en:
     mailers:
       powered_by:
         open_food_network: "Open Food Network"
-        powered_html: "Your shopping experience is powered by the %{open_food_network}."
+        powered_html: "Your shopping experience is powered by the Jump.africa"
     menu:
       cart:
         cart: "Cart"

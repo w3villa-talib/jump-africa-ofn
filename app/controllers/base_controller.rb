@@ -49,12 +49,25 @@ class BaseController < ApplicationController
 
   def set_account_summary
     if spree_current_user
-     response = Faraday.get "#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/account",{userId: session[:jumpAfrica_user_id]},{token: session[:jwt_token]}
-     response = JSON.parse(response.body)
-     @account_summary = response['account_summary']
-     @user_account = response["user"]
-     @current_market = response['current_market']
-    end 
+      begin
+        request = Faraday.get "#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/account",{userId: session[:jumpAfrica_user_id]},{token: session[:jwt_token]}
+        if request.status == 200
+          response = JSON.parse(request.body)
+          @account_summary = response['account_summary']
+          @user_account = response["user"]
+          @current_market = response['current_market']
+        else
+          @account_summary = nil
+          @user_account = nil
+          @current_market = nil
+        end
+      rescue Faraday::ConnectionFailed => e
+        puts e.to_s
+        @account_summary = nil
+        @user_account = nil
+        @current_market = nil
+      end
+    end
   end  
 
   # Default to the only order cycle if there's only one
