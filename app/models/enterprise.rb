@@ -108,6 +108,8 @@ class Enterprise < ApplicationRecord
   after_touch :touch_distributors
   after_create :set_default_contact
   after_create :relate_to_owners_enterprises
+  after_create :set_default_payments_method
+  after_create :create_default_order_cycle
   after_create_commit :send_welcome_email
 
   after_rollback :restore_permalink
@@ -541,5 +543,20 @@ class Enterprise < ApplicationRecord
     Enterprise.distributing_products(supplied_products.select(:id)).
       where('enterprises.id != ?', id).
       update_all(updated_at: Time.zone.now)
+  end
+
+############# this will set default payment metod like- cod gatway and pay by wallet  ###############
+  def set_default_payments_method
+    default_params = Spree::PaymentMethod.where(type: ["Spree::Gateway::BogusSimple", "Spree::PaymentMethod::Check"], active: true)
+    default_params.each do |_payment|
+      self.payment_methods << _payment
+    end
+  end
+
+########### this code is used to create default order cycles for enterprise with time 4 years #################
+  def create_default_order_cycle
+    orders_open = DateTime.now
+    orders_closed = (DateTime.now + 4.years)
+    OrderCycle.create!(name: "Default #{self.name} Cycle", orders_open_at: "#{orders_open}", orders_close_at: "#{orders_closed}", coordinator: self)
   end
 end
