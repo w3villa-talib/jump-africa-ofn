@@ -557,6 +557,7 @@ class Enterprise < ApplicationRecord
   def create_default_order_cycle
     orders_open = DateTime.now
     orders_closed = (DateTime.now + 4.years)
-    OrderCycle.create!(name: "Default #{self.name} Cycle", orders_open_at: "#{orders_open}", orders_close_at: "#{orders_closed}", coordinator: self)
+    ordercycle_info = OrderCycle.create!(name: "Default #{self.name} Cycle", orders_open_at: "#{orders_open}", orders_close_at: "#{orders_closed}", coordinator: self)
+    ordercycle_info.exchanges.create([{sender_id: "#{self.id}", receiver_id: "#{self.id}", pickup_time: "#{orders_open}", incoming: true }, { sender_id: "#{self.id}", receiver_id: "#{self.id}", pickup_time: "#{orders_open}", incoming: false }])
   end
 end
