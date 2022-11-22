@@ -34,7 +34,7 @@ module Spree
             redirect_after_save
           else
             # Re-fill the form with deleted params on product
-            @on_hand = request.params[:product][:on_hand]
+            @on_hand = request.params[:product][:on_hand] || 
             @on_demand = request.params[:product][:on_demand]
             render :new
           end
@@ -218,7 +218,7 @@ module Spree
         variant = product_variant(product)
 
         begin
-          variant.on_demand = on_demand if on_demand.present?
+          variant.on_demand = true if on_demand.present?
           variant.on_hand = on_hand.to_i if on_hand.present?
         rescue StandardError => e
           notify_bugsnag(e, product, variant)

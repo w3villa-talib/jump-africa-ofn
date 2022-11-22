@@ -108,7 +108,7 @@ class Enterprise < ApplicationRecord
   after_touch :touch_distributors
   after_create :set_default_contact
   after_create :relate_to_owners_enterprises
-  after_create :set_default_payments_method
+  after_create :set_default_payments_method_and_shipmethod
   after_create :create_default_order_cycle
   after_create_commit :send_welcome_email
 
@@ -545,19 +545,69 @@ class Enterprise < ApplicationRecord
       update_all(updated_at: Time.zone.now)
   end
 
-############# this will set default payment metod like- cod gatway and pay by wallet  ###############
-  def set_default_payments_method
-    default_params = Spree::PaymentMethod.where(type: ["Spree::Gateway::BogusSimple", "Spree::PaymentMethod::Check"], active: true)
-    default_params.each do |_payment|
+############# this will set default payment and shipping metod like- cod gatway and pay by wallet  ###############
+  def set_default_payments_method_and_shipmethod
+    default_params_payment = Spree::PaymentMethod.where(type: ["Spree::Gateway::BogusSimple", "Spree::PaymentMethod::Check"], active: true)
+    default_params_payment.each do |_payment|
       self.payment_methods << _payment
     end
+
+    create_shipping_methods(self)
   end
 
 ########### this code is used to create default order cycles for enterprise with time 4 years #################
   def create_default_order_cycle
-    orders_open = DateTime.now
-    orders_closed = (DateTime.now + 4.years)
+    orders_open = 1.day.ago
+    orders_closed = 4.years.from_now
     ordercycle_info = OrderCycle.create!(name: "Default #{self.name} Cycle", orders_open_at: "#{orders_open}", orders_close_at: "#{orders_closed}", coordinator: self)
     ordercycle_info.exchanges.create([{sender_id: "#{self.id}", receiver_id: "#{self.id}", pickup_time: "#{orders_open}", incoming: true }, { sender_id: "#{self.id}", receiver_id: "#{self.id}", pickup_time: "#{orders_open}", incoming: false }])
+  end
+
+  def create_shipping_methods(enterprise)
+    return if enterprise.shipping_methods.present?
+
+    create_pickup(enterprise)
+    create_delivery(enterprise)
+  end
+
+  def create_pickup(enterprise)
+    create_shipping_method(
+      enterprise,
+      name: "Pickup #{enterprise.name}",
+      description: "pick-up at your awesome hub gathering place",
+      require_ship_address: false,
+      calculator_type: "Calculator::Weight"
+    )
+  end
+
+  def create_delivery(enterprise)
+    delivery = create_shipping_method(
+      enterprise,
+      name: "Home delivery #{enterprise.name}",
+      description: "yummy food delivered at your door",
+      require_ship_address: true,
+      calculator_type: "Calculator::FlatRate"
+    )
+    delivery.calculator.preferred_amount = 2
+    delivery.calculator.save!
+  end
+
+  def create_shipping_method(enterprise, params)
+    params[:distributor_ids] = [enterprise.id]
+    method = enterprise.shipping_methods.new(params)
+    method.zones << zone
+    method.shipping_categories << Spree::ShippingCategory.find_or_create_by(name: 'Default')
+    method.save!
+    method
+  end
+
+  def zone
+    zone = Spree::Zone.find_or_create_by!(name: ENV.fetch('CHECKOUT_ZONE'))
+    zone.members.create!(zoneable: country) unless zone.zoneables.include?(country)
+    zone
+  end
+
+  def country
+    Spree::Country.find_by(iso: ENV.fetch('DEFAULT_COUNTRY_CODE'))
   end
 end

@@ -32,13 +32,13 @@
               = validated_input t(:city), "order.bill_address.city"
 
             .small-6.columns
-              = validated_select t(:state), "order.bill_address.state_id", {}, {"ng-options" => "s.id as s.name for s in countriesById[order.bill_address.country_id].states"}
+              = validated_input t(:postcode), "order.bill_address.zipcode"
           .row
             .small-6.columns
-              = validated_input t(:postcode), "order.bill_address.zipcode"
+              = validated_select t(:country), "order.bill_address.country_id", {}, {"ng-init" => "order.bill_address.country_id = order.bill_address.country_id || #{DefaultCountry.id}", "ng-options" => "c.id as c.name for c in countries"}
 
             .small-6.columns.right
-              = validated_select t(:country), "order.bill_address.country_id", {}, {"ng-init" => "order.bill_address.country_id = order.bill_address.country_id || #{DefaultCountry.id}", "ng-options" => "c.id as c.name for c in countries"}
+              = validated_select t(:state), "order.bill_address.state_id", {}, {"ng-options" => "s.id as s.name for s in countriesById[order.bill_address.country_id].states"}
 
       .row
         .small-12.columns.text-right
