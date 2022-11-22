@@ -90,13 +90,13 @@
   %div{ "ng-controller" => "countryCtrl" }
     .row
       .three.columns.alpha
-        = af.label :state_id, t(:state)
-        \/
         = af.label :country_id, t(:country)
-      .four.columns
-        %input.ofn-select2.fullwidth#enterprise_address_attributes_state_id{ name: 'enterprise[address_attributes][state_id]', type: 'number', data: 'countriesById[Enterprise.address.country_id].states', placeholder: t('admin.choose'), ng: { model: 'Enterprise.address.state_id' } }
+        \/
+        = af.label :state_id, t(:state)
       .five.columns.omega
         %input.ofn-select2.fullwidth#enterprise_address_attributes_country_id{ name: 'enterprise[address_attributes][country_id]', type: 'number', data: 'countries', placeholder: t('admin.choose'), ng: { model: 'Enterprise.address.country_id' } }
+      .four.columns
+        %input.ofn-select2.fullwidth#enterprise_address_attributes_state_id{ name: 'enterprise[address_attributes][state_id]', type: 'number', data: 'countriesById[Enterprise.address.country_id].states', placeholder: t('admin.choose'), ng: { model: 'Enterprise.address.state_id' } }
   .row
     .three.columns.alpha
       = af.label :latitude, t(:latitude)

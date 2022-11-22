@@ -30,7 +30,7 @@ module Spree
           else
             store_location
 
-            redirect_to main_app.root_path(anchor: "/login", after_login: request.original_fullpath)
+            redirect_to main_app.root_path
           end
         end
 

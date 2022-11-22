@@ -128,11 +128,11 @@ module Spree
     after_initialize :set_available_on_to_now, if: :new_record?
 
     before_validation :sanitize_permalink
+    after_create :add_product_to_cycle
     before_save :add_primary_taxon_to_taxons
     after_save :remove_previous_primary_taxon_from_taxons
     after_save :ensure_standard_variant
     after_save :update_units
-    after_save :add_product_to_cycle
 
     before_destroy :punch_permalink
 
