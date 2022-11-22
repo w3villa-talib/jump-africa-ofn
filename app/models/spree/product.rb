@@ -490,6 +490,9 @@ module Spree
           is_available = _info.exchange_variants.find_by(variant_id: _variant.id).present?
           unless is_available
             _info.exchange_variants.new(variant_id: _variant.id).save
+            current_user.enterprises.each do |_enterprise|
+              _enterprise.supplied_products << self
+            end
           end
         end
       end
