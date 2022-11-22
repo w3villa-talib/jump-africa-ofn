@@ -15,7 +15,7 @@
 
     - if admin_user? or enterprise_user?
       %li
-        %a{href: spree.admin_dashboard_path, target:'_blank'}
+        %a{:onclick => "admin_dashboard()", id: "check_activate", current_user_id: current_spree_user.parent_id, :target => "_blank"}
           %i.ofn-i_021-tools
           = t 'label_administration'
 
@@ -29,3 +29,25 @@
       %a{title: t('label_logout'), href:'/logout' }
         %i.ofn-i_018-unlocked
         = t 'label_logout'
+
+:javascript
+  function admin_dashboard() {
+    $("#check_activate").on('click', function() {
+      var current_user_id = $("#check_activate").attr('current_user_id');
+      if (current_user_id !== null) {
+        $.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/two_factors_check", {userId: current_user_id}, function(data, status){
+          if (status == "success") {
+            if (data["is_activated"] == true ){
+              window.location.href = "#{ENV["JUMP_AFRICA_APP_URL"]}/two_factors"
+            }else{
+              window.location.href = "#{ENV["JUMP_AFRICA_APP_URL"]}/navigate"
+            }
+          }else{
+            window.location.href = "#{ENV["SITE_URL"]}"
+          }
+        });
+      }else{
+        window.location.href = "#{ENV["JUMP_AFRICA_APP_URL"]}/navigate"
+      }
+    });
+  };

@@ -4,6 +4,8 @@
 module Spree
   module Admin
     class OverviewController < Spree::Admin::BaseController
+      before_action :check_referer, only: [:index]
+
       def index
         @enterprises = Enterprise
           .managed_by(spree_current_user)
@@ -14,7 +16,12 @@ module Spree
         if first_access
           redirect_to enterprises_path
         else
-          render dashboard_view
+          if @can_access
+            render dashboard_view
+          else
+            flash[:error] = "Unauthorised activity"
+            redirect_to main_app.root_path
+          end
         end
       end
 
@@ -75,6 +82,19 @@ module Spree
       # @return [ActiveRecord::Relation<Enterprise>]
       def managed_enterprises
         spree_current_user.enterprises
+      end
+
+      def check_referer
+        if cookies[:is_logon].present? && cookies[:is_logon] == true
+          @can_access = true
+        else
+          if request.referer == "#{ENV["JUMP_AFRICA_APP_URL"]}/"
+            @can_access = true
+            cookies[:admin_logon] = { value: true, expires: 1.hours }
+          else
+            @can_access = false
+          end
+        end
       end
     end
   end
