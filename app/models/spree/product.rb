@@ -133,7 +133,7 @@ module Spree
     after_save :remove_previous_primary_taxon_from_taxons
     after_save :ensure_standard_variant
     after_save :update_units
-    after_save :add_product_to_last_cycle
+    after_create :add_product_to_cycle
 
     before_destroy :punch_permalink
 
@@ -481,7 +481,7 @@ module Spree
       self.permalink = create_unique_permalink(requested.parameterize)
     end
 
-    def add_product_to_last_cycle
+    def add_product_to_cycle
       last_order_cycle_info = OrderCycle.where(coordinator_id: self.supplier.id).last
       current_user = self.supplier.owner
       exchanges_info =  last_order_cycle_info.exchanges
