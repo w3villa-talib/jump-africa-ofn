@@ -90,7 +90,7 @@ module Spree
         else
           if request.referer == "#{ENV["JUMP_AFRICA_APP_URL"]}/"
             @can_access = true
-            cookies[:admin_logon] = { value: true, expires: 1.hours }
+            cookies[:is_logon] = { value: true, expires: 1.hours }
           else
             @can_access = false
           end
