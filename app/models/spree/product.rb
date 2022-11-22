@@ -2,7 +2,6 @@
 
 require 'open_food_network/property_merge'
 require 'concerns/product_stock'
-include OrderCyclesHelper
 # PRODUCTS
 # Products represent an entity for sale in a store.
 # Products can have variations, called variants
@@ -133,7 +132,7 @@ module Spree
     after_save :remove_previous_primary_taxon_from_taxons
     after_save :ensure_standard_variant
     after_save :update_units
-    after_create :add_product_to_cycle
+    after_save :add_product_to_cycle
 
     before_destroy :punch_permalink
 
@@ -484,8 +483,8 @@ module Spree
     def add_product_to_cycle
       last_order_cycle_info = OrderCycle.where(coordinator_id: self.supplier.id).last
       current_user = self.supplier.owner
-      exchanges_info =  last_order_cycle_info.exchanges
-      
+      exchanges_info =  last_order_cycle_info.exchanges.where(incoming: true)
+
       exchanges_info.each do |_info|
         self.variants.each do |_variant|
           is_available = _info.exchange_variants.find_by(variant_id: _variant.id).present?
