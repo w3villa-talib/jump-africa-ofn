@@ -85,7 +85,7 @@ module Spree
       end
 
       def check_referer
-        if cookies[:is_logon].present? && cookies[:is_logon] == true
+        if cookies[:is_logon].present? && cookies[:is_logon] == "true"
           @can_access = true
         else
           if request.referer == "#{ENV["JUMP_AFRICA_APP_URL"]}/"
