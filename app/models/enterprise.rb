@@ -48,19 +48,19 @@ class Enterprise < ApplicationRecord
   has_many :supplied_products, class_name: 'Spree::Product',
                                foreign_key: 'supplier_id',
                                dependent: :destroy
-  has_many :distributed_orders, class_name: 'Spree::Order', foreign_key: 'distributor_id'
+  has_many :distributed_orders, class_name: 'Spree::Order', foreign_key: 'distributor_id', dependent: :destroy
   belongs_to :address, class_name: 'Spree::Address'
   belongs_to :business_address, class_name: 'Spree::Address', dependent: :destroy
-  has_many :enterprise_fees
+  has_many :enterprise_fees, dependent: :destroy
   has_many :enterprise_roles, dependent: :destroy
-  has_many :users, through: :enterprise_roles
+  has_many :users, through: :enterprise_roles, dependent: :destroy
   belongs_to :owner, class_name: 'Spree::User',
                      inverse_of: :owned_enterprises
   has_and_belongs_to_many :payment_methods, join_table: 'distributors_payment_methods',
                                             class_name: 'Spree::PaymentMethod',
-                                            foreign_key: 'distributor_id'
-  has_many :distributor_shipping_methods, foreign_key: :distributor_id
-  has_many :shipping_methods, through: :distributor_shipping_methods
+                                            foreign_key: 'distributor_id', dependent: :destroy
+  has_many :distributor_shipping_methods, foreign_key: :distributor_id, dependent: :destroy
+  has_many :shipping_methods, through: :distributor_shipping_methods, dependent: :destroy
   has_many :customers
   has_many :inventory_items
   has_many :tag_rules

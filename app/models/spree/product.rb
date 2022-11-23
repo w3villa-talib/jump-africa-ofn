@@ -41,7 +41,7 @@ module Spree
     has_many :properties, through: :product_properties
 
     has_many :classifications, dependent: :delete_all
-    has_many :taxons, through: :classifications
+    has_many :taxons, through: :classifications, dependent: :destroy
 
     belongs_to :tax_category, class_name: 'Spree::TaxCategory'
     belongs_to :shipping_category, class_name: 'Spree::ShippingCategory'
@@ -55,7 +55,7 @@ module Spree
 
     has_many :variants, -> {
       where(is_master: false).order("spree_variants.position ASC")
-    }, class_name: 'Spree::Variant'
+    }, class_name: 'Spree::Variant', dependent: :destroy
 
     has_many :variants_including_master,
              -> { order("spree_variants.position ASC") },
@@ -64,11 +64,11 @@ module Spree
 
     has_many :prices, -> {
       order('spree_variants.position, spree_variants.id, currency')
-    }, through: :variants
+    }, through: :variants, dependent: :destroy
 
-    has_many :stock_items, through: :variants
+    has_many :stock_items, through: :variants, dependent: :destroy
 
-    has_many :supplier_properties, through: :supplier, source: :properties
+    has_many :supplier_properties, through: :supplier, source: :properties, dependent: :destroy
 
     scope :with_properties, ->(*property_ids) {
       left_outer_joins(:product_properties).

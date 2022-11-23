@@ -20,8 +20,8 @@ class OrderCycle < ApplicationRecord
   has_many :cached_incoming_exchanges, -> { where incoming: true }, class_name: "Exchange"
   has_many :cached_outgoing_exchanges, -> { where incoming: false }, class_name: "Exchange"
 
-  has_many :suppliers, -> { distinct }, source: :sender, through: :cached_incoming_exchanges
-  has_many :distributors, -> { distinct }, source: :receiver, through: :cached_outgoing_exchanges
+  has_many :suppliers, -> { distinct }, source: :sender, through: :cached_incoming_exchanges, dependent: :destroy
+  has_many :distributors, -> { distinct }, source: :receiver, through: :cached_outgoing_exchanges, dependent: :destroy
 
   has_many :order_cycle_schedules
   has_many :schedules, through: :order_cycle_schedules
