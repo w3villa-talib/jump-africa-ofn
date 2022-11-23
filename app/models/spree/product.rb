@@ -128,11 +128,11 @@ module Spree
     after_initialize :set_available_on_to_now, if: :new_record?
 
     before_validation :sanitize_permalink
-    after_create :add_product_to_cycle
     before_save :add_primary_taxon_to_taxons
     after_save :remove_previous_primary_taxon_from_taxons
     after_save :ensure_standard_variant
     after_save :update_units
+    after_save :add_product_to_cycle
 
     before_destroy :punch_permalink
 
@@ -481,15 +481,17 @@ module Spree
     end
 
     def add_product_to_cycle
-      last_order_cycle_info = OrderCycle.where(coordinator_id: self.supplier.id).last
-      current_user = self.supplier.owner
-      exchanges_info =  last_order_cycle_info.exchanges.where(incoming: true)
+      if self.new_record?
+        last_order_cycle_info = OrderCycle.where(coordinator_id: self.supplier.id).last
+        current_user = self.supplier.owner
+        exchanges_info =  last_order_cycle_info.exchanges.where(incoming: true)
 
-      exchanges_info.each do |_info|
-        self.variants.each do |_variant|
-          is_available = _info.exchange_variants.find_by(variant_id: _variant.id).present?
-          unless is_available
-            _info.exchange_variants.new(variant_id: _variant.id).save
+        exchanges_info.each do |_info|
+          self.variants.each do |_variant|
+            is_available = _info.exchange_variants.find_by(variant_id: _variant.id).present?
+            unless is_available
+              _info.exchange_variants.new(variant_id: _variant.id).save
+            end
           end
         end
       end
