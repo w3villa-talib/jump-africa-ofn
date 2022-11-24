@@ -11,7 +11,7 @@ module Admin
     # These need to run before #load_resource so that @object is initialised with sanitised values
     prepend_before_action :override_owner, only: :create
     prepend_before_action :override_sells, only: :create
-
+    before_action :check_auth
     before_action :load_enterprise_set, only: :index
     before_action :load_countries, except: [:index, :register, :check_permalink]
     before_action :load_methods_and_fees, only: [:edit, :update]
