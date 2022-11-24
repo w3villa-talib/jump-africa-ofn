@@ -8,7 +8,6 @@ class EnterprisesController < BaseController
   include OrderCyclesHelper
   include SerializerHelper
 
-  before_action :check_auth
   protect_from_forgery except: :check_permalink
 
   # These prepended filters are in the reverse order of execution

@@ -2439,7 +2439,7 @@ See the %{link} to find out more about %{sitename}'s features and to start using
       limit_reached:
         headline: "Oh no!"
         message: "You have reached the limit!"
-        text: "You have reached the limit for the number of enterprises you are allowed to own on the"
+        text: "You have reached the limit for the number of enterprises you are not allowed to own on the"
         action: "Return to the homepage"
       finished:
         headline: "Finished!"
