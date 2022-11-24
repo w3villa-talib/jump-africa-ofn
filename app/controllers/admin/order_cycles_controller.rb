@@ -5,6 +5,7 @@ module Admin
     include OrderCyclesHelper
     include PaperTrailLogging
 
+    before_action :check_auth
     prepend_before_action :set_order_cycle_id, only: [:incoming, :outgoing]
     before_action :load_data_for_index, only: :index
     before_action :require_coordinator, only: :new

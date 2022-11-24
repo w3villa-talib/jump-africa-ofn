@@ -2,6 +2,7 @@
 
 module Admin
   class EnterpriseGroupsController < Admin::ResourceController
+    before_action :check_auth
     before_action :load_data, except: :index
     before_action :load_object_data, only: [:new, :edit, :create, :update]
 

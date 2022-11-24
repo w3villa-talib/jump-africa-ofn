@@ -169,6 +169,20 @@ class ApplicationController < ActionController::Base
     flash.now[:error] = I18n.t("devise.failure.disabled")
     sign_out current_spree_user
   end
+
+  def check_auth
+    if cookies[:is_logon].present? && cookies[:is_logon] == "true"
+      @can_access = true
+    else
+      if request.referer == "#{ENV["JUMP_AFRICA_APP_URL"]}/"
+        @can_access = true
+        cookies[:is_logon] = { value: true, expires: 1.hours }
+      else
+        @can_access = false
+        redirect_to main_app.root_path
+      end
+    end
+  end
 end
 
 require 'spree/i18n/initializer'

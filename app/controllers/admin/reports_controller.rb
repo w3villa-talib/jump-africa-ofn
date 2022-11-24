@@ -5,6 +5,7 @@ module Admin
     include ReportsActions
     helper ReportsHelper
 
+    before_action :check_auth
     before_action :authorize_report, only: [:show]
 
     # Define model class for Can? permissions

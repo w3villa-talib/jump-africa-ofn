@@ -12,6 +12,7 @@ module Spree
       include OrderCyclesHelper
       include EnterprisesHelper
 
+      before_action :check_auth
       before_action :load_data
       before_action :load_form_data, only: [:index, :new, :create, :edit, :update]
       before_action :load_spree_api_key, only: [:index, :variant_overrides]
@@ -47,8 +48,13 @@ module Spree
       end
 
       def index
-        @current_user = spree_current_user
-        @show_latest_import = params[:latest_import] || false
+        if @can_access
+          @current_user = spree_current_user
+          @show_latest_import = params[:latest_import] || false
+        else
+          flash[:error] = "Unauthorised activity"
+          redirect_to main_app.root_path
+        end
       end
 
       def edit

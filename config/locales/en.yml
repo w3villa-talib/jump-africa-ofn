@@ -274,7 +274,7 @@ en:
       email_welcome: "Welcome"
       email_registered: "is now part of"
       email_userguide_html: "The User Guide with detailed support for setting up your Producer or Hub is here: %{link}"
-      userguide: "Open Food Network User Guide"
+      userguide: "Jump Africa User Guide"
       email_admin_html: "You can manage your account by logging into the %{link} or by clicking on the cog in the top right hand side of the homepage, and selecting Administration."
       admin_panel: "Admin Panel"
       email_community_html: "We also have an online forum for community discussion related to OFN software and the unique challenges of running a food enterprise. You are encouraged to join in. We are constantly evolving and your input into this forum will shape what happens next. %{link}"
@@ -336,7 +336,7 @@ en:
   site_meta_description: "Looking to start selling online in Africa? Look no further than Jump Africa. We are the leading eCommerce platform in the region, and we can help you get your business up and running in no time. Visit our website today to learn more!"
   search_by_name: Search by name or suburb...
   producers: 'Australian Producers'
-  producers_join: Australian producers are now welcome to join the Open Food Network. #FIXME
+  producers_join: All producers are now welcome to join the Jump Africa Network. #FIXME
   charges_sales_tax: Charges GST?
   business_address: "Business Address"
   enterprise_permissions: "Enterprise Permissions"
@@ -1014,7 +1014,7 @@ en:
           linkedin_placeholder: "eg. www.linkedin.com/in/YourNameHere"
         stripe_connect:
           connect_with_stripe: "Connect with Stripe"
-          stripe_connect_intro: "To accept payments using credit card, you will need to connect your stripe account to the Open Food Network. Use the button to the right to get started."
+          stripe_connect_intro: "To accept payments using credit card, you will need to connect your stripe account to the Jump Africa. Use the button to the right to get started."
           stripe_account_connected: "Stripe account connected."
           disconnect: "Disconnect account"
           confirm_modal:
@@ -1503,7 +1503,7 @@ en:
   shared:
     mailers:
       powered_by:
-        open_food_network: "Open Food Network"
+        open_food_network: "Jump Africa"
         powered_html: "Your shopping experience is powered by the Jump.africa"
     menu:
       cart:
@@ -1702,11 +1702,11 @@ en:
   invalid_credit_card: "Invalid credit card"
 
   ie_warning_headline: "Your browser is out of date :-("
-  ie_warning_text: "For the best Open Food Network experience, we strongly recommend upgrading your browser:"
+  ie_warning_text: "For the best Jump Africa experience, we strongly recommend upgrading your browser:"
   ie_warning_chrome: Download Chrome
   ie_warning_firefox: Download Firefox
   ie_warning_ie: Upgrade Internet Explorer
-  ie_warning_other: "Can't upgrade your browser? Try Open Food Network on your smartphone :-)"
+  ie_warning_other: "Can't upgrade your browser? Try Jump Africa on your smartphone :-)"
   legal:
     cookies_policy:
       header: "How We Use Cookies"
@@ -1730,12 +1730,12 @@ en:
       cookie_matomo_heatmap_desc: "Matomo Heatmap & Session Recording cookie."
       cookie_matomo_ignore_desc: "Cookie used to exclude user from being tracked."
       disabling_cookies_header: "Warning on disabling cookies"
-      disabling_cookies_desc: "As a user you can always allow, block or delete Open Food Network’s or any other website cookies whenever you want to through your browser’s setting control. Each browser has a different operative. Here are the links:"
+      disabling_cookies_desc: "As a user you can always allow, block or delete Jump Africa or any other website cookies whenever you want to through your browser’s setting control. Each browser has a different operative. Here are the links:"
       disabling_cookies_firefox_link: "https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences"
       disabling_cookies_chrome_link: "https://support.google.com/chrome/answer/95647"
       disabling_cookies_ie_link: "https://support.microsoft.com/en-us/help/17442/windows-internet-explorer-delete-manage-cookies"
       disabling_cookies_safari_link: "https://www.apple.com/legal/privacy/en-ww/cookies/"
-      disabling_cookies_note: "But be aware that if you delete or modify the essential cookies used by Open Food Network, the website won’t work, you will not be able to add anything to your cart neither to checkout for instance."
+      disabling_cookies_note: "But be aware that if you delete or modify the essential cookies used by Jump Africa, the website won’t work, you will not be able to add anything to your cart neither to checkout for instance."
     cookies_banner:
       cookies_usage: "This site uses cookies in order to make your navigation frictionless and secure, and to help us understand how you use it in order to improve the features we offer."
       cookies_definition: "Cookies are very small text files that are stored on your computer when you visit some websites."
@@ -1752,7 +1752,7 @@ en:
   brandstory_part2: "Then we need a way to make it real. A way to empower everyone who grows, sells and buys food. A way to tell all the stories, to handle all the logistics. A way to turn transaction into transformation every day."
   brandstory_part3: "So we build an online marketplace that levels the playing field. It’s transparent, so it creates real relationships. It’s open source, so it’s owned by everyone. It scales to regions and nations, so people start versions across the world."
   brandstory_part4: "It works everywhere. It changes everything."
-  brandstory_part5_strong: "We call it Open Food Network."
+  brandstory_part5_strong: "We call it Jump Africa."
   brandstory_part6: "We all love food. Now we can love our food system too."
 
   system_headline: "Shopping - here's how it works."
@@ -2094,7 +2094,7 @@ See the %{link} to find out more about %{sitename}'s features and to start using
 
   search_no_results_html: "Sorry, no results found for %{query}. Try another search?"
 
-  components_profiles_popover: "Profiles do not have a shopfront on the Open Food Network, but may have their own physical or online shop elsewhere"
+  components_profiles_popover: "Profiles do not have a shopfront on the Jump Africa, but may have their own physical or online shop elsewhere"
   components_profiles_show: "Show profiles"
   components_filters_nofilters: "No filters"
   components_filters_clearfilters: "Clear all filters"
@@ -2177,7 +2177,7 @@ See the %{link} to find out more about %{sitename}'s features and to start using
 
   sell_title: "Sell Products Online in Nigeria for Free | Jump Africa"
   sell_description: "Looking to start selling products online in Nigeria? Look no further than Jump Africa! We provide free ecommerce solutions that make it easy to get your business up and running. Visit our website today to learn more!"
-  sell_headline: "Get on the Open Food Network!"
+  sell_headline: "Get on the Jump Africa!"
   sell_headline: "Get on the Jump Africa!"
   sell_motivation: "Showcase your beautiful food."
   sell_producers: "Producers"
@@ -2938,7 +2938,7 @@ See the %{link} to find out more about %{sitename}'s features and to start using
         Perhaps it has become unavailable or the shop is closing.
     admin:
       unit_price_tooltip: "The unit price increases transparency by allowing your customers to easily compare prices between different products and packaging sizes. Note, that the final unit price displayed in the shopfront might differ as it is includes taxes & fees."
-      enterprise_limit_reached: "You have reached the standard limit of enterprises per account. Write to %{contact_email} if you need to increase it."
+      enterprise_limit_reached: "You have reached the standard limit of enterprises per account. Write to support@jump.africa if you need to increase it."
       deleting_item_will_cancel_order: "This operation will result in one or more empty orders, which will be cancelled. Do you wish to proceed?"
       modals:
         got_it: "Got it"
@@ -2984,11 +2984,11 @@ See the %{link} to find out more about %{sitename}'s features and to start using
             visible on the map, and will be searchable in listings.
           hub_profile_text2: >
             Having a profile, and making connections within your local food system through
-            the Open Food Network will always be free.
+            the Open Food Network.
           hub_shop: Hub Shop
           hub_shop_text1: >
             Your enterprise is the backbone of your local food system. You aggregate produce
-            from other enterprises and can sell it through your shop on the Open Food Network.
+            from other enterprises and can sell it through your shop on the jump Africa.
           hub_shop_text2: >
             Hubs can take many forms, whether they be a food co-op, a buying group, a veggie-box
             program, or a local grocery store.
@@ -3008,13 +3008,13 @@ See the %{link} to find out more about %{sitename}'s features and to start using
             A profile makes you visible and contactable to others and is a way to share your story.
           profile_only_text2: >
             If you prefer to focus on producing food, and want to leave the work of selling it
-            to someone else, you won't require a shop on the Open Food Network.
+            to someone else, you won't require a shop on the Jump Africa.
           profile_only_text3: >
             Add your products to Jump Africa, allowing hubs to stock your products in
             their stores.
           producer_shop: Producer Shop
           producer_shop_text1: >
-            Sell your products directly to customers through your very own Open Food Network
+            Sell your products directly to customers through your very own Jump Africa
             shopfront.
           producer_shop_text2: >
             A Producer Shop is for your produce only, if you want to sell produce grown/produced
@@ -3023,12 +3023,12 @@ See the %{link} to find out more about %{sitename}'s features and to start using
           producer_hub_text1: >
             Your enterprise is the backbone of your local food system. You can sell your own
             produce as well as produce aggregated from other enterprises through your shopfront
-            on the Open Food Network.
+            on the Jump Africa.
           producer_hub_text2: >
             Producer Hubs can take many forms, whether they be a CSA, a veggie-box program,
             or a food co-op with a rooftop garden.
           producer_hub_text3: >
-            The Open Food Network aims to support as many hub models as possible, so no matter
+            The Jump Africa aims to support as many hub models as possible, so no matter
             your situation, we want to provide the tools you need to run your organisation or
             local food business.
           get_listing: Get a listing
@@ -3047,7 +3047,7 @@ See the %{link} to find out more about %{sitename}'s features and to start using
           non_producer: Non-producer
           non_producer_text1: >
             Non-producers do not produce any food themselves, meaning that they cannot create
-            their own products for sale through the Open Food Network.
+            their own products for sale through the Jump Africa.
           non_producer_text2: >
             Instead, non-producers specialise in linking producers to the end eater, whether it
             be by aggregating, grading, packing, selling or delivering food.
@@ -3247,7 +3247,7 @@ See the %{link} to find out more about %{sitename}'s features and to start using
       users:
         order: "Order"
     registration:
-      welcome_to_ofn: "Welcome to the Open Food Network!"
+      welcome_to_ofn: "Welcome to the Jump Africa!"
       signup_or_login: "Start By Signing Up (or logging in)"
       have_an_account: "Already have an account?"
       action_login: "Log in now."
@@ -3840,7 +3840,7 @@ See the %{link} to find out more about %{sitename}'s features and to start using
           order_total: "Order Total"
       overview:
         enterprises_header:
-          ofn_with_tip: Enterprises are Producers and/or Hubs and are the basic unit of organisation within the Open Food Network.
+          ofn_with_tip: Enterprises are Producers and/or Hubs and are the basic unit of organisation within the Jump Africa.
         enterprise_row:
           has_no_enterprise_fees: "has no enterprise fees"
           has_no_payment_methods: "has no payment methods"

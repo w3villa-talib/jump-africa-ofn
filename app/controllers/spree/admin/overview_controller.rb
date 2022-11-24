@@ -4,7 +4,7 @@
 module Spree
   module Admin
     class OverviewController < Spree::Admin::BaseController
-      before_action :check_referer, only: [:index]
+      before_action :check_auth
 
       def index
         @enterprises = Enterprise
@@ -82,19 +82,6 @@ module Spree
       # @return [ActiveRecord::Relation<Enterprise>]
       def managed_enterprises
         spree_current_user.enterprises
-      end
-
-      def check_referer
-        if cookies[:is_logon].present? && cookies[:is_logon] == "true"
-          @can_access = true
-        else
-          if request.referer == "#{ENV["JUMP_AFRICA_APP_URL"]}/"
-            @can_access = true
-            cookies[:is_logon] = { value: true, expires: 1.hours }
-          else
-            @can_access = false
-          end
-        end
       end
     end
   end
