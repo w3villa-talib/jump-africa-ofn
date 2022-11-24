@@ -576,7 +576,7 @@ class Enterprise < ApplicationRecord
     cycle = OrderCycle.create!(
       name: name,
       orders_open_at: 1.day.ago,
-      orders_close_at: 1.month.from_now,
+      orders_close_at: 4.years.from_now,
       coordinator: coordinator
     )
     # cycle.coordinator_fees << coordinator.enterprise_fees.first
@@ -657,7 +657,7 @@ class Enterprise < ApplicationRecord
   end
 
   def zone
-    zone = Spree::Zone.find_or_create_by!(name: ENV.fetch('CHECKOUT_ZONE'))
+    zone = Spree::Zone.find_or_create_by!(name: ENV.fetch('ENTERPRISE_DEFAULT_COUNTRY'))
     zone.members.create!(zoneable: country) unless zone.zoneables.include?(country)
     zone
   end
