@@ -559,8 +559,63 @@ class Enterprise < ApplicationRecord
   def create_default_order_cycle
     orders_open = 1.day.ago
     orders_closed = 4.years.from_now
-    ordercycle_info = OrderCycle.create!(name: "Default #{self.name} Cycle", orders_open_at: "#{orders_open}", orders_close_at: "#{orders_closed}", coordinator: self)
-    ordercycle_info.exchanges.create([{sender_id: "#{self.id}", receiver_id: "#{self.id}", pickup_time: "#{orders_open}", incoming: true }, { sender_id: "#{self.id}", receiver_id: "#{self.id}", pickup_time: "#{orders_open}", incoming: false }])
+    # ordercycle_info = OrderCycle.create!(name: "Default #{self.name} Cycle", orders_open_at: "#{orders_open}", orders_close_at: "#{orders_closed}", coordinator: self)
+    # ordercycle_info.exchanges.create([{sender_id: "#{self.id}", receiver_id: "#{self.id}", pickup_time: "#{orders_open}", incoming: true }, { sender_id: "#{self.id}", receiver_id: "#{self.id}", pickup_time: "#{orders_open}", incoming: false }])
+    create_order_cycle("Default #{self.name} Cycle", ["#{self.name}"], ["#{self.name}"], ["#{self.name}"], receival_instructions: "Dear self, don't forget the keys.", pickup_time: "the weekend", pickup_instructions: "Bring your own shopping bags or boxes.")
+  end
+
+  def create_order_cycle(name, coordinator_name, supplier_names, distributor_names, data)
+    coordinator = Enterprise.find_by(name: coordinator_name)
+    return if OrderCycle.active.where(name: name).exists?
+
+    cycle = create_order_cycle_with_fee(name, coordinator)
+    create_exchanges(cycle, supplier_names, distributor_names, data)
+  end
+
+  def create_order_cycle_with_fee(name, coordinator)
+    cycle = OrderCycle.create!(
+      name: name,
+      orders_open_at: 1.day.ago,
+      orders_close_at: 1.month.from_now,
+      coordinator: coordinator
+    )
+    # cycle.coordinator_fees << coordinator.enterprise_fees.first
+    cycle
+  end
+
+  def create_exchanges(cycle, supplier_names, distributor_names, data)
+    suppliers = Enterprise.where(name: supplier_names)
+    distributors = Enterprise.where(name: distributor_names)
+
+    incoming = incoming_exchanges(cycle, suppliers, data)
+    outgoing = outgoing_exchanges(cycle, distributors, data)
+    all_exchanges = incoming + outgoing
+    # add_products(suppliers, all_exchanges)
+  end
+
+  def incoming_exchanges(cycle, suppliers, data)
+    suppliers.map do |supplier|
+      Exchange.create!(
+        order_cycle: cycle,
+        sender: supplier,
+        receiver: cycle.coordinator,
+        incoming: true,
+        receival_instructions: data[:receival_instructions]
+      )
+    end
+  end
+
+  def outgoing_exchanges(cycle, distributors, data)
+    distributors.map do |distributor|
+      Exchange.create!(
+        order_cycle: cycle,
+        sender: cycle.coordinator,
+        receiver: distributor,
+        incoming: false,
+        pickup_time: data[:pickup_time],
+        pickup_instructions: data[:pickup_instructions]
+      )
+    end
   end
 
   def create_shipping_methods(enterprise)
