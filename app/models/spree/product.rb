@@ -132,7 +132,7 @@ module Spree
     after_save :remove_previous_primary_taxon_from_taxons
     after_save :ensure_standard_variant
     after_save :update_units
-    # after_save :add_product_to_cycle
+    after_commit :add_product_to_cycle, :on => :create #this callback will run when new product will create.
 
     before_destroy :punch_permalink
 
@@ -481,19 +481,25 @@ module Spree
     end
 
     def add_product_to_cycle
-      if self.new_record?
-        last_order_cycle_info = OrderCycle.where(coordinator_id: self.supplier.id).last
-        current_user = self.supplier.owner
-        exchanges_info =  last_order_cycle_info.exchanges.where(incoming: true)
+      last_order_cycle = OrderCycle.where(coordinator_id: self.supplier.id).last
+      supplier_names = ["#{self.supplier.name}"]
+      distributor_names = ["#{self.supplier.name}"]
+      get_exchanges(last_order_cycle, supplier_names, distributor_names)
+    end
 
-        exchanges_info.each do |_info|
-          self.variants.each do |_variant|
-            is_available = _info.exchange_variants.find_by(variant_id: _variant.id).present?
-            unless is_available
-              _info.exchange_variants.new(variant_id: _variant.id).save
-            end
-          end
-        end
+    def get_exchanges(cycle, supplier_names, distributor_names)
+      suppliers = Enterprise.where(name: supplier_names)
+      distributors = Enterprise.where(name: distributor_names)
+      incoming = cycle.exchanges.where(incoming: true)
+      outgoing = cycle.exchanges.where(incoming: false)
+      all_exchanges = incoming + outgoing
+      add_products(suppliers, all_exchanges)
+    end
+
+    def add_products(suppliers, exchanges)
+      products = suppliers.flat_map(&:supplied_products)
+      products.each do |product|
+        exchanges.each { |exchange| exchange.variants << product.variants.first }
       end
     end
   end
