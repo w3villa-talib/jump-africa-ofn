@@ -30,24 +30,45 @@
         %i.ofn-i_018-unlocked
         = t 'label_logout'
 
+
 :javascript
   function admin_dashboard() {
     $("#check_activate").on('click', function() {
+      var is_logon_value = getCookiesMap(document.cookie);
+      var is_logon = is_logon_value["is_logon"];
       var current_user_id = $("#check_activate").attr('current_user_id');
+      console.log(is_logon);
+
       if (current_user_id !== null) {
-        $.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/two_factors_check", {userId: current_user_id}, function(data, status){
-          if (status == "success") {
-            if (data["is_activated"] == true ){
-              window.location.href = "#{ENV["JUMP_AFRICA_APP_URL"]}/two_factors"
+        if (is_logon != null){
+          window.location.href = "#{ENV["SITE_URL"]}/admin"
+        }else{
+          $.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/two_factors_check", {userId: current_user_id}, function(data, status){
+            if (status == "success") {
+              if (data["is_activated"] == true ){
+                window.location.href = "#{ENV["JUMP_AFRICA_APP_URL"]}/two_factors"
+              }else{
+                window.location.href = "#{ENV["JUMP_AFRICA_APP_URL"]}/navigate"
+              }
             }else{
-              window.location.href = "#{ENV["JUMP_AFRICA_APP_URL"]}/navigate"
+              window.location.href = "#{ENV["SITE_URL"]}"
             }
-          }else{
-            window.location.href = "#{ENV["SITE_URL"]}"
-          }
-        });
+          });
+        }
       }else{
-        window.location.href = "#{ENV["JUMP_AFRICA_APP_URL"]}/navigate"
+        window.location.href = "#{ENV["JUMP_AFRICA_APP_URL"]}"
+      }
+
+      // function to get the cookie value
+      function getCookiesMap(cookiesString) {
+        return cookiesString.split(";")
+          .map(function(cookieString) {
+              return cookieString.trim().split("=");
+          })
+          .reduce(function(acc, curr) {
+              acc[curr[0]] = curr[1];
+              return acc;
+          }, {});
       }
     });
   };

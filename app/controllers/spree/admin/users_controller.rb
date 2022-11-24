@@ -8,6 +8,7 @@ module Spree
       after_action :sign_in_if_change_own_password, only: :update
 
       # http://spreecommerce.com/blog/2010/11/02/json-hijacking-vulnerability/
+      before_action :check_auth
       before_action :check_json_authenticity, only: :index
       before_action :load_roles, only: [:edit, :new, :update, :create,
                                         :generate_api_key, :clear_api_key]

@@ -4,6 +4,7 @@ module Spree
   module Admin
     module Orders
       class CustomerDetailsController < Spree::Admin::BaseController
+        before_action :check_auth
         before_action :load_order
         before_action :check_authorization
         before_action :set_guest_checkout_status, only: :update
