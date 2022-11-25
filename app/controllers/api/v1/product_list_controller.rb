@@ -4,7 +4,7 @@ class Api::V1::ProductListController < ApplicationController
     enterprise_info = Enterprise.all.joins(:supplied_products).distributors_with_active_order_cycles
     if enterprise_info
       enterprise_info.each do |enterprise|
-        enterprise.supplied_products.limit(4).each do |supplied_products|
+        enterprise.supplied_products.each do |supplied_products|
           if supplied_products.images.present?
             if supplied_products.images.first.attachment.attached?
               image = supplied_products.images.first.url(:small)
