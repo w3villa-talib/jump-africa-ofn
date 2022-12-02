@@ -102,18 +102,19 @@
 %link{:rel => :stylesheet, :type => :"text/css", :href => "/assets/darkswarm/application.css"}
 
 %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js", :type => "text/javascript"}
-%script{:src => "/assets/emoji_js/config.js", :type => "text/javascript"}
-%script{:src => "/assets/emoji_js/util.js", :type => "text/javascript"}
-%script{:src => "/assets/emoji_js/jquery.emojiarea.js", :type => "text/javascript"}
-%script{:src => "/assets/emoji_js/emoji-picker.js", :type => "text/javascript"}
-%script{:src =>  "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.2/js/bootstrap-switch.min.js", "integrity": "sha512-xPq8xH86kwbZiyeOPiSj44lc1p61CGUHv8YKr+i1dOgGenqIpsSFWpqJeLZyKzbJU9HKuppsq6eXvAISM00T3Q==", "crossorigin": "anonymous", "referrerpolicy": "no-referrer" }
+%script{:src => "https://jump.africa/assets/emoji_js/config.js", :type => "text/javascript"}
+%script{:src => "https://jump.africa/assets/emoji_js/util.js", :type => "text/javascript"}
+%script{:src => "https://jump.africa/assets/emoji_js/jquery.emojiarea.js", :type => "text/javascript"}
+%script{:src => "https://jump.africa/assets/emoji_js/emoji-picker.js", :type => "text/javascript"}
+%script{:src => "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.2/js/bootstrap-switch.min.js", "integrity": "sha512-xPq8xH86kwbZiyeOPiSj44lc1p61CGUHv8YKr+i1dOgGenqIpsSFWpqJeLZyKzbJU9HKuppsq6eXvAISM00T3Q==", "crossorigin": "anonymous", "referrerpolicy": "no-referrer" }
 
 :javascript
 
   $(window).on('load', function() {
     $('input[name="notification-checkbox"]').bootstrapSwitch('labelText', 'Notify');
     $('input[name="sound-checkbox"]').bootstrapSwitch('labelText', 'Sound');
-    size_li = $(".block").size();
+
+    size_li = $(".block").length;
     x=2;
     var flag = true;
     $('.block:lt('+x+')').show();
@@ -193,7 +194,9 @@
       var current_user_id = localStorage.getItem("jumpAfrica_user_id");
       var user_data;
       var unread_msg_count;
-      
+      now = new Date();
+      var current_time_timestamp = Date.parse(new Date(now).toISOString());
+
       var user_details  = await getData(current_user_id)
       unread_msg_count = user_details.unread_msg_count;
 
@@ -212,12 +215,22 @@
           default_image = val.default_image
           removeChatMessage = val.remove_chatmsg
           unread = val.unreads;
+          var last_logged_at = Date.parse(new Date(val.last_logged_at).toISOString());
 
+          if ((current_time_timestamp - last_logged_at) / 60000 < 60){
+            var user_online = true
+          }else{
+            var user_online = false
+          }
           var append_to_box = '<div>';
-            append_to_box += '<li class="get_message" data-slug="'+data_slug+'" data-sn="'+data_sn+'" data-verified="'+data_verified+'" id="'+id+'">';
+            append_to_box += '<li class="get_message" data-slug="'+data_slug+'" data-sn="'+data_sn+'" data-verified="'+data_verified+'" id="'+id+'" data-user_online="'+user_online+'">';
               append_to_box += '<div class="img">';
-                append_to_box += '<span class="is_online_dot">';
-                append_to_box += '<span class="pop_online">';
+                if (user_online){
+                  append_to_box += '<span class="is_online_dot">';
+                }else{
+                  append_to_box += '<span class="is_online_dot">';
+                }
+
                 append_to_box += '</span>';
                 append_to_box += '</span>';
                 append_to_box += '<img src="#{ENV["JUMP_AFRICA_APP_URL"]}/'+default_image+'"/>'
@@ -237,7 +250,11 @@
                 {
                   append_to_box += '<span class="unreads">'+unread+'</span>'
                 }
-                append_to_box += '<span class="is_online"> online'
+                if (user_online){
+                  append_to_box += '<span class="is_online"> online'
+                }else{
+                 append_to_box += '<span class="is_online"> offline' 
+                }
                 append_to_box += '</span>'
                 append_to_box += '<i class="fa fa-times delete_user_chat" data-delete="'+id+'"></i>'
               append_to_box += '</div>'
@@ -259,9 +276,15 @@
             var user_slug = data?.data.slug;
             var user_id = data?.data.id;
             var user_sn = data?.data.sn;
-            var user_online = true;
             var chatBoxes = {}; 
             var current_user_is_verified = current_user_info?.is_verified;
+            var last_logged_at = Date.parse(new Date(data?.data.last_logged_at).toISOString());
+
+            if ((current_time_timestamp - last_logged_at) / 60000 < 60){
+              var user_online = true
+            }else{
+              var user_online = false
+            }
 
             if($('#chat_'+user_id).length > 0) {
                // $('#chat_'+user_id).length > 0
@@ -279,7 +302,7 @@
                     if (user_online) {
                       var append_to_box = '<div class="chat-head online">';
                     } else {
-                      var append_to_box = '<div class="chat-head">';
+                      var append_to_box = '<div class="chat-head offline">';
                     }
                     append_to_box += '<div class="img"><span class="is_online_dot"><span class="pop_online"></span></span><img src="#{ENV["JUMP_AFRICA_APP_URL"]}/assets/'+user_img+'" /></div>';
                     append_to_box += '<a href="#{ENV["JUMP_AFRICA_APP_URL"]}/social/user_profile/'+user_slug+'">'+user_name.toUpperCase()+'</a>';
@@ -394,11 +417,9 @@
         var user_slug = $(this).data('slug');
         var user_id = $(this).attr('id');
         var user_sn = $(this).data('sn');
-        var user_online = false;
+        var user_online = $(this).data('user_online');
         var current_user_is_verified = current_user_info?.is_verified;
-        if ($(this).hasClass('online')) {
-          user_online = true;
-        }
+
         if($('#chat_'+user_id).length > 0) {
           localStorage.chat_service_uid = user_id;
           window.location.href = "#{ENV["JUMP_AFRICA_APP_URL"]}/social/chat_services";

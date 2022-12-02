@@ -1,12 +1,6 @@
-.small-4.medium-4.large-5.columns.variant-name
+.small-4.medium-4.large-5.columns.variant-name{ng: {controller: 'CartCtrl', class: "{'shown': showCartSidebar}"}}
   .inline{"ng-if" => "::variant.display_name"} {{ ::variant.display_name }}
   .variant-unit {{ ::variant.unit_to_display }}
-.small-3.medium-3.large-2.columns.variant-price{ng: {controller: 'CartCtrl', class: "{'shown': showCartSidebar}"}}
-  %price-breakdown{"price-breakdown" => "_", variant: "variant",
-    "price-breakdown-append-to-body" => "true",
-    "price-breakdown-placement" => "bottom",
-    "price-breakdown-animation" => true}
-  {{ symbol + ' ' + (variant.price_with_fees * rate).toFixed(2) }}&nbsp;&nbsp;&nbsp;
   .unit-price.variant-unit-price
     %question-mark-with-tooltip{"question-mark-with-tooltip" => "_",
     "question-mark-with-tooltip-append-to-body" => "true",
@@ -14,9 +8,15 @@
     "question-mark-with-tooltip-animation" => true,
     key: "'js.shopfront.unit_price_tooltip'"}
     {{ symbol + ' ' + (variant.unit_price_price * rate).toLocaleString() }}&nbsp;/&nbsp;{{ variant.unit_price_unit }}
+.small-3.medium-3.large-2.columns.variant-price{ng: {controller: 'CartCtrl', class: "{'shown': showCartSidebar}"}}
+  .row
+    %price-breakdown{"price-breakdown" => "_", variant: "variant",
+      "price-breakdown-append-to-body" => "true",
+      "price-breakdown-placement" => "bottom",
+      "price-breakdown-animation" => true}
+    {{ symbol + ' ' + (variant.price_with_fees * rate).toFixed(2) }}&nbsp;&nbsp;&nbsp;
+    .unit-price.variant-unit-price
+      {{ ' ' + symbol + ' ' + (variant.line_item.total_price * rate).toLocaleString() }}
 
-.medium-3.large-3.columns.total-price{ng: {controller: 'CartCtrl', class: "{'shown': showCartSidebar}"}}
-  %span{"ng-class" => "{filled: variant.line_item.total_price}"}
-    {{ symbol + ' ' + (variant.line_item.total_price * rate).toLocaleString() }}
 = render partial: "shop/products/shop_variant_no_group_buy"
 = render partial: "shop/products/shop_variant_with_group_buy"

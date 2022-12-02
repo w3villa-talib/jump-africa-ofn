@@ -12,8 +12,9 @@ module Admin
     prepend_before_action :override_owner, only: :create
     prepend_before_action :override_sells, only: :create
     before_action :check_auth
-    before_action :load_enterprise_set, only: :index
-    before_action :load_countries, except: [:index, :register, :check_permalink]
+    before_action :load_enterprise_set, only: [:index]
+    before_action :load_enterprise_hidden_set, only: :hidden
+    before_action :load_countries, except: [:index, :register, :check_permalink, :hidden]
     before_action :load_methods_and_fees, only: [:edit, :update]
     before_action :load_groups, only: [:new, :edit, :update, :create]
     before_action :load_taxons, only: [:new, :edit, :update, :create]
@@ -30,6 +31,16 @@ module Admin
 
     helper 'spree/products'
     include OrderCyclesHelper
+
+    def hidden
+      respond_to do |format|
+        format.html
+        format.json {
+          render_as_json @collection, ams_prefix: params[:ams_prefix],
+                                      spree_current_user: spree_current_user
+        }
+      end
+    end
 
     def index
       respond_to do |format|
@@ -143,9 +154,12 @@ module Admin
     private
 
     def load_enterprise_set
-      @enterprise_set = Sets::EnterpriseSet.new(collection) if spree_current_user.admin?
+      @enterprise_set = Sets::EnterpriseSet.new(collection.where.not(visible: "1")) if spree_current_user.admin?
     end
 
+    def load_enterprise_hidden_set
+      @enterprise_hidden_set = Sets::EnterpriseSet.new(collection.where(visible: "1")) if spree_current_user.admin?
+    end
     def load_countries
       @countries = Spree::Country.order(:name)
     end
@@ -176,6 +190,16 @@ module Admin
         else
           Enterprise.where("1=0")
         end
+      when :hidden
+        if spree_current_user.admin?
+          OpenFoodNetwork::Permissions.new(spree_current_user).
+            editable_enterprises.
+            order('is_primary_producer ASC, name')
+        elsif json_request?
+          OpenFoodNetwork::Permissions.new(spree_current_user).editable_enterprises.ransack(params[:q]).result
+        else
+          Enterprise.where("1=0")
+        end
       when :visible
         OpenFoodNetwork::Permissions.new(spree_current_user).visible_enterprises
           .includes(:shipping_methods, :payment_methods).ransack(params[:q]).result
@@ -188,7 +212,7 @@ module Admin
     end
 
     def collection_actions
-      [:index, :for_order_cycle, :visible, :bulk_update]
+      [:index, :for_order_cycle, :visible, :bulk_update, :hidden]
     end
 
     def load_methods_and_fees
@@ -329,7 +353,7 @@ module Admin
     end
 
     def ams_prefix_whitelist
-      [:index, :basic]
+      [:index, :basic, :hidden]
     end
 
     def enterprise_params

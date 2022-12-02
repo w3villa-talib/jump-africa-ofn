@@ -20,10 +20,10 @@
 %link{:rel => :stylesheet, :type => :"text/css", :href => "https://jump.africa/assets/emoji_css/emoji.css"}
 %link{:rel => :stylesheet, :type => :"text/css", :href => "/assets/darkswarm/application.css"}
 
-%script{:src => "/assets/emoji_js/config.js", :type => "text/javascript"}
-%script{:src => "/assets/emoji_js/util.js", :type => "text/javascript"}
-%script{:src => "/assets/emoji_js/jquery.emojiarea.js", :type => "text/javascript"}
-%script{:src => "/assets/emoji_js/emoji-picker.js", :type => "text/javascript"}
+%script{:src => "https://jump.africa/assets/emoji_js/config.js", :type => "text/javascript"}
+%script{:src => "https://jump.africa/assets/emoji_js/util.js", :type => "text/javascript"}
+%script{:src => "https://jump.africa/assets/emoji_js/jquery.emojiarea.js", :type => "text/javascript"}
+%script{:src => "https://jump.africa/assets/emoji_js/emoji-picker.js", :type => "text/javascript"}
 
 :javascript
 
@@ -41,6 +41,8 @@
   $(document).ready(async function(){
     var current_user_id = localStorage.getItem("jumpAfrica_user_id");
     var enterprise_id = localStorage.getItem("enterprise_id");
+    now = new Date();
+    var current_time_timestamp = Date.parse(new Date(now).toISOString());
 
     if (current_user_id !== null && enterprise_id !== null){
       var enterprise_info  = await getData(enterprise_id)
@@ -61,9 +63,16 @@
               var user_slug = data?.data.slug;
               var user_id = data?.data.id;
               var user_sn = data?.data.sn;
-              var user_online = true;
               var current_user_is_verified = true;
-              var chatBoxes = {}; 
+              var chatBoxes = {};
+              var last_logged_at = Date.parse(new Date(data?.data.last_logged_at).toISOString());
+
+              if ((current_time_timestamp - last_logged_at) / 60000 < 60){
+                var user_online = true
+              }else{
+                var user_online = false
+              }
+
               if($('#chat_'+user_id).length > 0) {
                  // $('#chat_'+user_id).length > 0
               } else {

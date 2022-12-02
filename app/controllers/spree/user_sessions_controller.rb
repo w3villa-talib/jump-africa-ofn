@@ -43,6 +43,7 @@ module Spree
       response = Faraday.get "#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/session/logout",{userId: session[:jumpAfrica_user_id]},{token: session[:jwt_token]}
       response = JSON.parse(response.body)
       if response["msg"] == 'success'
+        cookies.delete :is_logon
         @shopfront_redirect = session[:shopfront_redirect]  
         super
       end  

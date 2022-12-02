@@ -854,6 +854,13 @@ en:
         package: Package
         status: Status
         manage: Manage
+      hidden:
+        title: Hidden Enterprises
+        new_enterprise: New Enterprise
+        producer?: "Producer?"
+        package: Package
+        status: Status
+        manage: Manage  
       form:
         about_us:
           desc_short: Short Description
@@ -1797,6 +1804,7 @@ en:
   checkout_select_currency: Select Checkout Currency 
   checkout_back_to_cart: "Back to Cart"
   cost_currency: "Cost Currency"
+  product_currency: "Select Currency"
 
   split_checkout:
     your_details_without_number: Your details
