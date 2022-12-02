@@ -245,7 +245,7 @@
   localStorage.setItem("balance_first", "#{@account_summary[0]["balance"].to_i.round(2)}");
 
   $(document).ready(function () {
-    size_li = $(".block").size();
+    size_li = $(".block").length;
     x=2;
     var flag = true;
     $('.block:lt('+x+')').show();

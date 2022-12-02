@@ -27,6 +27,7 @@ Openfoodnetwork::Application.routes.draw do
         get :for_order_cycle
         get :visible
         post :bulk_update, as: :bulk_update
+        get :hidden
       end
 
       member do

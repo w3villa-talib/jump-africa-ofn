@@ -11,6 +11,7 @@ require 'open_food_network/referer_parser'
 class ApplicationController < ActionController::Base
   include Pagy::Backend
   include RequestTimeouts
+  require 'base64'
 
   self.responder = ApplicationResponder
   content_security_policy false
@@ -171,12 +172,15 @@ class ApplicationController < ActionController::Base
   end
 
   def check_auth
-    if cookies[:is_logon].present? && cookies[:is_logon] == "true"
+    decrypt_value = ''
+    decrypt_value = Base64.decode64(cookies[:is_logon]) if cookies[:is_logon].present?
+    if cookies[:is_logon].present? && decrypt_value == "is_logon_true"
       @can_access = true
     else
       if request.referer == "#{ENV["JUMP_AFRICA_APP_URL"]}/"
         @can_access = true
-        cookies[:is_logon] = { value: true, expires: 1.hours }
+        value = Base64.encode64("is_logon_true")
+        cookies[:is_logon] = { value: value, expires: 1.hours }
       else
         @can_access = false
         redirect_to main_app.root_path
