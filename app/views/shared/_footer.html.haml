@@ -34,28 +34,28 @@
         - if show_social_icons?
           %p.social-icons
             - if ContentConfig.footer_facebook_url.present?
-              %a{href: "https://www.facebook.com/jumpafricatech"}
+              %a{href: "https://www.facebook.com/jumpafricatech", target:"_blank"}
                 %i.ofn-i_044-facebook
             - if ContentConfig.footer_twitter_url.present?
-              %a{href: "https://mobile.twitter.com/jumpafrica_"}
+              %a{href: "https://mobile.twitter.com/jumpafrica_", target:"_blank"}
                 %i.ofn-i_041-twitter
             - if ContentConfig.footer_instagram_url.present?
-              %a{href: "https://www.instagram.com/p/BeJpSlhA9DL/"}
+              %a{href: "https://www.instagram.com/p/BeJpSlhA9DL/", target:"_blank"}
                 %i.ofn-i_043-instagram
             - if ContentConfig.footer_linkedin_url.present?
-              %a{href: "https://www.linkedin.com/company/jump-africa/"}
+              %a{href: "https://www.linkedin.com/company/jump-africa/", target:"_blank"}
                 %i.ofn-i_042-linkedin
             - if ContentConfig.footer_googleplus_url.present?
-              %a{href: ContentConfig.footer_googleplus_url}
+              %a{href: ContentConfig.footer_googleplus_url, target:"_blank"}
                 %i.ofn-i_046-g
             - if ContentConfig.footer_pinterest_url.present?
-              %a{href: ContentConfig.footer_pinterest_url}
+              %a{href: ContentConfig.footer_pinterest_url, target:"_blank"}
                 %i.ofn-i_045-pintrest
         %p
-          %a{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/tickets/new"}
+          %a{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/tickets/new", target:"_blank"}
             Email us
         %p
-          %a{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/news"}
+          %a{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/news", target:"_blank"}
             News
 
       .small-6.medium-3.columns.text-left
