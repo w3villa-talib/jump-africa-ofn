@@ -21,7 +21,7 @@
           %td.text-right
             %span.quantity {{ line_item.quantity }}
           %td
-            .total-price.text-right {{ symbol + (line_item.total_price * rate).toFixed(2) }}
+            .total-price.text-right {{ symbol + ' '  + (line_item.total_price * rate).toLocaleString() }}
             .unit-price
               %div{:style => "margin-right: 5px"}
                 %question-mark-with-tooltip{"question-mark-with-tooltip" => "_",
@@ -31,7 +31,7 @@
                 key: "'js.shopfront.unit_price_tooltip'",
                 context: "'cart-sidebar'"}
               .options-text
-                {{ symbol + (line_item.variant.unit_price_price * rate).toLocaleString() }}&nbsp;/&nbsp;{{ line_item.variant.unit_price_unit }}
+                {{ symbol + ' ' + (line_item.variant.unit_price_price * rate).toLocaleString() }}&nbsp;/&nbsp;{{ line_item.variant.unit_price_unit }}
 
       .cart-empty{"ng-show" => "Cart.line_items.length == 0"}
         %p
