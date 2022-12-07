@@ -670,8 +670,8 @@ $green-color: #68c54f;
 .message-sidebar .message-top div .c_user_info > span > span {
   font-size: 14px;
   font-weight: normal;
-  left: unset;
-  right: -10px;
+  //left: unset;
+  left: -10px;
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.3);
 }
 
@@ -1008,8 +1008,8 @@ $green-color: #68c54f;
           & > span {
             font-size: 14px;
             font-weight: normal;
-            left: unset;
-            right: -10px;
+/*            left: unset;*/
+            left: -10px;
             box-shadow: 0 0 15px 0 rgba(0,0,0,0.3);
             &::before {
               left: unset;
@@ -2010,8 +2010,8 @@ $green-color: #68c54f;
           & > span {
             font-size: 14px;
             font-weight: normal;
-            left: unset;
-            right: -10px;
+/*            left: unset;*/
+            left: -10px;
             box-shadow: 0 0 15px 0 rgba(0,0,0,0.3);
             &::before {
               left: unset;

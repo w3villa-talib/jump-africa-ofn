@@ -18,7 +18,6 @@
 
     .small-12.large-5.columns.flex
       %div.search-wrap{ng: {controller: 'ShopcartCtrl', class: "{'shown': showCartSidebar}"}}
+        .small-4.columns.text-center
         .small-6.columns.text-center
-          = t :product_currency
-        .small-3.columns.text-center
           %select{"ng-change" => "currency()", "ng-model" => "selected", "ng-options" => "item as ( item.label | uppercase ) for item in items track by item.id", class: "primary"}
