@@ -12,7 +12,7 @@
         .small-12.medium-12.large-7.columns
           .row
             .small-12.columns.field
-              %label{ for: 'enterprise_contact' }= t(".contact_field")
+              %label{ class: 'mendatory', for: 'enterprise_contact' }= t(".contact_field")
               %input.chunky.small-12.columns{ id: 'enterprise_contact', name: 'contact_name', required: true, placeholder: "{{'registration.steps.contact.contact_field_placeholder' | t}}", ng: { model: 'enterprise.contact_name' } }
               %span.error.small-12.columns{ ng: { show: "contact.contact_name.$error.required && submitted" } }
                 = t(".contact_field_required")

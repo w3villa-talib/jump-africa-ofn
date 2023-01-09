@@ -29,7 +29,7 @@
             .account_summary_item
               .right_column
                 %a{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/funds#/deposits/#{account["currency"]}", :target => "_blank"}
-                  %img(src="icon-#{account["currency"]}.png")
+                  %img{src: image_pack_path("currency_images/icon-#{account["currency"]}.png") }
                   %br/
                   .currency.cus
                     = account["currency"]

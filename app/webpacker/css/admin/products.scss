@@ -71,6 +71,9 @@ table#listing_products.bulk {
     img {
       border: 1px solid transparent;
       border-radius: 0.4em;
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
     }
     img:hover {
       opacity: 0.8;

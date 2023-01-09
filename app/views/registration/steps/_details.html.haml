@@ -12,7 +12,7 @@
       .row
         .small-12.medium-9.large-12.columns.end
           .field
-            %label{ for: 'enterprise_name', ng: { if: "::enterprise.type != 'own'" } }= t(".enterprise_name_field")
+            %label{ class: 'mendatory', for: 'enterprise_name', ng: { if: "::enterprise.type != 'own'" } }= t(".enterprise_name_field")
             %label{ for: 'enterprise_name', ng: { if: "::enterprise.type == 'own'" } }= t(".producer_name_field")
             %input.chunky{ id: 'enterprise_name', name: 'name', placeholder: "{{'registration.steps.details.producer_name_field_placeholder' | t}}", required: true, ng: { model: 'enterprise.name' } }
             %span.error{ ng: { show: "details.name.$error.required && submitted" } }
@@ -21,7 +21,7 @@
       .row
         .small-12.medium-9.large-6.columns
           .field
-            %label{ for: 'enterprise_address' }= t(".address1_field")
+            %label{class: 'mendatory', for: 'enterprise_address' }= t(".address1_field")
             %input.chunky{ id: 'enterprise_address', name: 'address1', required: true, placeholder: "{{'registration.steps.details.address1_field_placeholder' | t}}", required: true, ng: { model: 'enterprise.address.address1' } }
             %span.error{ ng: { show: "details.address1.$error.required && submitted" } }
               = t(".address1_field_error")
@@ -33,7 +33,7 @@
           .row
             .small-12.medium-8.large-8.columns
               .field
-                %label{ for: 'enterprise_city' }= t('.suburb_field')
+                %label{class: 'mendatory', for: 'enterprise_city' }= t('.suburb_field')
                 %input.chunky{ id: 'enterprise_city', name: 'city', required: true, placeholder: "{{'registration.steps.details.suburb_field_placeholder' | t}}", ng: { model: 'enterprise.address.city' } }
                 %span.error{ ng: { show: "details.city.$error.required && submitted" } }
                   = t(".suburb_field_error")
@@ -52,7 +52,7 @@
                   = t(".country_field_error")
             .small-12.medium-4.large-4.columns
               .field
-                %label{ for: 'enterprise_state' }= t(".state_field")
+                %label{ class: 'mendatory', for: 'enterprise_state' }= t(".state_field")
                 %select.chunky{ id: 'enterprise_state', name: 'state', ng: { model: 'enterprise.address.state_id', options: 's.id as s.name for s in enterprise.country.states', show: 'countryHasStates()', required: 'countryHasStates()' } }
                 %span.error{ ng: { show: "details.state.$error.required && submitted" } }
                   = t(".state_field_error")
