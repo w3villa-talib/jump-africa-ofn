@@ -255,7 +255,7 @@ module Spree
 
       def rev_conversion_api(object)
         label = object.selected_currency
-        request = Faraday.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/rev_currency_conversion?b_cur=usd&&t_cur=#{label}&currency_id=&user_id=")
+        request = Faraday.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/currency_conversion?b_cur=#{label}&&t_cur=usd&currency_id=&user_id=")
         if request.status == 200
           data = JSON.parse(request.body)
           final_price = (object.price.to_f * data['rate'])
