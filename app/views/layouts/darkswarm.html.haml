@@ -1,19 +1,25 @@
-%html{ "ng-csp": "no-unsafe-eval" }
+%html{ "ng-csp": "no-unsafe-eval", "lang": "en" }
   %head
     %meta{charset: 'utf-8'}/
     %meta{name: 'viewport', content: "width=device-width,initial-scale=1.0"}/
     %meta{property: "og:title", content: content_for?(:title) ? yield(:title) : t(:title)}
     %meta{property: "og:description", content: content_for?(:description) ? yield(:description) : t(:site_meta_description)}
+    %meta{:name => "description", :content => content_for?(:description) ? yield(:description) : t(:site_meta_description)}
+    %meta{:content => content_for?(:meta_description) ? yield(:meta_description) : t(:description), :name => "description"}
+    %meta{:content => "jump.africa, jump africa, ofn, open source, africa food store", :name => "keywords"}
     %meta{property: "og:image", content: content_for?(:image) ? yield(:image) : ContentConfig.url_for(:logo)}
     - if !Rails.env.production? || @noindex_meta_tag
-      %meta{name: "robots", content: "noindex"}
-    %title= content_for?(:title) ? "#{yield(:title)} - #{t(:title)}".html_safe : "#{t(:welcome_to)} #{t(:title)}"
+      %meta{name: "robots", content: "index,follow"}
+    %title= content_for?(:title) ? "#{yield(:title)}".html_safe : "#{t(:welcome_to)} #{t(:title)}"
     - if Rails.env.production?
       = favicon_link_tag "/favicon.ico"
     - else
       = favicon_link_tag "/favicon-staging.ico"
     %link{href: "https://fonts.googleapis.com/css?family=Roboto:400,300italic,400italic,300,700,700italic|Oswald:300,400,700", rel: "stylesheet", type: "text/css"}
     %link{href: asset_pack_path("media/fonts/OFN-v2.woff"), rel: "preload", as: "font", crossorigin: "anonymous"}
+    %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css", :rel => "stylesheet"}/
+    %link{:href => "#{request.env["REQUEST_URI"]}", :rel => "canonical"}/
+ 
     = render "layouts/matomo_tag"
     = language_meta_tags
 
@@ -40,14 +46,21 @@
 
     .off-canvas-wrap{ offcanvas: true }
       .fixed.off-canvas-fixed
+        = render "shared/menu/account_summary" unless @hide_menu rescue ''
         = render "shared/menu/menu" unless @hide_menu
         = yield :page_alert
+      - if spree_current_user.present?
+        .inner-wrap.mt-res-25
+          %section{ role: "main" }
+            = yield
 
-      .inner-wrap
-        %section{ role: "main" }
-          = yield
+            #footer
+      - else
+        .inner-wrap
+          %section{ role: "main" }
+            = yield
 
-          #footer
+            #footer
     %loading
 
     = yield :scripts
@@ -60,3 +73,5 @@
 
 
     = render "layouts/login_modal"
+    = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.2/js/bootstrap-switch.min.js", "integrity": "sha512-xPq8xH86kwbZiyeOPiSj44lc1p61CGUHv8YKr+i1dOgGenqIpsSFWpqJeLZyKzbJU9HKuppsq6eXvAISM00T3Q==", "crossorigin": "anonymous", "referrerpolicy": "no-referrer"
+

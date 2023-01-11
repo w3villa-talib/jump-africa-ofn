@@ -11,8 +11,10 @@ require 'open_food_network/referer_parser'
 class ApplicationController < ActionController::Base
   include Pagy::Backend
   include RequestTimeouts
+  require 'base64'
 
   self.responder = ApplicationResponder
+  content_security_policy false
   respond_to :html
 
   helper 'spree/base'
@@ -167,6 +169,23 @@ class ApplicationController < ActionController::Base
     flash[:success] = nil
     flash.now[:error] = I18n.t("devise.failure.disabled")
     sign_out current_spree_user
+  end
+
+  def check_auth
+    decrypt_value = ''
+    decrypt_value = Base64.decode64(cookies[:is_logon]) if cookies[:is_logon].present?
+    if cookies[:is_logon].present? && decrypt_value == "is_logon_true"
+      @can_access = true
+    else
+      if request.referer == "#{ENV["JUMP_AFRICA_APP_URL"]}/"
+        @can_access = true
+        value = Base64.encode64("is_logon_true")
+        cookies[:is_logon] = { value: value, expires: 1.hours }
+      else
+        @can_access = false
+        redirect_to main_app.root_path
+      end
+    end
   end
 end
 

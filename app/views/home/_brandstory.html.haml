@@ -1,25 +1,45 @@
-#brand-story.pane
+- content_for(:title) do
+  Jump Africa | The Marketplace for African Traders and Entrepreneurs
+- content_for(:description) do
+  Jump Africa is the premier online marketplace for African traders and entrepreneurs. We offer a safe, secure, and convenient platform to buy and sell products and services from all over Africa.
+- content_for(:meta_description) do
+  Jump Africa is the premier online marketplace for African traders and entrepreneurs. We offer a safe, secure, and convenient platform to buy and sell products and services from all over Africa.
+  
+#brand-story.pane.brand-story-pane
   .row
     .small-12.medium-8.medium-offset-2.columns.text-center
       %h2
-        = t :brandstory_headline
+        Trade in Africa made Easy
+      #pd-none.container-fluid.supporting-countries
+        .container.countries.supported-country-list
+          %h4
+            Countries Supported
+          %ul.country-list
+            %li{"data-country" => "Nigeria"}
+              %img{src: image_pack_path("flags/nigeria.svg") }
+            %li{"data-country" => "Kenya"}
+              %img{src: image_pack_path("flags/kenya.svg") }
+            %li{"data-country" => "Ghana"}
+              %img{src: image_pack_path("flags/ghana.svg") }
+            %li{"data-country" => "South Africa"}
+              %img{src: image_pack_path("flags/south-africa.svg") }
+            %li{"data-country" => "United States"}
+              %img{src: image_pack_path("flags/united-states.svg") }
+            %li{"data-country" => "United Kingdom"}
+              %img{src: image_pack_path("flags/united-kingdom.svg") }
+            %li{"data-country" => "European Union"}
+              %img{src: image_pack_path("flags/european.svg") }
       %p
-        = t :brandstory_intro
+        Shopping for groceries can be a confusing process, especially if you're not sure where your food comes from or how it was produced. The delivery service we offer removes all of that uncertainty by providing transparency in exchange-based transactions and fair prices across different regions in Africa and around the world!
 
       #brand-story-text.hide-show.slideable
         %p
-          = t :brandstory_part1
-        %p
-          = t :brandstory_part2
-        %p
-          = t :brandstory_part3
-        %p
-          = t :brandstory_part4
+          In a world where supermarkets have been primarily controlled by huge corporations for decades now, local farmers and vendors want to take back their power. They are tired of the big grocery chains that put them in positions where they can't succeed on price or quality alone; it's time we level the playing field - this includes you! 
         %p
           %strong
-            = t :brandstory_part5_strong
+            So why not turn those transactions into transformations? 
         %p
-          = t :brandstory_part6
+          We built a platform that levels the playing field. It’s transparent, so it creates real relationships and connections between people who need food and products now more than ever before - even if they live in different regions or countries! The open source nature means no one person has control over what gets done; instead any individual can join and contribute towards improving this system as well-which will be crucial when faced with increasing demands on resources such as water & energy while also fighting food scarcity and global warming...
 
       %a.text-vbig{"slide-toggle" => "#brand-story-text", "ng-click" => "toggleBrandStory()"}
         %i.ofn-i_005-caret-down{"ng-hide" => "brandStoryExpanded"}

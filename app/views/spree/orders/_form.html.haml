@@ -1,7 +1,7 @@
 = render :partial => 'spree/shared/error_messages', :locals => { :target => @order }
 
 .row
-  .columns.large-12
+  .columns.large-12{ng: {controller: 'CartCtrl', class: "{'shown': showCartSidebar}"}}
     %table#cart-detail{"data-hook" => ""}
       %col{halign: "left", valign: "middle", width: "60%"}/
       %col{halign: "left", valign: "middle", width: "15%"}/
@@ -28,7 +28,8 @@
           %td.text-right{colspan:"3"}
             = t :orders_form_subtotal
           %td.text-right
-            %span.order-total.item-total= display_checkout_subtotal(@order)
+            - order_subtotal = ("#{(display_checkout_subtotal(@order))}").slice(1)
+            %span.order-total.item-total {{ symbol + ' ' + ("#{order_subtotal}" * rate).toLocaleString() }}
           %td
         -if display_line_item_fees_total_for(@order) != Spree::Money.new(0 , currency: @order.currency)
           %tr
@@ -51,7 +52,8 @@
             %h5
               = t :orders_form_total
           %td.text-right
-            %h5.order-total.grand-total= @order.display_total
+            %h5.order-total.grand-total {{ symbol + ' ' + (("#{(@order.display_total)}").slice(1) * rate).toLocaleString() }}
+            
           %td
 
         - if @order.total_tax > 0
@@ -59,5 +61,5 @@
             %td.text-right{colspan:"3"}
               = t :order_includes_tax
             %td.text-right
-              %span.order-total.tax-total= display_checkout_tax_total(@order)
+              %span.order-total.tax-total {{ symbol + ' ' + (("#{(display_checkout_tax_total(@order))}").slice(1) * rate).toFixed(2) }}
             %td

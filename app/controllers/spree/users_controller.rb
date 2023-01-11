@@ -24,6 +24,7 @@ module Spree
         .where(id: @orders.pluck(:distributor_id).uniq | customers.pluck(:enterprise_id))
 
       @unconfirmed_email = spree_current_user.unconfirmed_email
+      redirect_to main_app.root_path if params[:secret_key]
     end
 
     # Endpoint for queries to check if a user is already registered
@@ -42,19 +43,19 @@ module Spree
       end
     end
 
-    def create user_params
+    def create user_params, is_admin, userId, data
       @user = Spree::User.find_by_email(user_params[:email])
       if @user
-        bypass_sign_in(@user)
-        @user.update(logout_from_jumpAfrica: false)
-        redirect_to main_app.root_path
+        sign_in(@user, event: :authentication)
+        @user.update(logout_from_jumpAfrica: false, parent_id: userId, parent_is_verifiy: data['user_verfication'], parent_default_image: data['default_image'], parent_member_image: data['member_image_url'])
       else
         @user = Spree::User.new(user_params)
         @user.skip_confirmation!
         if @user.save(validate: false)
-        @user.confirm
-        bypass_sign_in(@user)
-        redirect_to main_app.root_path
+          @user.update(spree_role_ids: 1) if is_admin  
+          @user.update(parent_is_verifiy: data['user_verfication'], parent_default_image: data['default_image'], parent_member_image: data['member_image_url'])
+          @user.confirm
+          sign_in(@user, event: :authentication)
         else
           render :new
         end
@@ -83,24 +84,34 @@ module Spree
     def load_object
       @user ||= spree_current_user
       if @user
+        request = Faraday.get "#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/profile",{userId: params[:user_id]},{token: params[:secret_key]}
+        puts request.status
+        if request.status == 200
+          response = JSON.parse(request.body)
+          @user.update(parent_is_verifiy: response['data']['user_verfication'], parent_default_image: response['data']['default_image'], parent_member_image: response['data']['member_image_url'])
+        end
         authorize! params[:action].to_sym, @user
-        redirect_to main_app.root_path
+        redirect_to main_app.root_path if params[:secret_key]
       else
         # faraday get request with headers
-        response = Faraday.get 'http://localhost:3000/api/v1/profile',{userId: params[:user_id]},{token: params[:secret_key]}
-        response = JSON.parse(response.body)
-        # create params for user email
-        user_params = {email: response['data']['email']}
-        # create user
-        if response['auth'] == true
-         session[:jwt_token] = params[:secret_key]
-         session[:user_id] = response['data']['id'] 
-         create(user_params)
-        else
-          #  redirect to localhost:3000/login
-          redirect_to 'http://localhost:3000/signin'
-        end 
-      
+        response = Faraday.get "#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/profile",{userId: params[:user_id]},{token: params[:secret_key]}
+        if response.status == 200
+          response = JSON.parse(response.body)
+          # create params for user email
+          user_params = {email: response['data']['email']}
+          userId = params[:user_id]
+          is_admin =  response['isAdmin']
+          # create user
+          if response['auth'] == true
+            session[:jwt_token] = params[:secret_key]
+            session[:jumpAfrica_user_id] = response['data']['id']
+
+            create(user_params,is_admin,userId, response['data'])
+          else
+            #  redirect to localhost:3000/login
+            redirect_to "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"
+          end
+        end
       end
     end
 
@@ -115,5 +126,6 @@ module Spree
     def user_params
       ::PermittedAttributes::User.new(params).call
     end
+
   end
 end

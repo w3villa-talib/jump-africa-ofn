@@ -48,19 +48,19 @@ class Enterprise < ApplicationRecord
   has_many :supplied_products, class_name: 'Spree::Product',
                                foreign_key: 'supplier_id',
                                dependent: :destroy
-  has_many :distributed_orders, class_name: 'Spree::Order', foreign_key: 'distributor_id'
+  has_many :distributed_orders, class_name: 'Spree::Order', foreign_key: 'distributor_id', dependent: :destroy
   belongs_to :address, class_name: 'Spree::Address'
   belongs_to :business_address, class_name: 'Spree::Address', dependent: :destroy
-  has_many :enterprise_fees
+  has_many :enterprise_fees, dependent: :destroy
   has_many :enterprise_roles, dependent: :destroy
-  has_many :users, through: :enterprise_roles
+  has_many :users, through: :enterprise_roles, dependent: :destroy
   belongs_to :owner, class_name: 'Spree::User',
                      inverse_of: :owned_enterprises
   has_and_belongs_to_many :payment_methods, join_table: 'distributors_payment_methods',
                                             class_name: 'Spree::PaymentMethod',
-                                            foreign_key: 'distributor_id'
-  has_many :distributor_shipping_methods, foreign_key: :distributor_id
-  has_many :shipping_methods, through: :distributor_shipping_methods
+                                            foreign_key: 'distributor_id', dependent: :destroy
+  has_many :distributor_shipping_methods, foreign_key: :distributor_id, dependent: :destroy
+  has_many :shipping_methods, through: :distributor_shipping_methods, dependent: :destroy
   has_many :customers
   has_many :inventory_items
   has_many :tag_rules
@@ -108,6 +108,8 @@ class Enterprise < ApplicationRecord
   after_touch :touch_distributors
   after_create :set_default_contact
   after_create :relate_to_owners_enterprises
+  after_create :set_default_payments_method_and_shipmethod
+  after_create :create_default_order_cycle
   after_create_commit :send_welcome_email
 
   after_rollback :restore_permalink
@@ -541,5 +543,126 @@ class Enterprise < ApplicationRecord
     Enterprise.distributing_products(supplied_products.select(:id)).
       where('enterprises.id != ?', id).
       update_all(updated_at: Time.zone.now)
+  end
+
+############# this will set default payment and shipping metod like- cod gatway and pay by wallet  ###############
+  def set_default_payments_method_and_shipmethod
+    default_params_payment = Spree::PaymentMethod.where(type: ["Spree::Gateway::BogusSimple", "Spree::PaymentMethod::Check"], active: true)
+    default_params_payment.each do |_payment|
+      self.payment_methods << _payment
+    end
+
+    create_shipping_methods(self)
+  end
+
+########### this code is used to create default order cycles for enterprise with time 4 years #################
+  def create_default_order_cycle
+    orders_open = 1.day.ago
+    orders_closed = 4.years.from_now
+    # ordercycle_info = OrderCycle.create!(name: "Default #{self.name} Cycle", orders_open_at: "#{orders_open}", orders_close_at: "#{orders_closed}", coordinator: self)
+    # ordercycle_info.exchanges.create([{sender_id: "#{self.id}", receiver_id: "#{self.id}", pickup_time: "#{orders_open}", incoming: true }, { sender_id: "#{self.id}", receiver_id: "#{self.id}", pickup_time: "#{orders_open}", incoming: false }])
+    create_order_cycle("Default #{self.name} Cycle", ["#{self.name}"], ["#{self.name}"], ["#{self.name}"], receival_instructions: "Dear self, don't forget the keys.", pickup_time: "the weekend", pickup_instructions: "Bring your own shopping bags or boxes.")
+  end
+
+  def create_order_cycle(name, coordinator_name, supplier_names, distributor_names, data)
+    coordinator = Enterprise.find_by(name: coordinator_name)
+    return if OrderCycle.active.where(name: name).exists?
+
+    cycle = create_order_cycle_with_fee(name, coordinator)
+    create_exchanges(cycle, supplier_names, distributor_names, data)
+  end
+
+  def create_order_cycle_with_fee(name, coordinator)
+    cycle = OrderCycle.create!(
+      name: name,
+      orders_open_at: 1.day.ago,
+      orders_close_at: 4.years.from_now,
+      coordinator: coordinator
+    )
+    # cycle.coordinator_fees << coordinator.enterprise_fees.first
+    cycle
+  end
+
+  def create_exchanges(cycle, supplier_names, distributor_names, data)
+    suppliers = Enterprise.where(name: supplier_names)
+    distributors = Enterprise.where(name: distributor_names)
+
+    incoming = incoming_exchanges(cycle, suppliers, data)
+    outgoing = outgoing_exchanges(cycle, distributors, data)
+    all_exchanges = incoming + outgoing
+    # add_products(suppliers, all_exchanges)
+  end
+
+  def incoming_exchanges(cycle, suppliers, data)
+    suppliers.map do |supplier|
+      Exchange.create!(
+        order_cycle: cycle,
+        sender: supplier,
+        receiver: cycle.coordinator,
+        incoming: true,
+        receival_instructions: data[:receival_instructions]
+      )
+    end
+  end
+
+  def outgoing_exchanges(cycle, distributors, data)
+    distributors.map do |distributor|
+      Exchange.create!(
+        order_cycle: cycle,
+        sender: cycle.coordinator,
+        receiver: distributor,
+        incoming: false,
+        pickup_time: data[:pickup_time],
+        pickup_instructions: data[:pickup_instructions]
+      )
+    end
+  end
+
+  def create_shipping_methods(enterprise)
+    return if enterprise.shipping_methods.present?
+
+    create_pickup(enterprise)
+    create_delivery(enterprise)
+  end
+
+  def create_pickup(enterprise)
+    create_shipping_method(
+      enterprise,
+      name: "Pickup #{enterprise.name}",
+      description: "pick-up at your awesome hub gathering place",
+      require_ship_address: false,
+      calculator_type: "Calculator::Weight"
+    )
+  end
+
+  def create_delivery(enterprise)
+    delivery = create_shipping_method(
+      enterprise,
+      name: "Home delivery #{enterprise.name}",
+      description: "yummy food delivered at your door",
+      require_ship_address: true,
+      calculator_type: "Calculator::FlatRate"
+    )
+    delivery.calculator.preferred_amount = 2
+    delivery.calculator.save!
+  end
+
+  def create_shipping_method(enterprise, params)
+    params[:distributor_ids] = [enterprise.id]
+    method = enterprise.shipping_methods.new(params)
+    method.zones << zone
+    method.shipping_categories << Spree::ShippingCategory.find_or_create_by(name: 'Default')
+    method.save!
+    method
+  end
+
+  def zone
+    zone = Spree::Zone.find_or_create_by!(name: ENV.fetch('ENTERPRISE_DEFAULT_COUNTRY'))
+    zone.members.create!(zoneable: country) unless zone.zoneables.include?(country)
+    zone
+  end
+
+  def country
+    Spree::Country.find_by(iso: ENV.fetch('DEFAULT_COUNTRY_CODE'))
   end
 end

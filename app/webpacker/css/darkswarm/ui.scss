@@ -66,13 +66,13 @@
 
 .button.primary, button.primary {
   font-family: $body-font;
-  background: $orange-450;
+  background: $clr-blue;
   color: white;
 }
 
 .button.primary:hover, .button.primary:active, .button.primary:focus, button.primary:hover, button.primary:active, button.primary:focus {
-  background: $orange-400;
-  text-shadow: 0 1px 0 $orange-450;
+  background: $clr-blue;
+  text-shadow: 0 1px 0 $clr-blue;
 }
 
 button.success, .button.success {
@@ -144,7 +144,7 @@ a.button.large {
   }
 
   &.bright {
-    background-color: $orange-500;
+    background-color: $clr-blue;
     border: none;
   }
 }

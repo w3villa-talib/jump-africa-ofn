@@ -12,6 +12,7 @@ module Spree
       include OrderCyclesHelper
       include EnterprisesHelper
 
+      before_action :check_auth
       before_action :load_data
       before_action :load_form_data, only: [:index, :new, :create, :edit, :update]
       before_action :load_spree_api_key, only: [:index, :variant_overrides]
@@ -29,11 +30,12 @@ module Spree
 
           @object.attributes = permitted_resource_params
           if @object.save
+            rev_conversion_api(@object)
             flash[:success] = flash_message_for(@object, :successfully_created)
             redirect_after_save
           else
             # Re-fill the form with deleted params on product
-            @on_hand = request.params[:product][:on_hand]
+            @on_hand = request.params[:product][:on_hand] || 
             @on_demand = request.params[:product][:on_demand]
             render :new
           end
@@ -46,8 +48,13 @@ module Spree
       end
 
       def index
-        @current_user = spree_current_user
-        @show_latest_import = params[:latest_import] || false
+        if @can_access
+          @current_user = spree_current_user
+          @show_latest_import = params[:latest_import] || false
+        else
+          flash[:error] = "Unauthorised activity"
+          redirect_to main_app.root_path
+        end
       end
 
       def edit
@@ -217,7 +224,7 @@ module Spree
         variant = product_variant(product)
 
         begin
-          variant.on_demand = on_demand if on_demand.present?
+          variant.on_demand = true if on_demand.present?
           variant.on_hand = on_hand.to_i if on_hand.present?
         rescue StandardError => e
           notify_bugsnag(e, product, variant)
@@ -244,6 +251,16 @@ module Spree
 
       def set_product_master_variant_price_to_zero
         @product.price = 0 if @product.price.nil?
+      end
+
+      def rev_conversion_api(object)
+        label = object.selected_currency
+        request = Faraday.get("#{ENV["JUMP_AFRICA_APP_URL"]}/api/v1/currency_conversion?b_cur=#{label}&&t_cur=usd&currency_id=&user_id=")
+        if request.status == 200
+          data = JSON.parse(request.body)
+          final_price = (object.price.to_f * data['rate'])
+          object.prices.first.update!(amount: final_price)
+        end
       end
     end
   end

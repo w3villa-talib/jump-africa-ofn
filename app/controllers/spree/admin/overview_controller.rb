@@ -4,6 +4,8 @@
 module Spree
   module Admin
     class OverviewController < Spree::Admin::BaseController
+      before_action :check_auth
+
       def index
         @enterprises = Enterprise
           .managed_by(spree_current_user)
@@ -14,7 +16,12 @@ module Spree
         if first_access
           redirect_to enterprises_path
         else
-          render dashboard_view
+          if @can_access
+            render dashboard_view
+          else
+            flash[:error] = "Unauthorised activity"
+            redirect_to main_app.root_path
+          end
         end
       end
 

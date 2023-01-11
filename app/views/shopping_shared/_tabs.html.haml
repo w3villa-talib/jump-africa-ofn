@@ -1,5 +1,6 @@
 - if (@order&.distributor || current_distributor) == current_distributor
 
+
   - shop_tabs.each do |tab|
     = render "shopping_shared/tabs/#{tab[:name]}"
 
@@ -13,3 +14,7 @@
         .columns.large-4.show-for-large-up
           = render partial: "shopping_shared/order_cycles"
     .page-view{ ng: {include: "'shop/' + selectedPage() + '.html'" } }
+
+:javascript
+  localStorage.setItem("recept_user_id", "#{current_distributor.users.first.parent_id}");
+  localStorage.setItem("enterprise_id", "#{current_distributor.id}");

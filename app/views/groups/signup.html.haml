@@ -1,5 +1,8 @@
 - content_for(:title) do
-  = t :groups_signup_title
+  = t(:groups_signup_title)
+
+- content_for(:description) do
+  = t(:groups_signup_description)
 
 #panes
   #shops-signup.pane
@@ -12,7 +15,7 @@
         %p.text-big
           = t :groups_signup_intro
         %br
-        %a.button.transparent{href: "hello@openfoodnetwork.org?subject=I'd%20like%20to%20talk%20to%20you%20about%20groups%20on%20the%20Open%20Food%20Network".reverse, target: '_blank', mailto: true}
+        %a.button.transparent{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/tickets/new"}
           = t :groups_signup_email
 
   .groups-details.pane
@@ -38,24 +41,35 @@
           = t :groups_signup_motivation8
         %p.text-big
           = t :groups_signup_motivation9
-  .pane
-    .row
-      .small-12.medium-10.medium-offset-1.columns.text-center
-        %h2
-          = t :groups_signup_pricing
-        -# %p.text-big
-        -#   / If there is a time-sensitive offer you can write it here, e.g.
-        -#   Time-sensitive offer goes here!
-        %br
-        = ContentConfig.group_signup_pricing_table_html.html_safe
+  -# .pane
+  -#   .row
+  -#     .small-12.medium-10.medium-offset-1.columns.text-center
+  -#       %h2
+  -#         = t :groups_signup_pricing
+  -#       -# %p.text-big
+  -#       -#   / If there is a time-sensitive offer you can write it here, e.g.
+  -#       -#   Time-sensitive offer goes here!
+  -#       %br
+  -#         = t :content_configuration_pricing_table
 
   #shops-case-studies
     .row
       .small-12.medium-10.medium-offset-1.columns
         %h2.text-center
-          = t :groups_signup_studies
-        %br
-        = ContentConfig.group_signup_case_studies_html.html_safe
+          = t :why_should_start_selling_heading
+        %ul
+          %li
+            = t :why_should_start_selling_about_1
+          %li
+            = t :why_should_start_selling_about_2
+          %li
+            = t :why_should_start_selling_about_3
+          %li
+            = t :why_should_start_selling_about_4
+          %li
+            = t :why_should_start_selling_about_5
+          %li
+            = t :why_should_start_selling_about_6
 
   .pane#cta
     .row
@@ -64,14 +78,22 @@
           = t :groups_signup_contact
         %p.text-big
           = t :groups_signup_contact_text
-        %a.button.transparent{href: "hello@openfoodnetwork.org?subject=I'd%20like%20to%20talk%20to%20you%20about%20groups%20on%20the%20Open%20Food%20Network".reverse, target: '_blank', mailto: true}
+        %a.button.transparent{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/tickets/new"}
           = t :groups_signup_email
 
   #hub-details.pane.footer-pad
     .row
-      .small-12.medium-10.medium-offset-1.columns
-        %h2.text-center
-          = t :groups_signup_detail
-        = ContentConfig.group_signup_detail_html.html_safe
+      .small-12.medium-10.medium-offset-1.columns.text-center
+        %h2
+          = t :about_account_heading_1
+        -# %p.text-big
+        -#   / If there is a time-sensitive offer you can write it here, e.g.
+        -#   Time-sensitive offer goes here!
+        %br
+          = t :about_account_heading_2
+        %br
+          = t :about_account_heading_3
+        %br 
+          = t :about_account_heading_4
 
 = render partial: "shared/footer"

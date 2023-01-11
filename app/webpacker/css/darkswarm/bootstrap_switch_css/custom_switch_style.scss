@@ -1,0 +1,197 @@
+$panel-default-border: #333;
+$up-text: rgb(77, 215, 16);
+$down-text: rgb(208, 0, 23);
+$up-text-fade: rgba(77, 215, 16, 0.9);
+$down-text-fade: rgba(208, 0, 23, 0.9);
+$btn-danger-bg: #333;
+/* bootstrap for trading tool vars
+-------------------------------------------------------------- */
+$grid-gutter-width: 4px;
+
+/* fixed navbar to same home page 
+-------------------------------------------------------------- */
+$navbar-padding-horizontal: 5px;
+$navbar-margin-bottom: 0px;
+
+$navbar-height: 30px;
+
+$body-bg: #000;
+
+$text-color: #ccc;
+$link-color: #ddd;
+
+$up-text: rgb(77, 215, 16);
+$down-text: rgb(208, 0, 23);
+$up-text-fade: rgba(77, 215, 16, 0.9);
+$down-text-fade: rgba(208, 0, 23, 0.9);
+
+$panel-bg: rgb(21,21,21);
+$panel-bg-alpha: rgba(28,28,28,0.8);
+$panel-default-heading-bg: #2b3434;
+$panel-default-border: #333;
+$panel-border-radius: 2px;
+$panel-body-padding: 8px 8px 8px 8px;
+$panel-heading-padding: 2px 8px 0px 8px;
+$panel-default-text: $text-color;
+
+$font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
+
+$navbar-default-bg: $panel-bg;
+$navbar-default-border: rgba(179, 175, 156, 0.28);
+$navbar-default-spliter: rgb(32,32,32);
+
+$nav-tabs-border-color: #333;
+$nav-tabs-active-link-hover-border-color: #333;
+$nav-tabs-justified-link-border-color: #333;
+$nav-tabs-active-link-hover-bg: $panel-default-heading-bg;
+$nav-tabs-active-link-hover-color: #ccc;
+
+$border-radius-base: 2px;
+
+$dropdown-bg: #333;
+$dropdown-link-color: #ccc;
+$dropdown-link-hover-bg: lighten($dropdown-bg, 40%);
+
+$table-bg-hover: #444;
+
+/* bootstrap form mix 
+------------------------------------------------------------ */
+$input-bg: $panel-bg;
+$input-color: #fff;
+$input-group-addon-bg: #2b3434;
+$input-border: rgb(85, 85, 85);
+$input-height-base: 25px;
+$input-border-focus: $navbar-default-border;
+
+$btn-danger-bg: #333;
+$btn-danger-border: #111;
+
+$label-info-bg: rgba(0,0,0,0);
+$label-success-bg: rgba(0,0,0,0);
+$label-danger-bg: rgba(0,0,0,0);
+
+
+#account_summary {
+
+    .bootstrap-switch {
+        margin-top: -2px;
+        display: block;
+        border-color: $panel-default-border;
+    }
+    
+    .bootstrap-switch.bootstrap-switch-focused {
+        // @include box-shadow(none);
+        border-color: $panel-default-border;
+    }
+    
+    .bootstrap-switch.bootstrap-switch-mini.bootstrap-switch-animate {
+        margin-top: -2px;
+        border: none;
+    
+        & .bootstrap-switch-handle-on.bootstrap-switch-success {
+            padding: 6px 2px;
+            font-size: 12px;
+            color: white !important;
+            background-color: $up-text-fade;
+        }
+    
+        & .bootstrap-switch-handle-off.bootstrap-switch-default {
+            padding: 6px 2px;
+            font-size: 12px;
+            color: white !important;
+            background-color: $down-text-fade;
+        }
+    
+        .bootstrap-switch-label {
+            color: rgba(255, 255, 255, .5);
+            padding: 6px 2px;
+            font-size: 12px;
+            background-color: $btn-danger-bg;
+        }
+    
+    }
+
+
+  li.dropdown {
+    a:hover {
+      color: white;
+      text-decoration: none;
+      background: none;
+      text-shadow: white 0 0 2px;
+      text-decoration: none;
+    }
+
+    a:focus {
+      text-shadow: none;
+      text-decoration: none;
+    }
+
+    table {
+      margin-bottom: 0px;
+
+      td {
+        vertical-align: middle;
+        border-top: none;
+        border-bottom: 1px solid $navbar-default-spliter;
+      }
+    }
+  }
+
+  @mixin header-dropdown {
+    min-width: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: $panel-bg;
+    border: 1px solid $panel-default-border;
+    box-shadow: 0px 0px 8px $panel-default-border;
+    overflow: initial;
+
+    li:first-child {
+      padding-top: 8px;
+    }
+
+    li:last-child {
+      padding-bottom: 8px;
+    }
+  }
+
+  #language {
+    .lang-icon {
+      height: 16px;
+    }
+
+    .dropdown-menu {
+      @include header-dropdown;
+      min-width: 0;
+
+      a {
+        padding: 5px 15px;
+      }
+    }
+  }
+
+  #settings {
+    .dropdown-menu {
+      @include header-dropdown;
+
+      li:nth-child(1),
+      li:nth-child(2) {
+        &>a:hover {
+          text-shadow: none;
+        }
+      }
+
+      li:nth-child(2) {
+        padding-bottom: 8px;
+      }
+
+      .fa {
+        width: 14px;
+      }
+
+      a {
+        padding: 3px 10px;
+      }
+    }
+  }
+}

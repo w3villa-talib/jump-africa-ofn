@@ -2,7 +2,6 @@
 
 require 'open_food_network/property_merge'
 require 'concerns/product_stock'
-
 # PRODUCTS
 # Products represent an entity for sale in a store.
 # Products can have variations, called variants
@@ -42,7 +41,7 @@ module Spree
     has_many :properties, through: :product_properties
 
     has_many :classifications, dependent: :delete_all
-    has_many :taxons, through: :classifications
+    has_many :taxons, through: :classifications, dependent: :destroy
 
     belongs_to :tax_category, class_name: 'Spree::TaxCategory'
     belongs_to :shipping_category, class_name: 'Spree::ShippingCategory'
@@ -56,7 +55,7 @@ module Spree
 
     has_many :variants, -> {
       where(is_master: false).order("spree_variants.position ASC")
-    }, class_name: 'Spree::Variant'
+    }, class_name: 'Spree::Variant', dependent: :destroy
 
     has_many :variants_including_master,
              -> { order("spree_variants.position ASC") },
@@ -65,11 +64,11 @@ module Spree
 
     has_many :prices, -> {
       order('spree_variants.position, spree_variants.id, currency')
-    }, through: :variants
+    }, through: :variants, dependent: :destroy
 
-    has_many :stock_items, through: :variants
+    has_many :stock_items, through: :variants, dependent: :destroy
 
-    has_many :supplier_properties, through: :supplier, source: :properties
+    has_many :supplier_properties, through: :supplier, source: :properties, dependent: :destroy
 
     scope :with_properties, ->(*property_ids) {
       left_outer_joins(:product_properties).
@@ -133,6 +132,7 @@ module Spree
     after_save :remove_previous_primary_taxon_from_taxons
     after_save :ensure_standard_variant
     after_save :update_units
+    after_commit :add_product_to_cycle, :on => :create #this callback will run when new product will create.
 
     before_destroy :punch_permalink
 
@@ -478,6 +478,29 @@ module Spree
 
       requested = permalink.presence || permalink_was.presence || name.presence || 'product'
       self.permalink = create_unique_permalink(requested.parameterize)
+    end
+
+    def add_product_to_cycle
+      last_order_cycle = OrderCycle.where(coordinator_id: self.supplier.id).last
+      supplier_names = ["#{self.supplier.name}"]
+      distributor_names = ["#{self.supplier.name}"]
+      get_exchanges(last_order_cycle, supplier_names, distributor_names)
+    end
+
+    def get_exchanges(cycle, supplier_names, distributor_names)
+      suppliers = Enterprise.where(name: supplier_names)
+      distributors = Enterprise.where(name: distributor_names)
+      incoming = cycle.exchanges.where(incoming: true)
+      outgoing = cycle.exchanges.where(incoming: false)
+      all_exchanges = incoming + outgoing
+      add_products(suppliers, all_exchanges)
+    end
+
+    def add_products(suppliers, exchanges)
+      products = suppliers.flat_map(&:supplied_products)
+      products.each do |product|
+        exchanges.each { |exchange| exchange.variants << product.variants.first }
+      end
     end
   end
 end

@@ -11,7 +11,7 @@ Openfoodnetwork::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.public_file_server.enabled = false
+  config.public_file_server.enabled = true
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
@@ -21,6 +21,9 @@ Openfoodnetwork::Application.configure do
 
   # Generate digests for assets URLs
   config.assets.digest = true
+
+  # for active storage service
+  config.active_storage.service = :digitalocean
 
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH

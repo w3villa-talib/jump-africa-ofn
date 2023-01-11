@@ -1,6 +1,9 @@
 - content_for(:title) do
   = t :producers_signup_title
 
+- content_for(:description) do
+  = t :producers_signup_description
+
 #panes
   #producer-signup.pane
     .row.header
@@ -12,26 +15,42 @@
         %p.text-big
           = t :producers_signup_motivation
         %br
-        %a.button.transparent{href: "/register"}
-          = t :producers_signup_send
-  .pane
-    .row
-      .small-12.medium-10.medium-offset-1.columns.text-center
-        %h2
-          = t :producers_signup_enterprise
-        -# %p.text-big
-        -#   If there is a time-sensitive offer you can write it here, e.g.
-        -#   Sign up before 30th June for an extra month free!
-        %br
-        = ContentConfig.producer_signup_pricing_table_html.html_safe
+        - if spree_current_user.present?
+          %a.button.transparent{href: "/register"}
+            = t :producers_signup_send
+        - else
+          %a.button.transparent{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"}
+            = t :producers_signup_send
+
+  -# .pane
+  -#   .row
+  -#     .small-12.medium-10.medium-offset-1.columns.text-center
+  -#       %h2
+  -#         = t :producers_signup_enterprise
+  -#       -# %p.text-big
+  -#       -#   If there is a time-sensitive offer you can write it here, e.g.
+  -#       -#   Sign up before 30th June for an extra month free!
+  -#           %br
+  -#       = t :content_configuration_pricing_table
 
   #producer-case-studies
     .row
       .small-12.medium-10.medium-offset-1.columns
         %h2.text-center
-          = t :producers_signup_studies
-        %br
-        = ContentConfig.producer_signup_case_studies_html.html_safe
+          = t :why_should_start_selling_heading
+        %ul
+          %li
+            = t :why_should_start_selling_about_1
+          %li
+            = t :why_should_start_selling_about_2
+          %li
+            = t :why_should_start_selling_about_3
+          %li
+            = t :why_should_start_selling_about_4
+          %li
+            = t :why_should_start_selling_about_5
+          %li
+            = t :why_should_start_selling_about_6
 
   .pane#cta
     .row
@@ -39,14 +58,27 @@
         %h2
           = t :producers_signup_cta_headline
         %p.text-big= t('.start_free_profile')
-        %a.button.transparent{href: "/register"}
-          = t :producers_signup_cta_action
+        - if spree_current_user.present?
+          %a.button.transparent{href: "/register"}
+            = t :producers_signup_cta_action
+        - else
+          %a.button.transparent{href: "#{ENV["JUMP_AFRICA_APP_URL"]}/signin"}
+            = t :producers_signup_cta_action
+
 
   #producer-details.pane.footer-pad
     .row
-      .small-12.medium-10.medium-offset-1.columns
-        %h2.text-center
-          = t :producers_signup_detail
-        = ContentConfig.producer_signup_detail_html.html_safe
+      .small-12.medium-10.medium-offset-1.columns.text-center
+        %h2
+          = t :about_account_heading_1
+        -# %p.text-big
+        -#   / If there is a time-sensitive offer you can write it here, e.g.
+        -#   Time-sensitive offer goes here!
+        %br
+          = t :about_account_heading_2
+        %br
+          = t :about_account_heading_3
+        %br 
+          = t :about_account_heading_4
 
 = render partial: "shared/footer"

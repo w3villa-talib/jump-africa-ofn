@@ -125,7 +125,7 @@ module Spree
       def cancel_order_link
         { name: t(:cancel_order),
           url: spree.fire_admin_order_path(@order.number, e: 'cancel'),
-          icon: 'icon-trash',
+          icon: 'icon-cancel',
           confirm: t(:are_you_sure) }
       end
 

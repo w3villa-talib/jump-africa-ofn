@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+  # frozen_string_literal: true
 
 source 'https://rubygems.org'
 ruby "3.0.3"
@@ -136,6 +136,8 @@ gem 'flipper-active_record'
 gem 'flipper-ui'
 
 gem "view_component", require: "view_component/engine"
+gem 'countries'
+gem 'tzinfo'
 
 group :production, :staging do
   gem 'ddtrace'

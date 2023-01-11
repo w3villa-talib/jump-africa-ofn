@@ -7,7 +7,7 @@ module MailerHelper
     if ContentConfig.footer_email.present?
       mail_to ContentConfig.footer_email, ofn
     else
-      link_to ofn, "https://www.openfoodnetwork.org"
+      link_to ofn, "https://jump.africa"
     end
   end
 end

@@ -3,11 +3,13 @@
     / If you delete this meta tag, Half Life 3 will never be released.
     %meta{:content => "width=device-width", :name => "viewport" }/
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css", :rel => "stylesheet"}/
     %title
       = Spree::Config[:site_name]
     = stylesheet_pack_tag 'mail'
   %body{:bgcolor => "#FFFFFF" }
-    %table.head-wrap{:bgcolor => "#f2f2f2"}
+    = render 'shared/mailers/mailer_css'
+    %table.head-wrap.hii{:bgcolor => "#f2f2f2"}
       %tr
         %td
         %td.header.container
@@ -15,10 +17,10 @@
             %table{:bgcolor => "#f2f2f2"}
               %tr
                 %td
-                  %img{src: ContentConfig.url_for(:footer_logo), width: "144", height: "50"}/
-                %td{:align => "right"}
-                  %h6.collapse
-                    = Spree::Config[:site_name]
+                  %img{src: "https://shop.jump.africa/default_images/jump-africa-logo.png", width: "193", height: "44"}/
+                -# %td{:align => "right"}
+                -#   %h6.collapse
+                -#     = Spree::Config[:site_name]
         %td
 
     %table.body-wrap
@@ -41,7 +43,7 @@
             %table
               %tr
                 %td{:align => "center"}
-                  %p
+                  %p.footer-links
                     = link_to_platform_terms
                     |
                     %a{:href => "#{ main_app.root_url }"}

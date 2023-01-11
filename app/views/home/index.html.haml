@@ -1,14 +1,17 @@
-:css
-  #tagline:before { background-image: url("#{ContentConfig.url_for(:home_hero)}") }
 :javascript
-  localStorage.setItem("jwt_token", "#{session[:jwt_token]}");  
-
+  localStorage.setItem("jwt_token", "#{session[:jwt_token]}"); 
+  localStorage.setItem("jumpAfrica_user_id","#{session[:jumpAfrica_user_id]}")
+  
 
 - content_for :page_alert do
   = render "shared/menu/alert"
 
 %div{"ng-controller" => "HomeCtrl"}
   = render "home/tagline"
+  .trading-section-main
+    .trading-section
+      .trading-bar
+        = render "home/liveprices"
 
   #panes
     = render "home/brandstory"

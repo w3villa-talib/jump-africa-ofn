@@ -8,8 +8,7 @@
         = t('.items_in_cart_plural', num: "{{ Cart.total_item_count() }}")
       %a.close{ng: {click: 'toggleCartSidebar()'}}
         = t('.close')
-        %i.ofn-i_009-close
-
+        %i.ofn-i_009-clos
     .cart-content
       %table
         %tr.product-cart{"ng-repeat" => "line_item in Cart.line_items", "id" => "cart-variant-{{ line_item.variant.id }}"}
@@ -22,7 +21,7 @@
           %td.text-right
             %span.quantity {{ line_item.quantity }}
           %td
-            .total-price.text-right {{ line_item.total_price | localizeCurrency }}
+            .total-price.text-right {{ symbol + ' '  + (line_item.total_price * rate).toLocaleString() }}
             .unit-price
               %div{:style => "margin-right: 5px"}
                 %question-mark-with-tooltip{"question-mark-with-tooltip" => "_",
@@ -32,7 +31,7 @@
                 key: "'js.shopfront.unit_price_tooltip'",
                 context: "'cart-sidebar'"}
               .options-text
-                {{ line_item.variant.unit_price_price | localizeCurrency }}&nbsp;/&nbsp;{{ line_item.variant.unit_price_unit }}
+                {{ symbol + ' ' + (line_item.variant.unit_price_price * rate).toLocaleString() }}&nbsp;/&nbsp;{{ line_item.variant.unit_price_unit }}
 
       .cart-empty{"ng-show" => "Cart.line_items.length == 0"}
         %p
@@ -40,12 +39,16 @@
 
         %a.go-shopping.button.large.bright{ng: {show: "#{show_shopping_cta?}", href: "{{ CurrentHub.hub.id ? '#{main_app.shop_path}' : '#{main_app.shops_path}' }}"}}
           = t('.take_me_shopping')
-
   .sidebar-footer{"ng-show" => "Cart.line_items.length > 0"}
-    %p.cart-total
-      %strong
-        = t 'total'
-        {{ Cart.total()  | localizeCurrency }}
+    .row
+      .small-6.columns.text-center
+        %select.drop_currency{"ng-change" => "currency()", "ng-model" => "selected", "ng-options" => "item as ( item.label | uppercase ) for item in items track by item.id"}
+      .small-6.columns.text-center
+        %p.cart-total
+          %strong
+            = t 'total'
+            {{ symbol + ' ' + (Cart.total() * rate).toLocaleString() }}
+       
 
     %div.fullwidth
       %a.edit-cart.button.large.dark.left{href: main_app.cart_path, "ng-disabled" => "Cart.dirty || Cart.empty()", "ng-class" => "{ dirty: Cart.dirty }"}

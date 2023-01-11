@@ -1,0 +1,287 @@
+#account_summary
+  .left_column
+    .current_market
+      %a.navbar-brand{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/markets/#{@current_market["attributes"]["id"]}"} Jump.AFRICA #{@current_market["name"]}
+      %p.navbar-text
+        %span.muted-text 
+          24h Volume:
+        %span.vol 0.0 USD
+        %span.muted-text
+          High
+        %span.high 0.0
+        %span.muted-text
+          Low
+        %span.low 0.0
+        %span.muted-text
+          Change
+        %span.change
+          %span.text-up +0.00%
+      %a.back{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}"} Back to Home      
+  .right_column
+    %a.need-help{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/tickets/new"} Need help? Open a ticket
+    .dropdown
+      View Wallet Balance:
+      .dropdown-content_summary
+        - @account_summary.each do |account|
+          - balance = account["balance"].to_i.round(3)
+          - frozen = account["locked"].to_i.round(3)
+          .block
+            .account_summary_item
+              .right_column
+                %a{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/funds#/deposits/#{account["currency"]}", :target => "_blank"}
+                  %img(src="icon-#{account["currency"]}.png")
+                  %br/
+                  .currency.cus
+                    = account["currency"]
+              .left_column
+                %a{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/funds#/deposits/#{account["currency"]}", :target => "_blank"}
+                  .balance
+                    Amount: #{balance}
+                  .locked  
+                    Frozen: #{frozen}
+        .load_more
+          View All     
+        .hide_others
+          Hide Others    
+
+    .dropdown
+      -# %img{ src: image_pack_path("menu/icn-profile.svg") }
+      = @user_account["sn"]
+      %ul.dropdown-content
+        %li
+          %a
+            %input{"data-on-color" => "success", "data-size" => "mini", :name => "sound-checkbox", :type => "checkbox"}/
+        %li
+          %a
+            %input{"data-on-color" => "success", "data-size" => "mini", :name => "notification-checkbox", :type => "checkbox"}/
+        %li
+          %a{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/funds", :target => "_blank"}
+            %i.fa.fa-key
+            %span Wallet
+        %li
+          %a{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/settings", :target => "_blank"}
+            %i.fa.fa-wrench
+            %span Profile
+        %li
+          %a{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/history/orders", :target => "_blank"}
+            %i.fa.fa-history
+            %span History
+        %li
+          %a{:href => "#{ENV["JUMP_AFRICA_APP_URL"]}/signout"}
+            %i.fa.fa-sign-out
+            %span Sign Out
+
+:css
+  #account_summary {
+    width: 100%;
+    height: 30px;
+    background-color: #4d4d4d;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    //font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 13px;
+  }
+
+
+  #account_summary  a, a:hover, a:focus, a:active {
+      text-decoration: none;
+      color: unset;
+  }
+
+  .navbar-brand{
+    font-size: 13px;
+    color: gainsboro;
+  }
+  
+  #account_summary .left_column .current_market{
+     display: flex;
+     align-items: center;
+  }  
+
+  .navbar-text{
+    margin-left: 15px;
+    font-size: 13px;
+    margin-bottom: 0;
+    color: #a3a3a3;
+    
+    span.vol,
+    span.high,
+    span.low,
+    span.change {
+      color: #a3a3a3;
+    }
+  }
+  .navbar-text span:nth-child(2n){
+    margin-right: 6px;
+  }
+  .back{
+    margin-left: 10px;
+    color: #38a6cb;
+  }
+
+  .load_more{
+      text-align: center;
+      cursor: pointer;
+  }
+  .hide_others{
+    text-align: center;
+    cursor: pointer;
+    display: none;
+  }
+
+  .muted-text{
+     color: gainsboro;
+  }
+
+  #account_summary .right_column{
+    padding-right: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }  
+  
+  .need-help  {
+    color: #ffc82f;
+  }
+  .text-up {
+    color: #4dd710;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 1000;
+  }
+
+  .dropdown-content_summary {
+    display: none;
+    position: absolute;
+    right: 10px;
+    background-color: black;
+    min-width: 280px; 
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    padding: 10px;
+
+  }
+
+  .account_summary_item{
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+  }
+
+  .currency{
+    color: #dddddd;
+  }
+
+  .locked{
+     float: right;
+     color: #777;
+   }
+
+   .account_summary_item .right_column img {
+      width: 30px;
+      height: 30px;
+   }
+
+   .block{
+     display: none;
+   }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0px;
+    background-color: #151515;
+    min-width: 120px;
+    box-shadow: 0px 0px 8px #333333;
+    z-index: 1000;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.7;
+    border: 1px solid #333333;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  .dropdown-content li:first-child {
+    margin-bottom: 4px;
+  }
+
+
+  .dropdown-content_summary a {
+    color: white;
+    // padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+  }
+
+
+  .dropdown-content a {
+    color: white;
+    // padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  // .dropdown-content a:hover {background-color: #ddd;}
+
+  .dropdown:hover .dropdown-content {display: block;}
+  .dropdown:hover .dropdown-content_summary {display: block;}
+  @media only screen and (max-width: 1024px) {
+    #account_summary {
+      display: none;
+    }
+  }
+
+:javascript
+
+  console.log("#{@account_summary[0]["balance"].to_i.round(2)}");
+  localStorage.setItem("balance_first", "#{@account_summary[0]["balance"].to_i.round(2)}");
+
+  $(document).ready(function () {
+    size_li = $(".block").length;
+    x=2;
+    var flag = true;
+    $('.block:lt('+x+')').show();
+     $('.load_more').click(function () {
+        if (flag) {
+          $('.block:lt('+size_li+')').show();
+          $('.block:lt('+x+')').show();
+          flag = false;
+          $('.hide_others').show();
+          $('.load_more').hide();
+        } else {
+          $('.block:lt('+size_li+')').hide();
+          $('.block:lt('+x+')').show();
+          flag = true;
+        }
+        
+    });
+     $('.hide_others').click(function () {
+        if (flag) {
+          $('.block:lt('+size_li+')').show();
+          $('.block:lt('+x+')').show();
+          flag = false;
+        } else {
+          $('.block:lt('+size_li+')').hide();
+          $('.block:lt('+x+')').show();
+           $('.load_more').show();
+            $('.hide_others').hide();
+          flag = true;
+        }
+        
+    });
+   
+    $(window).on('load', function() {
+      $('input[name="notification-checkbox"]').bootstrapSwitch('labelText', 'Notify');
+      $('input[name="sound-checkbox"]').bootstrapSwitch('labelText', 'Sound');
+    });
+
+  });
+

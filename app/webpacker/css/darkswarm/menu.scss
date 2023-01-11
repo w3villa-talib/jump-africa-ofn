@@ -68,7 +68,7 @@ nav.top-bar {
   }
 
   li.cart {
-    background-color: #f4704c;
+    background-color: #008cd1;
 
     a span {
       color: white;
@@ -91,7 +91,7 @@ nav.top-bar {
       span {
         background-color: white;
         border-radius: 20px;
-        color: #f4704c;
+        color: #008cd1;
         font-size: 12px;
         line-height: 18px;
         position: absolute;
@@ -127,7 +127,7 @@ nav.top-bar {
       }
 
       i {
-        color: #f4704c;
+        color: #008cd1;
         display: inline-block;
         margin-right: 2px;
         margin-top: -3px;
@@ -154,7 +154,7 @@ nav.top-bar {
   ul .nav-primary {
     @include headingFont;
     text-transform: uppercase;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 16px;
   }
 
@@ -174,7 +174,7 @@ nav.top-bar {
   z-index: 190; // Above cart sidebar and shaded overlay
 
   .cart-span {
-    background-color: #f4704c;
+    background-color: #008cd1;
     padding: 13px;
 
     a,
@@ -194,7 +194,7 @@ nav.top-bar {
       span {
         background-color: white;
         border-radius: 20px;
-        color: #f4704c;
+        color: #008cd1;
         font-size: 12px;
         line-height: 16px;
         position: absolute;
@@ -226,7 +226,19 @@ nav.top-bar {
 }
 
 .tab-bar .ofn-logo {
-  padding: 9px 0 0 9px;
+  padding: 1px 0 0 4px;
+  width: 125px;
+  height: 45px;
+  a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
 }
 
 // Leave space for tab bar, in screens smaller than large.

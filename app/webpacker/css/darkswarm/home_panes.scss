@@ -49,14 +49,14 @@
 #brand-story.pane {
   .row {
     h2 {
-      font-weight: 300;
-      font-size: 88px;
+      font-weight: 400;
+      font-size: 54px;
     }
 
     p {
       @include bodyFont;
 
-      font-size: 1.5rem;
+      font-size: 1rem;
       font-weight: 300;
     }
 
@@ -92,7 +92,7 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: auto 100%;
-    padding: 3rem 0;
+    padding: 2rem 0;
     text-align: center;
     margin-top: 2rem;
 
@@ -129,8 +129,8 @@
   }
 
   h2 {
-    font-size: 70px;
-    font-weight: 300;
+    font-size: 46px;
+    font-weight: 400;
     color: $brand-colour;
 
     @include breakpoint(phablet) {
@@ -160,14 +160,15 @@
       text-align: center;
       padding: 1rem 0;
       margin: 1.5rem 0;
+      font-size: 20px;
     }
   }
 }
 
 #cta.pane, #stats.pane {
   h2 {
-    font-weight: 300;
-    font-size: 45px;
+    font-weight: 400;
+    font-size: 42px;
     margin-bottom: 2rem;
 
     @media all and (max-width: 830px) {
@@ -190,7 +191,7 @@
     strong {
       display: block;
       font-weight: normal;
-      font-size: 75px;
+      font-size: 54px;
     }
   }
 }
@@ -200,7 +201,7 @@
 
   h2 {
     margin-bottom: 2rem;
-    font-size: 4.4rem;
+    font-size: 3.4rem;
     font-weight: 300;
   }
 }

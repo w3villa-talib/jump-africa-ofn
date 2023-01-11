@@ -3,6 +3,8 @@
 module Spree
   module Admin
     class GeneralSettingsController < Spree::Admin::BaseController
+      before_action :check_auth
+
       def edit
         @preferences_general = [:site_name, :default_seo_title, :default_meta_keywords,
                                 :default_meta_description, :site_url]

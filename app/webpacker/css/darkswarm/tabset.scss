@@ -31,17 +31,17 @@
     @media (hover: hover) {
       &:hover {
         transition: all 0.4s ease-in-out;
-        border-bottom: 4px solid $clr-brick-bright;
+        border-bottom: 4px solid $clr-blue-bright;
         cursor: pointer;
 
         @include breakpoint(phablet) {
           transition: none;
           color: white;
-          background-color: $clr-brick-bright;
+          background-color: $clr-blue-bright;
         }
 
         a {
-          color: $clr-brick-bright;
+          color: $clr-blue-bright;
 
           @include breakpoint(phablet) {
             color: #ffffff;
@@ -51,14 +51,14 @@
     }
 
     &.selected {
-      border-bottom: 4px solid $clr-brick;
+      border-bottom: 4px solid $clr-blue;
 
       @include breakpoint(phablet) {
-        background-color: $clr-brick;
+        background-color: $clr-blue;
       }
 
       a {
-        color: $clr-brick;
+        color: $clr-blue;
 
         @include breakpoint(phablet) {
           color: #ffffff;

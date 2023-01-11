@@ -89,6 +89,17 @@ module OpenFoodNetwork
       }
     end
 
+    def enterprises_hidden_columns
+      node = "admin.enterprises.hidden"
+      {
+        name: { name: I18n.t("admin.name"), visible: true },
+        producer: { name: I18n.t("#{node}.producer?"), visible: true },
+        package: { name: I18n.t("#{node}.package"), visible: true },
+        status: { name: I18n.t("#{node}.status"),     visible: true },
+        manage: { name: I18n.t("#{node}.manage"),     visible: true }
+      }
+    end
+
     def order_cycles_index_columns
       node = "admin.order_cycles.index"
       {

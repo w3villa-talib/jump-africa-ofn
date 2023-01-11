@@ -1,0 +1,155 @@
+%ul.jump-liveprices
+  %li.col{"data-pair" => "usdngn"}
+    = link_to (current_spree_user.present?)? ("#{ENV["JUMP_AFRICA_APP_URL"]}/markets/usdngn") : ("#{ENV["JUMP_AFRICA_APP_URL"]}/signup") do
+      %span.pair
+        %span.pair-name USD|NGN
+        %span.last-price
+      %span.percent-change
+        %span.psymbol %
+        %span.change
+      .rate-popup
+        Dollar to Naira parallel rate today at
+        %time.user-time
+        %span.user-location
+  %li.col{"data-pair" => "gbpngn"}
+    = link_to (current_spree_user.present?)? ("#{ENV["JUMP_AFRICA_APP_URL"]}/markets/gbpngn") : ("#{ENV["JUMP_AFRICA_APP_URL"]}/signup") do
+      %span.pair
+        %span.pair-name GBP|NGN
+        %span.last-price
+      %span.percent-change
+        %span.psymbol %
+        %span.change
+      .rate-popup
+        Pounds to Naira parallel rate today at
+        %time.user-time
+        %span.user-location
+  %li.col{"data-pair" => "eurngn"}
+    = link_to (current_spree_user.present?)? ("#{ENV["JUMP_AFRICA_APP_URL"]}/markets/eurngn") : ("#{ENV["JUMP_AFRICA_APP_URL"]}/signup") do
+      %span.pair
+        %span.pair-name EUR|NGN
+        %span.last-price
+      %span.percent-change
+        %span.psymbol %
+        %span.change
+      .rate-popup
+        Euro to Naira parallel rate today at
+        %time.user-time
+        %span.user-location
+  %li.col{"data-pair" => "ghsngn"}
+    = link_to (current_spree_user.present?)? ("#{ENV["JUMP_AFRICA_APP_URL"]}/markets/ghsngn") : ("#{ENV["JUMP_AFRICA_APP_URL"]}/signup") do
+      %span.pair
+        %span.pair-name GHS|NGN
+        %span.last-price
+      %span.percent-change
+        %span.psymbol %
+        %span.change
+      .rate-popup
+        Cedis to Naira parallel rate today at
+        %time.user-time
+        %span.user-location
+  %li.col{"data-pair" => "zarngn"}
+    = link_to (current_spree_user.present?)? ("#{ENV["JUMP_AFRICA_APP_URL"]}/markets/zarngn") : ("#{ENV["JUMP_AFRICA_APP_URL"]}/signup") do
+      %span.pair
+        %span.pair-name ZAR|NGN
+        %span.last-price
+      %span.percent-change
+        %span.psymbol %
+        %span.change
+      .rate-popup
+        Rand to Naira parallel rate today at
+        %time.user-time
+        %span.user-location
+  %li.col{"data-pair" => "kesngn"}
+    = link_to (current_spree_user.present?)? ("#{ENV["JUMP_AFRICA_APP_URL"]}/markets/kesngn") : ("#{ENV["JUMP_AFRICA_APP_URL"]}/signup") do
+      %span.pair
+        %span.pair-name KES|NGN
+        %span.last-price
+      %span.percent-change
+        %span.psymbol %
+        %span.change
+      .rate-popup
+        Kenyan Shilling to Naira parallel rate today at
+        %time.user-time
+        %span.user-location
+  %li.col{"data-pair" => "usdghs"}
+    = link_to (current_spree_user.present?)? ("#{ENV["JUMP_AFRICA_APP_URL"]}/markets/usdghs") : ("#{ENV["JUMP_AFRICA_APP_URL"]}/signup") do
+      %span.pair
+        %span.pair-name USD|GHS
+        %span.last-price
+      %span.percent-change
+        %span.psymbol %
+        %span.change
+      .rate-popup
+        Dollar to Cedis parallel rate today at
+        %time.user-time
+        %span.user-location
+  %li.col{"data-pair" => "gbpghs"}
+    = link_to (current_spree_user.present?)? ("#{ENV["JUMP_AFRICA_APP_URL"]}/markets/gbpghs") : ("#{ENV["JUMP_AFRICA_APP_URL"]}/signup") do
+      %span.pair
+        %span.pair-name GBP|GHS
+        %span.last-price
+      %span.percent-change
+        %span.psymbol %
+        %span.change
+      .rate-popup
+        Pounds to Cedis parallel rate today at
+        %time.user-time
+        %span.user-location
+  %li.col{"data-pair" => "usdkes"}
+    = link_to (current_spree_user.present?)? ("#{ENV["JUMP_AFRICA_APP_URL"]}/markets/usdkes") : ("#{ENV["JUMP_AFRICA_APP_URL"]}/signup") do
+      %span.pair
+        %span.pair-name USD|KES
+        %span.last-price
+      %span.percent-change
+        %span.psymbol %
+        %span.change
+      .rate-popup
+        Dollar to Kenyan Shilling parallel rate today at
+        %time.user-time
+        %span.user-location
+
+:javascript
+  var currency_obj = {
+    "usdngn": "₦",
+    "gbpngn": "₦",
+    "eurngn": "₦",
+    "ghsngn": "₦",
+    "zarngn": "₦",
+    "kesngn": "₦",
+    "usdghs": "¢",
+    "gbpghs": "¢",
+    "usdkes": "K"
+  }
+  $.each($('.jump-liveprices li'), function() {
+    var pair = $(this).data('pair')
+    $.ajax({
+      type: 'GET',
+      url: `https://jump.africa/liveprice/${pair}`,
+      dataType: "json",
+      success:function(data){
+        if(data.data.trades[0])
+          price = data.data.trades[0]['price'];
+        percent_change = data.data.price_change;
+        console.log(`pair: ${pair}\nlast price: ${price}\nprice_change: ${percent_change}`);
+        $(`.jump-liveprices li[data-pair="${pair}"]`).find('.last-price').html(`${currency_obj[pair]}${price}`);
+        if(percent_change < 0) {
+          $(`.jump-liveprices li[data-pair="${pair}"]`).find('.percent-change').addClass('text-down');
+          percent_change_html = `<i class="fa fa-arrow-down"></i>${percent_change}`;
+        } else {
+          $(`.jump-liveprices li[data-pair="${pair}"]`).find('.percent-change').addClass('text-up');
+          percent_change_html = `<i class="fa fa-arrow-up"></i>${percent_change}`;
+        }
+        $(`.jump-liveprices li[data-pair="${pair}"]`).find('.percent-change').find('.change').html(percent_change_html);
+      },
+      error:function(data){
+      }
+    });
+  });
+
+
+
+  setInterval(function() {
+    var d = new Date();
+    var n = d.toLocaleTimeString();
+    $('.user-time').html(n);
+  }, 1000);

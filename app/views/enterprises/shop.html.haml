@@ -1,7 +1,16 @@
+- shop_name = "#{current_distributor.name}"
+- country = "#{current_distributor.address.country}"
+
 - content_for(:title) do
-  = current_distributor.name
+  = "Buy from #{shop_name} in #{country} on Jump Africa"
+
 - content_for(:description) do
-  = current_distributor.description
+  - attributes = %w{address1 address2 city zipcode}
+  - address = current_distributor.address.attributes.values_at(*attributes).compact.join(', ')
+  - products = current_distributor.supplied_products.pluck(:name).join(', ')
+
+  = "Buy #{products} from #{shop_name} locally in  #{address} #{country} or to export globally. #{shop_name} is a registered seller and supplier on Jump Africa."
+
 - content_for(:image) do
   = url_for(current_distributor.logo) if current_distributor.logo.attached?
 

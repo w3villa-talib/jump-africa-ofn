@@ -1,5 +1,9 @@
 - content_for(:title) do
-  = t :producers_title
+  Find local manufacturers and producers in Africa
+- content_for(:description) do
+  Jump Africa is a free service to help you find local manufacturers and producers in Africa. We also provide information on how to start your own business in Africa, and import from or export to African countries.
+- content_for(:meta_description) do
+  Jump Africa is a free service to help you find local manufacturers and producers in Africa. We also provide information on how to start your own business in Africa, and import from or export to African countries.
 
 - content_for :scripts do
   = render partial: "shared/google_maps_js"
@@ -15,7 +19,7 @@
 .producers{"ng-controller" => "EnterprisesCtrl", "ng-cloak" => true}
   .row
     .small-12.columns.pad-top
-      %h1
+      %h3
         = t :producers_headline
 
   = render partial: "shared/components/enterprise_search"
